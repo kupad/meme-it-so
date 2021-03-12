@@ -1,0 +1,5 @@
+#get every frame
+ffmpeg -i input.mkv -s 480x356 -q:v 2 -frame_pts 1 %05d.jpg
+
+#get every 6th frame
+ffmpeg -i $IN -vf "select=not(mod(n\,6))" -s 480x356 -vsync vfr -q:v 2 -frame_pts 1 %05d.jpg
