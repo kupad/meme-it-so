@@ -15,15 +15,15 @@ Some notes on ffmpeg:
 ffmpeg -i input.mkv -s 480x356 -q:v 2 -frame_pts 1 %05d.jpg
 
 --This will get every 6th frame
-ffmpeg -i $IN -vf "select=not(mod(n\,6))" -s 480x356 -vsync vfr -q:v 2 -frame_pts 1 %05d.jpg
+ffmpeg -i input.mkv -vf "select=not(mod(n\,6))" -s 480x356 -vsync vfr -q:v 2 -frame_pts 1 %05d.jpg
 """
-
 def ffmpeg_extract_thumbs(source_path,  dest_dir, dest_width, dest_height):
     """extract all thumbnails from a video using ffmpeg"""
     return subprocess.run(
             ['ffmpeg', 
                 '-i', source_path, 
                 '-s', f'{dest_width}x{dest_height}', 
+                '-q:v', '2',
                 '-frame_pts', '1', 
                 os.path.join(dest_dir,'%05d.jpg')])
 

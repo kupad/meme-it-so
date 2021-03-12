@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import os
-import re
 
 import conf
 from utils.episode_utils import get_episode, get_season
