@@ -2,6 +2,12 @@
 data/
 tmp/
 
+#vim
+*.swp
+
+#####
+##GitHub's python template
+#####
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
