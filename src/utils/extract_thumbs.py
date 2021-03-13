@@ -9,13 +9,8 @@ from PIL import Image
 
 
 """
-Some notes on ffmpeg:
-
---The following wille extract every frame
+--The following will extract every frame
 ffmpeg -i input.mkv -s 480x356 -q:v 2 -frame_pts 1 %05d.jpg
-
---This will get every 6th frame
-ffmpeg -i input.mkv -vf "select=not(mod(n\,6))" -s 480x356 -vsync vfr -q:v 2 -frame_pts 1 %05d.jpg
 """
 def ffmpeg_extract_thumbs(source_path,  dest_dir, dest_width, dest_height):
     """extract all thumbnails from a video using ffmpeg"""
