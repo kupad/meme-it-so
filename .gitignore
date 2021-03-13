@@ -1,6 +1,7 @@
 #meme-it-so ignores
 data/
 tmp/
+TODO
 
 #vim
 *.swp
