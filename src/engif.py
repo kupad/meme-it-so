@@ -3,8 +3,9 @@
 import os
 import argparse
 import sys
-from math import floor, ceil
+import csv
 #import time
+from math import floor, ceil
 
 import srt
 from moviepy.editor import *
@@ -14,66 +15,51 @@ from conf import *
 from utils.make_gif import make_gif
 from utils.episode_utils import get_episode, get_season
 
-DEF_FPS=23.976
-
-def is_srt(filename):
-    """is this an srt file? (well, does it claim to be?)"""
-    return filename.endswith('.srt')
-
-def find_ep_matches(ep, srtfilepath, lc_search_phrase):
-    """
-    find matches within a given file
-    return list of (ep, Subtitle) pairs
-    """
-    with open(srtfilepath, 'r') as srtfile:
-        subs = srt.parse(srtfile)
-        matches = [ (ep, sub) for sub in subs if lc_search_phrase in sub.content.lower() ]
-        return matches
+#change to named tuple?
+class Scene:
+    """initialize a scene from a row in the subtitle csv file"""
+    CONTENT_IDX = 4
+    #'episode','srtidx','start(ms)','end(ms)','content'
+    def __init__(self, csvrow):
+        self.ep = csvrow[0]
+        self.srtidx = int(csvrow[1]) 
+        self.start = int(csvrow[2])
+        self.end = int(csvrow[3])
+        self.content = csvrow[4]
 
 def find_matches(query):
     """
     find all matching subtitle 'scenes'
-    return list of (ep, Subtitle) pairs
+    return list of (ep, Scene) pairs
     """
     lc_query = query.lower()
 
-    #iterate through the srt_source_dir looking for srt files
-    #parse the srt files and see if they contain the query
-    #add all matching scenes to the list of matches. a tuple from (ep -> Subtitle)
+    #TODO: check for existance of the csv file
+
+    #open the csv subtitle database and find all matching scenes
     matches = []
-    for dirpath, dirnames, filenames in os.walk(SERIES_DIR):
-        for filename in filenames:
-            #skip non-srt files 
-            if not is_srt(filename): continue
-            
-            ep = get_episode(filename) #eg: S07E02
-
-            #if the srt file does not contain episode information, skip it
-            if ep is None: 
-                print("warning: skipping because it does not contain match SsEe format", path)
-                continue
-
-            path = os.path.join(dirpath, filename)
-            ep_matches = find_ep_matches(ep, path, lc_query)
-            matches.extend(ep_matches)
-    matches.sort()
+    with open(SUBTITLES_CSV_PATH, 'r') as subcsv:
+        csvreader = csv.reader(subcsv)
+        csvreader.__next__() #toss header
+        matches = [ Scene(row) for row in csvreader if lc_query in row[Scene.CONTENT_IDX].lower() ]
+        #sort by episode
+        matches.sort(key=lambda scene: scene.ep)
     return matches
 
-def td2frame(sub, fps=VIDEO_FPS):
+def ms2frame(scene, fps=VIDEO_FPS):
     """
-    given a 'sub' (a scene) return the start and end frames of the scene
+    given a 'scene' return the start and end frames of the scene
     - thumbnails are stored by frame number, not time offset
     - srt files use time offsets
     - this function widens the scene by 2 seconds
     """
-    start_frame = floor(floor(sub.start.total_seconds()-1) * fps)
-    end_frame = ceil(ceil(sub.end.total_seconds()+1) * fps)
+    start_frame = floor( (scene.start / 1000 - 1) * fps)
+    end_frame =  ceil( (scene.end / 1000 + 1) * fps)
     return start_frame, end_frame
 
 def scene2str(scene):
-    ep, sub = scene
-    content = sub.content.replace('\n','  ')
-    return f"{ep} {sub.start} --> {sub.end}: {content}"
+    content = scene.content.replace('\n','  ')
+    return f"{scene.ep} {scene.start} --> {scene.end}: {content}"
 
 def user_select(matches):
     """
@@ -86,11 +72,11 @@ def user_select(matches):
     #TODO: make sure selection is valid
     return matches[selection]
 
-def scene2gif(match):
-    ep, sub = match
+def scene2gif(scene):
+    ep = scene.ep
 
     #find the start and end frames
-    start_frame, end_frame = td2frame(sub)
+    start_frame, end_frame = ms2frame(scene)
     #print('sub.start', sub.start, 'start_frame', start_frame)
     #print('sub.end', sub.end, 'end_frame', end_frame)
 
@@ -98,7 +84,7 @@ def scene2gif(match):
     season = get_season(ep)
     ep_thumbs_dir = os.path.join(THUMBNAILS_DIR, season, ep) 
 
-    output_filename= "found.gif" #TODO: uuid? hash? something better...
+    gif_filename= f'{ep}.{scene.srtidx}.gif' 
 
     make_gif(source_dir=ep_thumbs_dir,
             orig_fps=VIDEO_FPS,
@@ -106,8 +92,7 @@ def scene2gif(match):
             end_frame=end_frame,
             dest_fps=GIF_FPS,
             dest_dir=GIFS_DIR,
-            dest_fname="found.gif")
-
+            dest_fname=gif_filename)
 
 def query2gif(query):
     """
