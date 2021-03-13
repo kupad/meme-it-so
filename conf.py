@@ -9,6 +9,11 @@ OUTPUTS = os.path.join(DATA_DIR, 'outputs')
 VIDEO_FPS=23.976
 SERIES_DIR= '/mnt/nfs/NAS/media/tv/Star.Trek-.The.Next.Generation/'
 
+#SRT INFO
+SOURCE_SRT_DIR = SERIES_DIR
+SUBTITLES_DIR = os.path.join(OUTPUTS, 'sttng', 'subtitles')
+SUBTITLES_CSV_PATH = os.path.join(SUBTITLES_DIR, 'subtitles.csv')
+
 #THUMBNAILS_DIR='/mnt/nfs/NAS/media/memeitso/sttng/thumbs/' #slower, more space
 THUMBNAILS_DIR=os.path.join(OUTPUTS, 'sttng', 'thumbs')     #faster, less space
 
