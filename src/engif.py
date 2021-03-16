@@ -12,6 +12,7 @@ from moviepy.editor import *
 from PIL import Image
 
 from conf import *
+import utils.video_index as video_index
 from utils.make_gif import make_gif
 from utils.episode_utils import get_episode, get_season
 
@@ -46,13 +47,14 @@ def find_matches(query):
         matches.sort(key=lambda scene: scene.ep)
     return matches
 
-def ms2frame(scene, fps=VIDEO_FPS):
+def ms2frame(scene, fps):
     """
     given a 'scene' return the start and end frames of the scene
     - thumbnails are stored by frame number, not time offset
     - srt files use time offsets
     - this function widens the scene by 2 seconds
     """
+    fps = 25
     start_frame = floor( (scene.start / 1000 - 1) * fps)
     end_frame =  ceil( (scene.end / 1000 + 1) * fps)
     return start_frame, end_frame
@@ -72,11 +74,17 @@ def user_select(matches):
     #TODO: make sure selection is valid
     return matches[selection]
 
+def get_fps(ep):
+    vindex = video_index.read_index(VIDEO_INDEX_PATH)
+    return vindex[ep]['fps']
+
 def scene2gif(scene):
     ep = scene.ep
 
+    orig_fps = get_fps(ep)
+
     #find the start and end frames
-    start_frame, end_frame = ms2frame(scene)
+    start_frame, end_frame = ms2frame(scene, orig_fps)
     #print('sub.start', sub.start, 'start_frame', start_frame)
     #print('sub.end', sub.end, 'end_frame', end_frame)
 
@@ -87,7 +95,7 @@ def scene2gif(scene):
     gif_filename= f'{ep}.{scene.srtidx}.gif' 
 
     make_gif(source_dir=ep_thumbs_dir,
-            orig_fps=VIDEO_FPS,
+            orig_fps=25,
             start_frame=start_frame,
             end_frame=end_frame,
             dest_fps=GIF_FPS,

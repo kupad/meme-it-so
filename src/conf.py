@@ -6,11 +6,14 @@ BASE_DIR = os.path.dirname("/home/kupad/dev/meme-it-so/")
 #series specific information
 SERIES_NAME = "STTNG"
 SERIES_DIR  = '/mnt/nfs/NAS/media/tv/Star.Trek-.The.Next.Generation/'
-VIDEO_FPS   = 23.976
 
 #data generated here
 DATA_DIR = os.path.join(BASE_DIR, "data")
 OUTPUTS  = os.path.join(DATA_DIR, 'outputs')
+
+#video source info
+VIDEO_INDEX_PATH = os.path.join(OUTPUTS,SERIES_NAME, 'video_index.csv')
+VIDEO_FPS   = 23.976023976023978 #default, but video info index will extract the actual number
 
 #subtitle INFO
 SOURCE_SRT_DIR = SERIES_DIR
