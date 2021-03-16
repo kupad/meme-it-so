@@ -32,6 +32,9 @@ def read_index(video_index_path):
     with open(video_index_path) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            video_index[row['episode']] = row
+            fps = float(row['fps'])
+            duration = float(row['duration'])
+            nframes= int(row['nframes'])
+            video_index[row['episode']] = {'fps': fps, 'duration': duration, 'nframes': nframes}
     return video_index
 
