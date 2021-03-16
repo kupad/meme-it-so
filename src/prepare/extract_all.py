@@ -3,10 +3,21 @@
 import os
 
 import conf
+import utils.video_index as video_index
 from utils.episode_utils import get_season, collect_episodes
 from utils.extract_thumbs import ffmpeg_extract_thumbs 
 
-def extract(source_dir, output_dir, width, height):
+def was_extracted(ep, dest_dir):
+    tolerance = 200 
+    vindex = video_index.read_index(conf.VIDEO_INDEX_PATH)
+    nframes = vindex[ep]['nframes']
+    num_files = len([fname for fname in os.listdir(dest_dir) if os.path.isfile(os.path.join(dest_dir, fname)) and fname.endswith('.jpg')])
+    type(nframes)
+    diff = abs(num_files - nframes)
+    extracted = diff <= tolerance
+    return extracted
+
+def extract(source_dir, output_dir, width, height, force_extract=False):
     #get all the episodes from the source_dir
     episodes = collect_episodes(source_dir)
 
@@ -16,11 +27,14 @@ def extract(source_dir, output_dir, width, height):
         
         dest_dir = os.path.join(output_dir, season, ep)
         os.makedirs(dest_dir, exist_ok=True)
-        
-        num_files = len([fname for fname in os.listdir(dest_dir) if os.path.isfile(os.path.join(dest_dir, fname)) and fname.endswith('.jpg')])
-        if num_files == 0:
+
+        extract = force_extract or not was_extracted(ep, dest_dir)
+
+        if extract:
             print(f'extracting thumbnails for {ep} -> {dest_dir}')
             ffmpeg_extract_thumbs(source_path, dest_dir, width, height)
+        else:
+            print(f'skipping {ep}...was extracted')
 
 def main():
     extract(source_dir = conf.SERIES_DIR,
