@@ -16,17 +16,21 @@ import utils.video_index as video_index
 from utils.make_gif import make_gif
 from utils.episode_utils import get_episode, get_season
 
-#change to named tuple?
-class Scene:
+#TODO: decompose the functions in engif and move into utils. Flask and engif need to use the same things
+
+#FIXME: quickly made this a dict so that it will serialize in flask, but it can't stay this way!
+class Scene(dict):
     """initialize a scene from a row in the subtitle csv file"""
     CONTENT_IDX = 4
-    #'episode','srtidx','start(ms)','end(ms)','content'
+    #csvrow: 'episode','srtidx','start(ms)','end(ms)','content'
     def __init__(self, csvrow):
         self.ep = csvrow[0]
         self.srtidx = int(csvrow[1]) 
         self.start = int(csvrow[2])
         self.end = int(csvrow[3])
         self.content = csvrow[4]
+        dict.__init__(self, ep=self.ep, srtidx=self.srtidx, start=self.start, end=self.end, content=self.content)
+
 
 def find_matches(query):
     """
