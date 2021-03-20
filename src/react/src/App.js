@@ -1,32 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import search from './api.js';
+import React, { useState } from 'react';
+
+import { Switch, Route, useHistory } from "react-router-dom";
+
 import LCARSBar from './lcars/LCARSBar.js'
-import SearchResults from './SearchResults.js'
+import Search from './Search.js'
 
 function App() {
-    const [ searching, setSearching ] = useState(false);
+    const history = useHistory();
+    console.log(history)
+
     const [ searchTerm, setSearchTerm ] = useState('');
-    const [ searchResults, setSearchResults] = useState([]);
 
     const handleSearchChanged = (event) => {
+        //console.log(searchTerm)
         setSearchTerm(event.target.value)
-        console.log(searchTerm)
     }
 
     const handleSearch = (event) => {
-        setSearchResults([])
-        setSearching(true)
-        search(searchTerm).then(results => {
-            //console.log(results);
-            setSearchResults(results);
-            setSearching(false)
-        })
+        history.push(`/search/${searchTerm}`)
         event.preventDefault();
     };
-
-    const season = (ep) => {
-        return ep.substring(0,3);
-    }
 
     return (
         <div className='min-h-screen bg-gray-800 text-white'>
@@ -46,11 +39,10 @@ function App() {
                     </form>
                 </header>
                 <LCARSBar msg="MEME IT SO"/>
-                {
-                    searching &&
-                    <div className='blink text-center text-6xl mt-10'>STAND BY</div>
-                }
-                <SearchResults results={searchResults} />
+                <Switch>
+                    <Route path="/" exact render={() => <p></p>} /> //TODO: have something here!
+                    <Route path="/search/:query" component={Search} />
+                </Switch>
             </div>
         </div>
     )
