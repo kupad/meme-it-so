@@ -3,6 +3,7 @@ import search from './api.js';
 import LCARSBar from './lcars/LCARSBar.js'
 
 function App() {
+    const [ searching, setSearching ] = useState(false);
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ searchResults, setSearchResults] = useState([]);
 
@@ -12,9 +13,12 @@ function App() {
     }
 
     const handleSearch = (event) => {
+        setSearchResults([])
+        setSearching(true)
         search(searchTerm).then(results => {
-            console.log(results);
+            //console.log(results);
             setSearchResults(results);
+            setSearching(false)
         })
         event.preventDefault();
     };
@@ -41,6 +45,10 @@ function App() {
                     </form>
                 </header>
                 <LCARSBar msg="MEME IT SO"/>
+                {
+                    searching &&
+                    <div className='blink text-center text-6xl mt-10'>STAND BY</div>
+                }
                 <div className='w-11/12 mx-auto mt-5 flex flex-wrap'>
                     {
                         searchResults.map(scene => (
