@@ -25,7 +25,7 @@ class Scene(dict):
     #csvrow: 'episode','srtidx','start(ms)','end(ms)','content'
     def __init__(self, csvrow):
         self.ep = csvrow[0]
-        self.srtidx = int(csvrow[1]) 
+        self.srtidx = int(csvrow[1])
         self.start = int(csvrow[2])
         self.end = int(csvrow[3])
         self.content = csvrow[4]
@@ -58,7 +58,6 @@ def ms2frame(scene, fps):
     - srt files use time offsets
     - this function widens the scene by 2 seconds
     """
-    fps = 25
     start_frame = floor( (scene.start / 1000 - 1) * fps)
     end_frame =  ceil( (scene.end / 1000 + 1) * fps)
     return start_frame, end_frame
@@ -94,9 +93,9 @@ def scene2gif(scene):
 
     #get the dir that contains the thumbnails for this episode
     season = get_season(ep)
-    ep_thumbs_dir = os.path.join(THUMBNAILS_DIR, season, ep) 
+    ep_thumbs_dir = os.path.join(THUMBNAILS_DIR, season, ep)
 
-    gif_filename= f'{ep}.{scene.srtidx}.gif' 
+    gif_filename= f'{ep}.{scene.srtidx}.gif'
 
     make_gif(source_dir=ep_thumbs_dir,
             orig_fps=25,
@@ -118,9 +117,9 @@ def query2gif(query):
     matches = find_matches(query)
     #toc = time.perf_counter()
     #print(f"find_matches() in {toc - tic:0.4f} seconds")
-    
+
     #if no matches found, return now
-    if len(matches) == 0: 
+    if len(matches) == 0:
         print("no match found")
         return False
 
@@ -133,7 +132,7 @@ def query2gif(query):
         match = user_select(matches)
     #match = matches[0] if len(matches) == 1 else user_select(matches)
 
-    #turn the matching scene into a gif 
+    #turn the matching scene into a gif
     scene2gif(match)
     return True
 
@@ -150,4 +149,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
