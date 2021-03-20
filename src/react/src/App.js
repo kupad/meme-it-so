@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import search from './api.js';
 import LCARSBar from './lcars/LCARSBar.js'
+import SearchResults from './SearchResults.js'
 
 function App() {
     const [ searching, setSearching ] = useState(false);
@@ -49,15 +50,7 @@ function App() {
                     searching &&
                     <div className='blink text-center text-6xl mt-10'>STAND BY</div>
                 }
-                <div className='w-11/12 mx-auto mt-5 flex flex-wrap'>
-                    {
-                        searchResults.map(scene => (
-                            <div key={`${scene.ep}-${scene.srtidx}`} className='p-2'>
-                                <img src={scene.img_url} title={scene.content} width="320" height="240 "/>
-                            </div>
-                        ))
-                    }
-                </div>
+                <SearchResults results={searchResults} />
             </div>
         </div>
     )
