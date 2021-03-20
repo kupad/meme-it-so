@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import search from './api.js';
-import './App.css';
+import LCARSBar from './lcars/LCARSBar.js'
 
 function App() {
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ searchResults, setSearchResults] = useState([]);
-
-    useEffect(() =>{
-        /*
-        fetch('/search/?q=prune').then(res => res.json())
-            .then(data => {
-                setSearchResults(data.matches)
-            });
-        */
-    }, []);
 
     const handleSearchChanged = (event) => {
         setSearchTerm(event.target.value)
@@ -33,44 +24,34 @@ function App() {
     }
 
     return (
-        <div id="all">
-            <header className="header">
-                <div className="lcars-left-bar-top lcars-bg-purple lcars-w-200" />
-                    <div className="bd-5-green flex-col flex-grow flex-just-right">
-                        <div id="meme-it-so">Meme It So</div>
-                        <form className="bd-5-green" onSubmit={handleSearch}>
-                            <label htmlFor='search'>Search: </label>
-                            <input
-                                type='text'
-                                id='search'
-                                value={searchTerm}
-                                onChange={handleSearchChanged}
-                            />
-                            <button type='submit'>Make It So</button>
-                        </form>
-                        <div className='lcars-flex-grow' />
-                        <div className="lcars-bar">
-                            <div className="lcars-bg-purple lcars-w-400" />
-                            <div className="lcars-bg-purple lcars-w-40" />
-                            <div className="lcars-bg-purple lcars-w-200" />
-                            <div className="lcars-bg-purple lcars-flex-grow" />
-                            <div className="lcars-bg-purple lcars-w-50" />
-                        </div>
+        <div className='min-h-screen bg-gray-900 text-white'>
+            <div className='container mx-auto'>
+                <header className='flex h-24 justify-center items-center'>
+                    <form className="w-5/12" onSubmit={handleSearch}>
+                        <label className='hidden' htmlFor='search'>Search: </label>
+                        <input
+                            className='border-2 rounded-lg border-blue-600 text-3xl w-7/12 text-white bg-blue-900 bg-opacity-50 '
+                            type='text'
+                            id='search'
+                            value={searchTerm}
+                            onChange={handleSearchChanged}
+                        />
+                    <button className='bg-yellow-400 rounded-full font-bold text-black pl-20 pt-4 pb-1 pr-4 ml-5' type='submit'>SEARCH</button>
+                    </form>
+                </header>
+                <LCARSBar msg="MEME IT SO"/>
+                    <div className='w-11/12 mx-auto mt-5 flex flex-wrap'>
+                        {
+                            searchResults.map(scene => (
+                                <div key={`${scene.ep}-${scene.srtidx}`} className='p-2'>
+                                    <img src={scene.img} title={scene.content} width="320" height="240 "/>
+                                </div>
+                            ))
+                        }
                     </div>
-            </header>
-            <div className="content">
-                <div className='searchResults'>
-                    {
-                        searchResults.map(scene => (
-                            <div className='result' key={`${scene.ep}-${scene.srtidx}`}>
-                                <img src={scene.img} title={scene.content} />
-                            </div>
-                        ))
-                    }
-                </div>
             </div>
         </div>
-  );
+    )
 }
 
 export default App;
