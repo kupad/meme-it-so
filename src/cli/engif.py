@@ -1,66 +1,12 @@
-#!/usr/bin/python3
-
 import os
 import argparse
 import sys
-import csv
-#import time
-from math import floor, ceil
-
-import srt
-from moviepy.editor import *
-from PIL import Image
 
 from conf import *
-import utils.video_index as video_index
+from utils.video_index import get_fps
 from utils.make_gif import make_gif
 from utils.episode_utils import get_episode, get_season
-
-#TODO: decompose the functions in engif and move into utils. Flask and engif need to use the same things
-
-#FIXME: quickly made this a dict so that it will serialize in flask, but it can't stay this way!
-class Scene(dict):
-    """initialize a scene from a row in the subtitle csv file"""
-    CONTENT_IDX = 4
-    #csvrow: 'episode','srtidx','start(ms)','end(ms)','content'
-    def __init__(self, csvrow):
-        self.ep = csvrow[0]
-        self.srtidx = int(csvrow[1])
-        self.start = int(csvrow[2])
-        self.end = int(csvrow[3])
-        self.content = csvrow[4]
-        dict.__init__(self, ep=self.ep, srtidx=self.srtidx, start=self.start, end=self.end, content=self.content)
-
-
-def find_matches(query):
-    """
-    find all matching subtitle 'scenes'
-    return list of (ep, Scene) pairs
-    """
-    lc_query = query.lower()
-
-    #TODO: check for existance of the csv file
-
-    #open the csv subtitle database and find all matching scenes
-    matches = []
-    with open(SUBTITLES_CSV_PATH, 'r') as subcsv:
-        csvreader = csv.reader(subcsv)
-        csvreader.__next__() #toss header
-        matches = [ Scene(row) for row in csvreader if lc_query in row[Scene.CONTENT_IDX].lower() ]
-        #sort by episode
-        matches.sort(key=lambda scene: scene.ep)
-    return matches
-
-def ms2frame(scene, fps):
-    """
-    given a 'scene' return the start and end frames of the scene
-    - thumbnails are stored by frame number, not time offset
-    - srt files use time offsets
-    - this function widens the scene by 2 seconds
-    """
-    start_frame = floor( (scene.start / 1000 - 1) * fps)
-    end_frame =  ceil( (scene.end / 1000 + 1) * fps)
-    return start_frame, end_frame
+from utils.subtitles import Scene, find_matches, ms2frame
 
 def scene2str(scene):
     content = scene.content.replace('\n','  ')
@@ -76,10 +22,6 @@ def user_select(matches):
     selection = int(input("select: "))
     #TODO: make sure selection is valid
     return matches[selection]
-
-def get_fps(ep):
-    vindex = video_index.read_index(VIDEO_INDEX_PATH)
-    return vindex[ep]['fps']
 
 def scene2gif(scene):
     ep = scene.ep
@@ -135,7 +77,6 @@ def query2gif(query):
     #turn the matching scene into a gif
     scene2gif(match)
     return True
-
 
 def main():
     parser = argparse.ArgumentParser()

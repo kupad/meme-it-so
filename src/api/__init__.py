@@ -6,7 +6,7 @@ from flask import Flask
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         #DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -25,13 +25,11 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says pong
-    @app.route('/ping')
-    def ping():
-        return {'msg': 'pong'}
+    @app.route('/api')
+    def api():
+        return {'msg': 'meme-it-so api'}
 
-    from . import search 
-    app.register_blueprint(search.bp)
+    from . import search
+    app.register_blueprint(search.bp, url_prefix='/api/search/')
 
     return app
-

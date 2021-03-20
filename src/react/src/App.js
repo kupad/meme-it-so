@@ -24,13 +24,14 @@ function App() {
     }
 
     return (
-        <div className='min-h-screen bg-gray-900 text-white'>
+        <div className='min-h-screen bg-gray-800 text-white'>
             <div className='container mx-auto'>
                 <header className='flex h-24 justify-center items-center'>
                     <form className="w-5/12" onSubmit={handleSearch}>
                         <label className='hidden' htmlFor='search'>Search: </label>
                         <input
                             className='border-2 rounded-lg border-blue-600 text-3xl w-7/12 text-white bg-blue-900 bg-opacity-50 '
+                            placeholder="search by quote"
                             type='text'
                             id='search'
                             value={searchTerm}
@@ -40,15 +41,15 @@ function App() {
                     </form>
                 </header>
                 <LCARSBar msg="MEME IT SO"/>
-                    <div className='w-11/12 mx-auto mt-5 flex flex-wrap'>
-                        {
-                            searchResults.map(scene => (
-                                <div key={`${scene.ep}-${scene.srtidx}`} className='p-2'>
-                                    <img src={scene.img} title={scene.content} width="320" height="240 "/>
-                                </div>
-                            ))
-                        }
-                    </div>
+                <div className='w-11/12 mx-auto mt-5 flex flex-wrap'>
+                    {
+                        searchResults.map(scene => (
+                            <div key={`${scene.ep}-${scene.srtidx}`} className='p-2'>
+                                <img src={scene.img_url} title={scene.content} width="320" height="240 "/>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )
