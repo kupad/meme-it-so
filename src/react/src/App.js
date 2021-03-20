@@ -37,7 +37,7 @@ function App() {
                             value={searchTerm}
                             onChange={handleSearchChanged}
                         />
-                    <button className='bg-yellow-400 rounded-full font-bold text-black pl-20 pt-4 pb-1 pr-4 ml-5' type='submit'>SEARCH</button>
+                    <button className='bg-yellow-400 rounded-full font-bold text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>SEARCH</button>
                     </form>
                 </header>
                 <LCARSBar msg="MEME IT SO"/>
