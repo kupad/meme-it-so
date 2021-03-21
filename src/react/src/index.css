@@ -11,5 +11,15 @@
     }
 }
 
+.text-blue-sttng-credits {
+    color: #1d7eff;
+}
 
 @tailwind utilities;
+
+
+@layer base {
+    body {
+        @apply bg-gray-900 text-white;
+    }
+}

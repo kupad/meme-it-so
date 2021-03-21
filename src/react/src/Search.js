@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import search from './api.js';
+import api from './api.js';
+import StandBy from './lcars/StandBy.js'
 import SearchResults from './SearchResults.js';
 
 const Search = ({match: {params : {query}}}) => {
@@ -17,21 +18,24 @@ const Search = ({match: {params : {query}}}) => {
 
         setSearching(true);
         setSearchResults([]);
-        search(query).then(results => {
-            //console.log(results);
+        api.searchByQuery(query).then(results => {
             setSearchResults(results);
             setSearching(false)
         });
     }, [query]);
 
+    const handleClick = (scene) => {
+        console.log('ep', scene.ep, 'ms', scene.ms)
+    }
+
     return (
-        <>
-        {
-            searching &&
-            <div className='blink text-center text-6xl mt-10'>STAND BY</div>
-        }
-        <SearchResults results={searchResults} />
-        </>
+        <div className="w-11/12 mx-auto mt-10">
+            { searching && <StandBy /> }
+            <SearchResults
+                results={searchResults}
+                onClick={handleClick}
+            />
+        </div>
     );
 };
 

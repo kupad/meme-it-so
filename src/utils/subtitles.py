@@ -10,6 +10,10 @@ import conf
 #FIXME: quickly made this a dict so that it will serialize in flask, but it can't stay this way!
 class Scene(dict):
     """initialize a scene from a row in the subtitle csv file"""
+    EP_IDX = 0
+    SRT_IDX = 1
+    START_IDX = 2
+    END_IDX = 3
     CONTENT_IDX = 4
     #csvrow: 'episode','srtidx','start(ms)','end(ms)','content'
     def __init__(self, csvrow):
@@ -19,6 +23,22 @@ class Scene(dict):
         self.end = int(csvrow[3])
         self.content = csvrow[4]
         dict.__init__(self, ep=self.ep, srtidx=self.srtidx, start=self.start, end=self.end, content=self.content)
+
+def find_by_time(ep, ms, subtitles_csv_path=conf.SUBTITLES_CSV_PATH):
+    """
+    find matching scene by ep and ms offset
+    """
+    match = None
+    with open(subtitles_csv_path, 'r') as subcsv:
+        csvreader = csv.reader(subcsv)
+        csvreader.__next__() #toss header
+        for row in csvreader:
+            scene = Scene(row)
+            if 'opensubtitles' in scene.content.lower(): continue
+            if ep == scene.ep and (ms >= scene.start and ms <= scene.end):
+                match = scene
+                break
+    return match
 
 def find_matches(query, subtitles_csv_path=conf.SUBTITLES_CSV_PATH):
     """
@@ -39,6 +59,7 @@ def find_matches(query, subtitles_csv_path=conf.SUBTITLES_CSV_PATH):
         matches.sort(key=lambda scene: scene.ep)
     return matches
 
+#TODO: rename
 def ms2frame(scene, fps):
     """
     given a 'scene' return the start and end frames of the scene

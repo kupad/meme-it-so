@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_ENDPOINT = "http://localhost:3000/api";
 
-const search = async (query) => {
+export const searchByQuery = async (query) => {
     try {
         const response = await axios.get(`${API_ENDPOINT}/search/?q=${query}`);
         //console.log(response);
@@ -13,4 +13,15 @@ const search = async (query) => {
     }
 };
 
-export default search;
+export const searchByTime = async (ep, ms) => {
+    try {
+        const response = await axios.get(`${API_ENDPOINT}/search/ep/${ep}/${ms}`);
+        //console.log(response);
+        return response.data;
+    } catch(error) {
+        console.log(error)
+        return {};
+    }
+}
+
+export default { searchByQuery, searchByTime };
