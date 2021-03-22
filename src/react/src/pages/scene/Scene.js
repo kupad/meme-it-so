@@ -4,11 +4,13 @@ import Api from '../../api.js';
 import StandBy from '../../lcars/StandBy.js';
 
 import View from './View.js'
+import MemeGenerator from './MemeGenerator.js'
 import ThumbnailNav from './ThumbnailNav.js'
 
 
 const Scene = ({match: {params : {ep, ms}}}) => {
     const [ searching, setSearching ] = useState(true);
+    const [ isMemeMode, setIsMemeMode ] = useState(false);
     const [ data, setData ] = useState({});
 
     //fetch data for this ep/ms
@@ -27,10 +29,16 @@ const Scene = ({match: {params : {ep, ms}}}) => {
         return <div></div>;
     }
 
+    const activateMemeMode = () => setIsMemeMode(true);
+
     return (
         <div className="w-11/12 mx-auto mt-10">
             { searching && <StandBy /> }
-            <View ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} />
+            {
+                isMemeMode
+                    ? <MemeGenerator ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} />
+                    : <View ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
+            }
             <ThumbnailNav
                 ep={ep}
                 currFrame={currFrame}

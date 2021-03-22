@@ -3,7 +3,11 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+        fontFamily: {
+            'meme': [ 'Impact', 'Arial', 'sans-serif' ],
+        },
         width: {
+            '640px': '640px',
             '95': '95%',
             '96': '96%',
             '97': '97%',
