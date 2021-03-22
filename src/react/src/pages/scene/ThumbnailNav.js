@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
-/* thumnail controls */
-const nitems = 7; //keep it odd
-const nframes = 6; //every nth frame
-
 const ThumbnailNav = ({ep, fps, currFrame}) => {
 
     const [ thumbs, setThumbs] = useState([])
@@ -18,11 +14,10 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
     //If we have a currFrame, but the thumbs is null, we generate
     //the thumbs now. Could this go into initial state? But it only works if
     //the currFrame is >0
-    if(currFrame && thumbs.length == 0) {
-        const imgUrls = []
+    if(currFrame && thumbs.length === 0) {
         let firstFrame = currFrame - (Math.floor(nitems/2)*nframes)
         let lastFrame = currFrame + (Math.floor(nitems/2)*nframes)
-        const imgs = []
+        const imgUrls = []
         for(let i=firstFrame; i<=lastFrame; i+=nframes) {
             imgUrls.push(i)
         }
@@ -65,7 +60,9 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
                     >
                         <img
                             className={`p-2 ${frame === currFrame ? 'border-2 border-yellow-500' : ''}`}
-                            src={`/static/thumbnails/${getSeason(ep)}/${ep}/${frame.toString().padStart(5,'0')}.jpg`} width="160" height="120"/>
+                            src={`/static/thumbnails/${getSeason(ep)}/${ep}/${frame.toString().padStart(5,'0')}.jpg`} width="160" height="120"
+                            alt={frame2ms(frame)}
+                        />
                     </Link>
                 ))
             }
