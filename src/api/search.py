@@ -8,7 +8,7 @@ from flask import (
 
 from utils.subtitles import find_by_time, find_matches, ms2frame
 from utils.episode_utils import get_season
-from utils.video_index import get_fps
+from utils.video_index import get_fps, get_video_info
 
 bp = Blueprint('search', __name__)
 
@@ -53,8 +53,10 @@ def search():
 def search_by_time(ep, ms):
     rv = {}
 
+    video_info = get_video_info(ep)
+
     #find the closest frame to the ms offset in the episode
-    orig_fps = get_fps(ep)
+    orig_fps = video_info['fps']
     est_frame = round( (ms / 1000) * orig_fps)
     frame = est_frame - (est_frame % nthframe)
 
@@ -68,4 +70,5 @@ def search_by_time(ep, ms):
 
     rv['frame'] = frame
     rv['img_url'] = frame_to_url(ep, frame)
+    rv['title'] = video_info['title']
     return rv

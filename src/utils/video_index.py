@@ -52,7 +52,7 @@ def read_episode_guide(episode_guide_path):
             title   = row['title']
             epid = f'S{seasonNum:02}E{episodeNum:02}'
             episode_guide[epid] = { 'title': title }
-    return episode_guide 
+    return episode_guide
 
 
 def read_index(video_index_path):
@@ -63,13 +63,19 @@ def read_index(video_index_path):
     with open(video_index_path) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            fps = float(row['fps'])
-            duration = float(row['duration'])
-            nframes= int(row['nframes'])
-            video_index[row['episode']] = {'fps': fps, 'duration': duration, 'nframes': nframes}
+            video_index[row['episode']] = {
+                'fps': float(row['fps']),
+                'duration': float(row['duration']),
+                'nframes': int(row['nframes']),
+                'title': row['title']
+            }
     return video_index
 
 def get_fps(ep, video_index_path=conf.VIDEO_INDEX_PATH):
     """given an episode, return the fps"""
     vindex = read_index(video_index_path)
     return vindex[ep]['fps']
+
+def get_video_info(ep, video_index_path=conf.VIDEO_INDEX_PATH):
+    vindex = read_index(video_index_path)
+    return vindex[ep]

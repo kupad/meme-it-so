@@ -40,17 +40,21 @@ const frame2ms = (frame) => {
 }
 
 const Scene = ({match: {params : {ep, ms}}}) => {
+    //shall I wrap this stuff up in a single object? It's looking
+    //like that is what I ought to do
     const [ searching, setSearching ] = useState(true);
     const [ scene, setScene ] = useState(null)
     const [ currFrame, setCurrFrame] = useState(0)
     const [ currImg, setCurrImg ] = useState('')
     const [ thumbs, setThumbs] = useState([])
+    const [ title, setTitle] = useState('')
 
     useEffect(() => {
         Api.searchByTime(ep, ms).then(result => {
             setScene(result.scene)
             setCurrFrame(result.frame)
             setCurrImg(result.img_url)
+            setTitle(result.title)
             setSearching(false)
             console.log(result.frame)
             if(result.frame) {
@@ -91,7 +95,7 @@ console.log('currFrame', currFrame)
                 </div>
                 <div className="w-1/2">
                     <div className="font-serif italic text-blue-sttng-credits">
-                        <h1 className="text-3xl">"Episode Title"</h1>
+                        <h1 className="text-3xl">"{title}"</h1>
                         <h2 className="text-lg">Season {getSeasonNum(ep)} / Episode {getEpisodeNum(ep)} ({toTimeStr(ms)})</h2>
                     </div>
                     <pre className="mt-10">
