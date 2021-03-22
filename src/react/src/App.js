@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Switch, Route, useHistory } from "react-router-dom";
 
 import LCARSBar from './lcars/LCARSBar.js'
-import Scene from './Scene.js'
+import Scene from './pages/scene/Scene.js'
 import Search from './Search.js'
 
 function App() {
