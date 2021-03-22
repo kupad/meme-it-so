@@ -9,7 +9,11 @@ SERIES_DIR  = '/mnt/nfs/NAS/media/tv/Star.Trek-.The.Next.Generation/'
 
 #data generated here
 DATA_DIR = os.path.join(BASE_DIR, "data")
+INPUTS = os.path.join(DATA_DIR, 'inputs')
 OUTPUTS  = os.path.join(DATA_DIR, 'outputs')
+
+#episode guide
+EPISODE_GUIDE_PATH = os.path.join(INPUTS,SERIES_NAME, 'episode_guide.csv')
 
 #video source info
 VIDEO_INDEX_PATH = os.path.join(OUTPUTS,SERIES_NAME, 'video_index.csv')
