@@ -35,7 +35,7 @@ function App() {
                         value={searchTerm}
                         onChange={handleSearchChanged}
                     />
-                <button className='bg-yellow-400 rounded-full font-bold text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>SEARCH</button>
+                <button className='bg-yellow-400 rounded-full font-bold text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
                 </form>
             </header>
             <div className="w-99 mx-auto">

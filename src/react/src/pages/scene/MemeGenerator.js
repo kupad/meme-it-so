@@ -19,7 +19,7 @@ const MemeGenerator = ({ep, ms, currImg, title, scene}) => {
             <div className="w-1/2">
                 <div className="flex flex-shrink w-640px relative">
                     <img src={currImg} alt={ms} width="640" height="480"/>
-                    <pre className="absolute bottom-5 overflow-hidden font-meme w-full text-center text-7xl text-white" >
+                    <pre className="absolute bottom-5 overflow-hidden font-meme w-full text-center text-4xl text-white" >
                         {memeText}
                     </pre>
                 </div>
@@ -29,7 +29,7 @@ const MemeGenerator = ({ep, ms, currImg, title, scene}) => {
                 <p className='mt-8'>{content}</p>
                 <div>
                     <textarea
-                        className="mt-10 h-32 border-2 rounded-lg border-blue-600 text-lg text-white bg-blue-900 bg-opacity-50"
+                        className="mt-10 h-32 border-2 w-64 rounded-lg border-blue-600 text-lg text-white bg-blue-900 bg-opacity-50"
                         onChange={handleTextChange}
                         value={memeText}
                         placeholder="Enter Meme Text"
