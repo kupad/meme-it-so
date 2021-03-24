@@ -32,4 +32,7 @@ def create_app(test_config=None):
     from . import search
     app.register_blueprint(search.bp, url_prefix='/api/search/')
 
+    from . import meme
+    app.register_blueprint(meme.bp, url_prefix='/meme/')
+
     return app

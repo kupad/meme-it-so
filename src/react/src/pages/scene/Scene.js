@@ -30,13 +30,14 @@ const Scene = ({match: {params : {ep, ms}}}) => {
     }
 
     const activateMemeMode = () => setIsMemeMode(true);
+    const activateViewMode = () => setIsMemeMode(false);
 
     return (
         <div className="w-11/12 mx-auto mt-10">
             { searching && <StandBy /> }
             {
                 isMemeMode
-                    ? <MemeGenerator ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} />
+                    ? <MemeGenerator ep={ep} ms={ms} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
                     : <View ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
             }
             <ThumbnailNav

@@ -1,7 +1,3 @@
-import functools
-import os
-from math import floor
-
 from flask import (
     Blueprint, g, request, session, url_for
 )
