@@ -4,9 +4,8 @@ import Api from '../../api.js';
 import StandBy from '../../lcars/StandBy.js';
 
 import View from './View.js'
-import MemeGenerator from './MemeGenerator.js'
+import MemeEditor from './MemeEditor.js'
 import ThumbnailNav from './ThumbnailNav.js'
-
 
 const Scene = ({match: {params : {ep, ms}}}) => {
     const [ searching, setSearching ] = useState(true);
@@ -37,14 +36,9 @@ const Scene = ({match: {params : {ep, ms}}}) => {
             { searching && <StandBy /> }
             {
                 isMemeMode
-                    ? <MemeGenerator ep={ep} ms={ms} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
-                    : <View ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
+                    ? <MemeEditor ep={ep} ms={ms} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
+                    : <View ep={ep} ms={ms} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
             }
-            <ThumbnailNav
-                ep={ep}
-                currFrame={currFrame}
-                fps={fps}
-            />
         </div>
     )
 

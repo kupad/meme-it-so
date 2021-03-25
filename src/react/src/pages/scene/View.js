@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Credits from './Credits.js'
+import ThumbnailNav from './ThumbnailNav.js'
 
 import Button from '../../lcars/Button.js'
 
-const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {
+const View = ({ep, ms, fps, currFrame, currImg, title, scene, activateMemeMode}) => {
 
     return (
+        <>
         <div className="flex m-auto">
             <div className="w-1/2">
                 <img src={currImg} alt={ms} width="640" height="480"/>
@@ -24,6 +26,12 @@ const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {
                 </Button>
             </div>
         </div>
+        <ThumbnailNav
+            ep={ep}
+            currFrame={currFrame}
+            fps={fps}
+        />
+        </>
     )
 }
 
