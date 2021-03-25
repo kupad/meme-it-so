@@ -8,7 +8,6 @@ import Button from '../../lcars/Button.js'
 const View = ({ep, ms, fps, currFrame, currImg, title, scene, activateMemeMode}) => {
 
     return (
-        <>
         <div className="flex m-auto">
             <div className="w-1/2">
                 <img src={currImg} alt={ms} width="640" height="480"/>
@@ -16,22 +15,13 @@ const View = ({ep, ms, fps, currFrame, currImg, title, scene, activateMemeMode})
             <div className="w-1/2 ml-5">
                 <Credits ep={ep} title={title} ms={ms} />
                 {
-                    scene &&
-                    <pre className="mt-10 h-32">
-                        {scene.content}
-                    </pre>
+                    scene
+                        ? <pre className="mt-10 h-32">{scene.content}</pre>
+                        : <div className="h-32"></div>
                 }
-                <Button onClick={activateMemeMode}>
-                    MEME
-                </Button>
+                <Button onClick={activateMemeMode}>MEME EDITOR</Button>
             </div>
         </div>
-        <ThumbnailNav
-            ep={ep}
-            currFrame={currFrame}
-            fps={fps}
-        />
-        </>
     )
 }
 

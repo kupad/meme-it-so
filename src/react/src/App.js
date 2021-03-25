@@ -4,11 +4,11 @@ import { Switch, Route, useHistory } from "react-router-dom";
 
 import LCARSBar from './lcars/LCARSBar.js'
 import Scene from './pages/scene/Scene.js'
+import Meme from './pages/meme/Meme.js'
 import Search from './Search.js'
 
 function App() {
     const history = useHistory();
-    console.log(history)
 
     const [ searchTerm, setSearchTerm ] = useState('');
 
@@ -38,13 +38,14 @@ function App() {
                 <button className='bg-yellow-400 rounded-full font-bold text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
                 </form>
             </header>
-            <div className="w-99 mx-auto">
+            <div className="w-99 mb-10 mx-auto">
                 <LCARSBar msg="MEME IT SO"/>
             </div>
             <Switch>
                 <Route path="/" exact render={() => <p></p>} />
                 <Route path="/search/:query" component={Search} />
                 <Route path="/scene/ep/:ep/:ms" component={Scene} />
+                <Route path="/meme/ep/:ep/:frame/t/:txt" component={Meme} />
             </Switch>
         </div>
     )
