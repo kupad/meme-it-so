@@ -42,7 +42,7 @@ const MemeEditor = ({ep, ms, currFrame, title, scene, activateViewMode}) => {
                     />
                 </div>
                 <div className='flex'>
-                    <Button className="mt-5" onClick={onGenerate}>GENERATE</Button>
+                    <Button className="mt-5" disabled={!memeText} onClick={onGenerate}>GENERATE</Button>
                     <Button className="mt-5 ml-10" onClick={activateViewMode}>CANCEL</Button>
                 </div>
             </div>
