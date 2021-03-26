@@ -47,7 +47,7 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
     return (
         <div className='flex justify-center mt-20 align-middle content-center items-center'>
             <button
-                className='bg-yellow-500 h-10 rounded-l-full font-bold text-black mr-2 py-2 px-5'
+                className='bg-yellow-500 h-10 rounded-l-full text-xl text-black mr-2 py-2 px-5'
                 onClick={onClickPrevThumbs}
             >
                 PREV
@@ -67,7 +67,7 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
                 ))
             }
             <button
-                className='bg-yellow-500 h-10 rounded-r-full font-bold text-black ml-2 py-2 px-5'
+                className='bg-yellow-500 h-10 rounded-r-full text-xl text-black ml-2 py-2 px-5'
                 onClick={onClickNextThumbs}
             >
                 NEXT

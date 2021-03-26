@@ -1,3 +1,34 @@
+@font-face {
+    font-family: Okuda;
+    src: url("./fonts/Okuda.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Okuda;
+    font-weight: bold;
+    src: url("./fonts/Okuda Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Okuda;
+    font-style: italic;
+    src: url("./fonts/Okuda Italic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Okuda;
+    font-weight: bold;
+    font-style: italic;
+    src: url("./fonts/Okuda Bold Italic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'OPTICristeta-Italic';
+    src: url('./fonts/OPTICristeta-Italic.ttf.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 
@@ -20,6 +51,6 @@
 
 @layer base {
     body {
-        @apply text-white bg-gray-900;
+        @apply text-white bg-gray-900 font-sttng-lcars;
     }
 }

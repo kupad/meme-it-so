@@ -19,7 +19,7 @@ const Credits = ({ep, title, ms}) => {
     }
 
     return (
-        <div className="font-serif italic text-blue-sttng-credits">
+        <div className="font-sttng-credits text-blue-sttng-credits">
             <h1 className="text-3xl">"{title}"</h1>
             <h2 className="text-lg">Season {getSeasonNum(ep)} / Episode {getEpisodeNum(ep)} ({toTimeStr(ms)})</h2>
         </div>

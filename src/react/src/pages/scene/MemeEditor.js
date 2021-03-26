@@ -32,10 +32,10 @@ const MemeEditor = ({ep, ms, currFrame, title, scene, activateViewMode}) => {
             </div>
             <div className="w-1/2 ml-5">
                 <Credits ep={ep} title={title} ms={ms} />
-                <p className='mt-8'>{content}</p>
+                <p className='font-mono mt-8'>{content}</p>
                 <div>
                     <textarea
-                        className="mt-10 h-32 border-2 w-80 rounded-lg border-blue-600 text-lg text-white bg-blue-900 bg-opacity-50"
+                        className="mt-10 h-32 border-2 w-72 rounded-lg border-blue-600 font-meme text-lg text-white bg-blue-900 bg-opacity-50"
                         onChange={onMemeChange}
                         value={memeText}
                         placeholder="Enter Meme Text"
