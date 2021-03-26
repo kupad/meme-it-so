@@ -37,7 +37,7 @@ const Scene = ({match: {params : {ep, ms}}}) => {
             {
                 isMemeMode
                     ? <MemeEditor ep={ep} ms={ms} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
-                    : <View ep={ep} ms={ms} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
+                    : <View ep={ep} ms={ms} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
             }
             <ThumbnailNav ep={ep} currFrame={currFrame} fps={fps} />
         </div>

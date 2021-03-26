@@ -61,7 +61,7 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
                         <img
                             className={`p-2 ${frame === currFrame ? 'border-2 border-yellow-500' : ''}`}
                             src={`/static/thumbnails/${getSeason(ep)}/${ep}/${frame.toString().padStart(5,'0')}.jpg`} width="160" height="120"
-                            alt={frame2ms(frame)}
+                            alt=''
                         />
                     </Link>
                 ))

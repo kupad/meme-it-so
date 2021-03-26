@@ -5,7 +5,7 @@ import ThumbnailNav from './ThumbnailNav.js'
 
 import Button from '../../lcars/Button.js'
 
-const View = ({ep, ms, fps, currFrame, currImg, title, scene, activateMemeMode}) => {
+const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {
 
     return (
         <div className="flex m-auto">
