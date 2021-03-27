@@ -5,6 +5,22 @@ from moviepy.editor import VideoFileClip
 import conf
 from utils.episode_utils import collect_episodes
 
+def read_video_index(video_index_path=conf.VIDEO_INDEX_PATH):
+    """
+    read the entire video index into memory
+    """
+    video_index = {}
+    with open(video_index_path) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            video_index[row['episode']] = {
+                'fps': float(row['fps']),
+                'duration': float(row['duration']),
+                'nframes': int(row['nframes']),
+                'title': row['title']
+            }
+    return video_index
+
 def create_index(source_dir,episode_guide_path, video_index_path):
     """
     From the source videos, create an index
@@ -53,29 +69,3 @@ def read_episode_guide(episode_guide_path):
             epid = f'S{seasonNum:02}E{episodeNum:02}'
             episode_guide[epid] = { 'title': title }
     return episode_guide
-
-
-def read_index(video_index_path):
-    """
-    read the entire video index into memory
-    """
-    video_index = {}
-    with open(video_index_path) as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            video_index[row['episode']] = {
-                'fps': float(row['fps']),
-                'duration': float(row['duration']),
-                'nframes': int(row['nframes']),
-                'title': row['title']
-            }
-    return video_index
-
-def get_fps(ep, video_index_path=conf.VIDEO_INDEX_PATH):
-    """given an episode, return the fps"""
-    vindex = read_index(video_index_path)
-    return vindex[ep]['fps']
-
-def get_video_info(ep, video_index_path=conf.VIDEO_INDEX_PATH):
-    vindex = read_index(video_index_path)
-    return vindex[ep]

@@ -1,7 +1,6 @@
 import os
 
-from flask import Flask
-
+from flask import Flask, g
 
 def create_app(test_config=None):
     # create and configure the app
@@ -28,6 +27,7 @@ def create_app(test_config=None):
     @app.route('/api')
     def api():
         return {'msg': 'meme-it-so api'}
+
 
     from . import search
     app.register_blueprint(search.bp, url_prefix='/api/search/')

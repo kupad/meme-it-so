@@ -17,8 +17,9 @@ def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
     #the factory 0.9, means that documents that contain more words they search
     #for scores higher (as opposed to, say, a single term showing up multiple times)
     #see: https://whoosh.readthedocs.io/en/latest/parsing.html#common-customizations
-    og = qparser.OrGroup.factory(0.9)
-    qp = qparser.QueryParser("content", schema=ix.schema, group=og)
+    #og = qparser.OrGroup.factory(0.9)
+    #qp = qparser.QueryParser("content", schema=ix.schema, group=og)
+    qp = qparser.QueryParser("content", schema=ix.schema)
     q = qp.parse(qstr)
 
     scenes = []

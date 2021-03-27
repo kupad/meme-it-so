@@ -3,14 +3,16 @@ from flask import (
 )
 
 import utils.captions as captions
-from utils.subtitles import find_by_time, find_matches, ms2frame
+from utils.video_index import read_video_index
+from utils.subtitles import find_by_time, ms2frame
 from utils.episode_utils import get_season
-from utils.video_index import get_fps, get_video_info
 
 bp = Blueprint('search', __name__)
 
 thumbnails='/static/thumbnails'
 nthframe=6
+
+video_index = read_video_index()
 
 #should this be a function of the scene itself?
 def repr_frame(scene):
@@ -18,7 +20,7 @@ def repr_frame(scene):
     returns the frame that represents this scene
     """
     ep = scene['ep']
-    orig_fps = get_fps(ep)
+    orig_fps = video_index[ep]['fps']
     start_frame, end_frame = ms2frame(scene, orig_fps)
     return start_frame
 
@@ -49,7 +51,10 @@ def search():
 def search_by_time(ep, ms):
     rv = {}
 
-    video_info = get_video_info(ep)
+    if not ep in video_index:
+        abort()
+
+    video_info = video_index[ep]
 
     #find the closest frame to the ms offset in the episode
     orig_fps = video_info['fps']
@@ -57,6 +62,7 @@ def search_by_time(ep, ms):
     frame = est_frame - (est_frame % nthframe)
 
     #find the relevant scene in the episode
+    #TODO: change to use the caption index
     scene = find_by_time(ep, ms)
 
     #stop here if we didn't find anything

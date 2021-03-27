@@ -1,9 +1,11 @@
+#TODO: change to using captions index
+
 import os
 import argparse
 import sys
 
 from conf import *
-from utils.video_index import get_fps
+from utils.video_index import read_video_index
 from utils.make_gif import make_gif
 from utils.episode_utils import get_episode, get_season
 from utils.subtitles import Scene, find_matches, ms2frame
@@ -26,7 +28,8 @@ def user_select(matches):
 def scene2gif(scene):
     ep = scene.ep
 
-    orig_fps = get_fps(ep)
+    video_info = read_video_index()
+    orig_fps = video_info[ep]
 
     #find the start and end frames
     start_frame, end_frame = ms2frame(scene, orig_fps)

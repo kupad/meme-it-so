@@ -1,5 +1,5 @@
 """
-TODO: remove!
+TODO: remove! replace with captions index
 utilies for working with already prepared subtitle information
 """
 
