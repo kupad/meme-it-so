@@ -12,6 +12,9 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 INPUTS = os.path.join(DATA_DIR, 'inputs')
 OUTPUTS  = os.path.join(DATA_DIR, 'outputs')
 
+#database
+DATABASE_PATH = os.path.join(DATA_DIR, 'memeitso.db')
+
 #episode guide
 EPISODE_GUIDE_PATH = os.path.join(INPUTS,SERIES_NAME, 'episode_guide.csv')
 
