@@ -20,8 +20,10 @@ const Credits = ({ep, title, ms}) => {
 
     return (
         <div className="font-sttng-credits text-blue-sttng-credits">
-            <h1 className="text-3xl">"{title}"</h1>
-            <h2 className="text-lg">Season {getSeasonNum(ep)} / Episode {getEpisodeNum(ep)} ({toTimeStr(ms)})</h2>
+            <h1 className="text-3xl word-spacing-xl">"{title}"</h1>
+            <h2 className="text-lg">
+                Season <span className="tracking-tighter">{getSeasonNum(ep)}</span> / Episode <span className="tracking-tighter">{getEpisodeNum(ep)}</span> <span className="tracking-tighter">({toTimeStr(ms)})</span>
+            </h2>
         </div>
     );
 }

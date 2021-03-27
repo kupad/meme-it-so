@@ -1,33 +1,21 @@
+/* credits */
+/* copy-cat /w free to use license.
+ *Note that the letters look great to me, but the punctuation isn't quite right */
 @font-face {
-    font-family: Okuda;
-    src: url("./fonts/Okuda.otf") format("opentype");
-}
-
-@font-face {
-    font-family: Okuda;
-    font-weight: bold;
-    src: url("./fonts/Okuda Bold.otf") format("opentype");
-}
-
-@font-face {
-    font-family: Okuda;
-    font-style: italic;
-    src: url("./fonts/Okuda Italic.otf") format("opentype");
-}
-
-@font-face {
-    font-family: Okuda;
-    font-weight: bold;
-    font-style: italic;
-    src: url("./fonts/Okuda Bold Italic.otf") format("opentype");
-}
-
-@font-face {
-    font-family: 'OPTICristeta-Italic';
-    src: url('./fonts/OPTICristeta-Italic.ttf.woff') format('woff');
+    font-family: 'OPTICristetaItalic';
+    src: url('./fonts/OPTICristetaItalic.ttf.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
+
+/* lcars */
+/* Paid for license */
+@font-face{
+    font-family: "Swiss911UltraCompressed";
+    src:url("./fonts/Swiss911UltraCompressed.woff2") format("woff2"),
+        url("./fonts/Swiss911UltraCompressed.woff") format("woff");
+}
+
 
 @tailwind base;
 @tailwind components;
@@ -46,11 +34,20 @@
     color: #1d7eff;
 }
 
+.word-spacing-xl {
+    word-spacing: 1rem;
+}
+.word-spacing-lg {
+    word-spacing: .5rem;
+}
+
 @tailwind utilities;
 
 
+/*
 @layer base {
     body {
-        @apply text-white bg-gray-900 font-sttng-lcars;
+        @apply text-white bg-gray-900 font-sttng-lcars tracking-widest;
     }
 }
+*/

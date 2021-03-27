@@ -23,6 +23,7 @@ VIDEO_FPS   = 23.976023976023978 #default, but video info index will extract the
 SOURCE_SRT_DIR = SERIES_DIR
 SUBTITLES_DIR = os.path.join(OUTPUTS, SERIES_NAME, 'subtitles')
 SUBTITLES_CSV_PATH = os.path.join(SUBTITLES_DIR, 'subtitles.csv')
+CAPTION_INDEX_DIR = os.path.join(OUTPUTS, SERIES_NAME, 'caption_index')
 
 #thumnail info
 #THUMBNAILS_DIR='/mnt/nfs/NAS/media/memeitso/sttng/thumbs/' #slower, more space
@@ -33,5 +34,3 @@ GIFS_DIR = os.path.join(OUTPUTS, "gifs")
 GIF_FPS=15
 GIF_WIDTH=480
 GIF_HEIGHT=356
-
-

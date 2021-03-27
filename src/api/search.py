@@ -2,6 +2,7 @@ from flask import (
     Blueprint, g, request, session, url_for
 )
 
+import utils.captions as captions
 from utils.subtitles import find_by_time, find_matches, ms2frame
 from utils.episode_utils import get_season
 from utils.video_index import get_fps, get_video_info
@@ -11,13 +12,12 @@ bp = Blueprint('search', __name__)
 thumbnails='/static/thumbnails'
 nthframe=6
 
-
 #should this be a function of the scene itself?
 def repr_frame(scene):
     """
     returns the frame that represents this scene
     """
-    ep = scene.ep
+    ep = scene['ep']
     orig_fps = get_fps(ep)
     start_frame, end_frame = ms2frame(scene, orig_fps)
     return start_frame
@@ -28,21 +28,21 @@ def frame_to_url(ep, frame):
     return img_url
 
 def repr_img_url(scene):
-    return frame_to_url(scene.ep, repr_frame(scene))
+    return frame_to_url(scene['ep'], repr_frame(scene))
 
 @bp.route('/', methods=(['GET']))
 def search():
     rv = {}
-    query = request.args.get('q')
-    if query is None:
+    q = request.args.get('q')
+    if q is None:
         rv['matches'] = []
         return rv
 
-    scenes = find_matches(query)
-    for scene in scenes:
+    hits = captions.query(q)
+    for scene in hits:
         scene['img_url'] = repr_img_url(scene)
 
-    rv['matches'] = scenes
+    rv['matches'] = hits
     return rv
 
 @bp.route('/ep/<ep>/<int:ms>', methods=(['GET']))

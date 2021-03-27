@@ -1,4 +1,5 @@
 """
+TODO: remove!
 utilies for working with already prepared subtitle information
 """
 
@@ -67,8 +68,8 @@ def ms2frame(scene, fps):
     - srt files use time offsets
     #- this function widens the scene by 1 seconds
     """
-    start_frame = floor( (scene.start / 1000) * fps)
-    end_frame =  ceil( (scene.end / 1000 + 1) * fps)
+    start_frame = floor( (scene['start'] / 1000) * fps)
+    end_frame =  ceil( (scene['end'] / 1000 + 1) * fps)
     return start_frame, end_frame
 
 def scene2str(scene):
