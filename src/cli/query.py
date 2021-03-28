@@ -1,5 +1,7 @@
 """
-query and return hits
+query and return hits from the database
+
+FIXME: temporarily broken with the change to sqlite
 """
 
 import os

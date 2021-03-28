@@ -1,4 +1,5 @@
 #TODO: change to using captions index
+#FIXME: temporarily broken with the change to sqlite
 
 import os
 import argparse

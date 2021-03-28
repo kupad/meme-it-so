@@ -1,4 +1,6 @@
-#!/usr/bin/python3
+"""
+use moviepy to dump video information to stdout
+"""
 
 import os
 import argparse
@@ -23,4 +25,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

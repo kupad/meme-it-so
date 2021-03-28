@@ -1,5 +1,5 @@
 """
-querying the caption database
+querying the whoosh caption database
 """
 
 import os
@@ -27,9 +27,7 @@ def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
         results = s.search(q, limit=None)
         for hit in results:
             scenes.append({
-                'ep': hit['episode'],
-                'srtidx': int(hit['srtidx']),
-                'start': int(hit['start']),
-                'end': int(hit['end']),
-                'content': hit['content']})
+                'id': int(hit['dbid']),
+                'episode': hit['episode'],
+                'srtidx': int(hit['srtidx'])})
     return scenes

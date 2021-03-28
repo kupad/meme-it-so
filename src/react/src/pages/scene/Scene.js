@@ -21,8 +21,7 @@ const Scene = ({match: {params : {ep, ms}}}) => {
         });
     }, [ep, ms]);
 
-    const {frame: currFrame, scene, img_url: currImg, title } = data;
-    const fps = 23.976023976023978; //FIXME: fps will need to come from the server
+    const {frame: currFrame, scene, img_url: currImg, title, fps } = data;
 
     if(!currFrame) {
         return <div></div>;
