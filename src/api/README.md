@@ -1,4 +1,5 @@
 == commands ==
 
-* flask run: start development server
-* flask init-db: initialize the sql database and load data. careful - this re-creates every table!
+* flask --help: see commands
+
+You must run `flash init-db` BEFORE running `flask create-fts-idx`
