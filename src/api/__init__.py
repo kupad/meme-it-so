@@ -4,6 +4,11 @@ import logging
 from flask import Flask, g
 from conf import DATABASE_PATH
 
+from . import db
+from .utils import captions
+from . import search
+from . import meme
+
 def create_app(test_config=None):
     logging.basicConfig(level=logging.DEBUG)
 
@@ -29,13 +34,12 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import db
+    #register hooks and cli commands
     db.init_app(app)
+    captions.init_app(app)
 
-    from . import search
+    #register blueprints
     app.register_blueprint(search.bp, url_prefix='/api/search/')
-
-    from . import meme
     app.register_blueprint(meme.bp, url_prefix='/meme/')
 
     return app

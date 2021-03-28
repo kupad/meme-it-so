@@ -8,7 +8,7 @@ import logging
 from flask import ( Blueprint, g, request, session, url_for )
 
 from . import db
-import utils.captions as captions
+from .utils import captions
 from utils.episode_utils import get_season
 
 bp = Blueprint('search', __name__)
