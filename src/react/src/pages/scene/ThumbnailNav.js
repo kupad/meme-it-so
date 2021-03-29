@@ -5,7 +5,12 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
 
     const [ thumbs, setThumbs] = useState([])
 
-    const nitems = 7; //keep it odd
+    const vpwidth = window.innerWidth;
+    console.log(vpwidth);
+
+    //keep nitems odd. choose number based on screen size
+    const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
+
     const nframes = 6; //every nth frame
     const frame2ms = (frame) => {
         return Math.round(frame / fps * 1000);

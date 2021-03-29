@@ -26,11 +26,11 @@ const MemeEditor = ({ep, ms, currFrame, title, scene, activateViewMode}) => {
     }
 
     return (
-        <div className="flex m-auto">
-            <div className="w-1/2">
+        <div className="md:flex m-auto">
+            <div className="md:w-1/2">
                  <img src={memeUrl} alt={currFrame} width="640" height="480"/>
             </div>
-            <div className="w-1/2 ml-5">
+            <div className="md:w-1/2 ml-5">
                 <Credits ep={ep} title={title} ms={ms} />
                 <p className='font-mono mt-8'>{content}</p>
                 <div>

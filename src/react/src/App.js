@@ -25,9 +25,9 @@ function App() {
 
     return (
         <div className='min-h-screen mx-auto'>
-            <header className='grid grid-cols-3 h-24 items-center'>
-                <div className='font-sttng-title text-6xl text-blue-sttng-credits'>
-                    <span className='ml-5'>MEME IT SO</span>
+            <header className='items-center h-24 xl:grid xl:grid-cols-3'>
+                <div className='font-sttng-title text-blue-sttng-credits text-center text-3xl md:text-4xl 2xl:text-6xl'>
+                    <span className='md:ml-5'>MEME IT SO</span>
                 </div>
                 <div className='text-center'>
                     <form className="" onSubmit={handleSearch}>
@@ -40,7 +40,7 @@ function App() {
                             value={searchTerm}
                             onChange={handleSearchChanged}
                         />
-                        <button className='bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
+                    <button className='hidden md:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
                     </form>
                 </div>
                 <div className=''></div>

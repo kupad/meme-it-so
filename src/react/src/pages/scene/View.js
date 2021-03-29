@@ -8,11 +8,11 @@ import Button from '../../lcars/Button.js'
 const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {
 
     return (
-        <div className="flex m-auto">
-            <div className="w-1/2">
+        <div className="md:flex m-auto">
+            <div className="md:w-1/2">
                 <img src={currImg} alt={ms} width="640" height="480"/>
             </div>
-            <div className="w-1/2 ml-5">
+            <div className="md:w-1/2 ml-5">
                 <Credits ep={ep} title={title} ms={ms} />
                 {
                     scene

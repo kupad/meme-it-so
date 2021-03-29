@@ -8,7 +8,7 @@ const LCARSBar = ({msg}) => (
         <div className="bg-purple-400 mr-2 flex-grow" />
         {
             msg &&
-            <div className="text-4xl ml-5 mr-5 text-yellow-500">
+            <div className="hidden md:block md:text-3xl lg:text-4xl ml-5 mr-5 text-yellow-500 ">
                 {msg}
             </div>
         }
