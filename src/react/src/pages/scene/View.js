@@ -1,8 +1,6 @@
 import React from 'react';
 
 import Credits from './Credits.js'
-import ThumbnailNav from './ThumbnailNav.js'
-
 import Button from '../../lcars/Button.js'
 
 const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {

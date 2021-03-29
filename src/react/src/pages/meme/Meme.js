@@ -15,12 +15,12 @@ const Meme = ({match: {params : {ep, frame, txt}}}) => {
     return (
         <div className="flex w-full justify-center">
             <div className='flex flex-col items-center mr-2'>
-                <Button className='my-5 w-32 rounded-r-none'><a href={memeUrl} download>SAVE</a></Button>
-                <Button className='my-5 w-32 rounded-r-none'><a href={memeUrl} target='_blank'>VIEW</a></Button>
+                <Button className='my-5 w-32 rounded-r-none'><a href={memeUrl} rel="noopener noreferrer" download>SAVE</a></Button>
+                <Button className='my-5 w-32 rounded-r-none'><a href={memeUrl} rel="noopener noreferrer" target='_blank'>VIEW</a></Button>
                 <Button onClick={history.goBack} className='my-5 w-32 rounded-r-none'>BACK</Button>
             </div>
             <div>
-                <a href={memeUrl} target='_blank'><img className='' src={memeUrl} alt={frame} width="640" height="480"/></a>
+                <a href={memeUrl} target='_blank' rel="noopener noreferrer"><img src={memeUrl} alt={frame} width="640" height="480"/></a>
             </div>
         </div>
     )

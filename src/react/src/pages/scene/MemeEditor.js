@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom";
 
 
 import Credits from './Credits.js'
-import ThumbnailNav from './ThumbnailNav.js'
-
 import Button from '../../lcars/Button.js'
 
 const MemeEditor = ({ep, ms, currFrame, title, scene, activateViewMode}) => {
