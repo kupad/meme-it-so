@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, Link, useHistory } from "react-router-dom";
 
 import LCARSBar from './lcars/LCARSBar.js'
 import LandingPage from './pages/LandingPage.js'
@@ -27,7 +27,7 @@ function App() {
         <div className='min-h-screen mx-auto'>
             <header className='items-center h-24 xl:grid xl:grid-cols-3'>
                 <div className='font-sttng-title text-blue-sttng-credits text-center text-3xl md:text-4xl 2xl:text-6xl'>
-                    <span className='md:ml-5'>MEME IT SO</span>
+                    <span className='md:ml-5'><Link to='/'>MEME IT SO</Link></span>
                 </div>
                 <div className='text-center'>
                     <form className="" onSubmit={handleSearch}>
