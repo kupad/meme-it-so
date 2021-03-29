@@ -8,7 +8,7 @@ database and image macro generator.
 "Meme It So" is A media (TV show and Movie) screen capture and text caption                                                                                                                     
 database and image macro generator.
                                                                                                                                                         
-Copyright (C) 2021  Phillip "Dreizen                                                                                                                                                           
+Copyright (C) 2021  Phillip Dreizen                                                                                                                                                           
                                                                                                                                                                                                
 Meme It So is free software: you can redistribute it and/or modify                                                                                                                           
 it under the terms of the GNU Affero General Public License as published                                                                                                                       
