@@ -1,6 +1,6 @@
 # Meme It So
 
-Meme It So is A media (TV show and Movie) screen capture and text caption                                                                                                                     
+Meme It So is a media (TV show and Movie) screen capture and text caption                                                                                                                     
 database and image macro generator.
 
 # License Notice
