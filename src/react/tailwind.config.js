@@ -5,6 +5,7 @@ module.exports = {
     extend: {
         fontFamily: {
             'meme': [ 'Impact', 'Arial', 'sans-serif' ],
+            'sttng-title': [ 'TNG_Title' ],
             'sttng-credits': ['OPTICristetaItalic' ],
             'sttng-lcars': [ 'Swiss911UltraCompressed' ],
             /* 'sttng-lcars': [ 'Okuda', 'sans-serif' ], */

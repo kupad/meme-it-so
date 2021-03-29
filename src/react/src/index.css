@@ -1,3 +1,17 @@
+/* title */
+/* free on dafont */
+@font-face {
+    font-family: "StarNext";
+    src: url("./fonts/StarNext.ttf") format("truetype");
+}
+
+/* title */
+/* free on st-minutiae */
+@font-face {
+    font-family: "TNG_Title";
+    src: url("./fonts/TNG_Title.ttf") format("truetype");
+}
+
 /* credits */
 /* copy-cat /w free to use license.
  *Note that the letters look great to me, but the punctuation isn't quite right */
