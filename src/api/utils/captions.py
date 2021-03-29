@@ -46,9 +46,6 @@ def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
 #####  cli commands
 ###############################
 
-def hi():
-    print('hi!')
-
 def init_app(app):
     """register the cli commands with app in __init__py"""
     app.cli.add_command(init_caption_index_command)

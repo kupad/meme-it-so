@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#FIXME-- lots of changes since this was first written, and it's not being
+#used yet. When I implement gifs on the frontend this will be relevant
 
 import os
 import argparse
@@ -8,7 +9,7 @@ from PIL import Image
 
 def imgs(source_dir, nthframe):
     """
-    given a directory of imgs with format '{frame#}.jpg', 
+    given a directory of imgs with format '{frame#}.jpg',
     return image paths as tuples of (frame#,path)
     """
     paths = []
@@ -58,13 +59,13 @@ def make_gif(source_dir, start_frame, end_frame, dest_fname, dest_dir, orig_fps,
     end_idx = 0
     for idx, (frame,path) in enumerate(path_tups):
         if frame <= start_frame:
-            start_idx = idx 
+            start_idx = idx
             start_image_path = path
         if frame >= end_frame:
             end_idx = idx
             end_image_path = path
             break
-    
+
     #print('start_idx', start_idx, 'path', start_image_path)
     #print('end_idx', end_idx, 'path', end_image_path)
 
@@ -73,7 +74,7 @@ def make_gif(source_dir, start_frame, end_frame, dest_fname, dest_dir, orig_fps,
     if len(paths) == 0:
         print("Error: no frame found")
         return
-    
+
     #create a clip from the relevant images and write them out
     #print('nframes',len(paths))
     #print(paths)
@@ -115,4 +116,3 @@ def make_gif(source_dir, start_frame, end_frame, dest_fname, dest_dir, orig_fps,
 #
 #if __name__ == "__main__":
 #    main()
-

@@ -1,5 +1,5 @@
-#TODO: change to using captions index
-#FIXME: temporarily broken with the change to sqlite
+#FIXME-- lots of changes since this was first written, and it's not being
+#used currently. When I implement gifs on the frontend this will be relevant
 
 import os
 import argparse

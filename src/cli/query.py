@@ -1,13 +1,9 @@
-"""
-query and return hits from the database
-
-FIXME: temporarily broken with the change to sqlite
-"""
+"""query and return hits from the database"""
 
 import os
 import argparse
 
-import utils.captions as captions
+from ..api.utils import captions
 from conf import CAPTION_INDEX_DIR
 
 def query(qstr):

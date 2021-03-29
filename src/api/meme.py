@@ -1,14 +1,10 @@
 import os
 from io import BytesIO
 
-from flask import (
-    current_app, Blueprint, request, send_from_directory, send_file, safe_join, abort
-
-)
+from flask import ( current_app, Blueprint, request, send_from_directory, send_file, safe_join, abort )
 from PIL import Image, ImageFont, ImageDraw
 
-from utils.episode_utils import get_season
-
+from .utils.eptools import get_season
 
 bp = Blueprint('meme', __name__)
 

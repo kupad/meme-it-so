@@ -61,7 +61,7 @@ import srt
 from moviepy.editor import VideoFileClip
 
 from conf import SOURCE_SRT_DIR, SERIES_DIR, EPISODE_GUIDE_PATH, DATABASE_PATH
-from utils.episode_utils import get_episode, collect_episodes
+from .utils.eptools import episode_from_filename, collect_episodes
 
 def td2ms(td):
     return int(td.total_seconds()*1000)
@@ -84,7 +84,7 @@ def read_srt(srt_dir=SOURCE_SRT_DIR):
             #skip non-srt files
             if not is_srt(filename): continue
 
-            ep = get_episode(filename) #eg: S07E02
+            ep = episode_from_filename(filename) #eg: S07E02
 
             #skip if the srt file does not contain episode information
             if ep is None:

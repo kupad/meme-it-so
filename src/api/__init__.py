@@ -6,6 +6,7 @@ from conf import DATABASE_PATH
 
 from . import db
 from .utils import captions
+from .utils import vidtools
 from . import search
 from . import meme
 
@@ -37,6 +38,7 @@ def create_app(test_config=None):
     #register hooks and cli commands
     db.init_app(app)
     captions.init_app(app)
+    vidtools.init_app(app)
 
     #register blueprints
     app.register_blueprint(search.bp, url_prefix='/api/search/')
