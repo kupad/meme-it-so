@@ -1,9 +1,13 @@
 import React from 'react';
 
 import Credits from './Credits.js'
+import SceneCaption from './SceneCaption.js'
 import Button from '../../lcars/Button.js'
 
-const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {
+const View = ({ep, ms, data, activateMemeMode}) => {
+
+    const { scene = {}, title, img_url: currImg } = data;
+    const { prev_content: prevContent = '', content = '', next_content: nextContent = ''} = scene || {};
 
     return (
         <div className="md:flex m-auto">
@@ -12,12 +16,14 @@ const View = ({ep, ms, currImg, title, scene, activateMemeMode}) => {
             </div>
             <div className="md:w-1/2 ml-5">
                 <Credits ep={ep} title={title} ms={ms} />
-                {
-                    scene
-                        ? <pre className="mt-10 h-32">{scene.content}</pre>
-                        : <div className="h-32"></div>
-                }
-                <Button onClick={activateMemeMode}>MEME EDITOR</Button>
+                <SceneCaption
+                    prev={prevContent}
+                    curr={content}
+                    next={nextContent}
+                />
+            <div className='mt-7'>
+                    <Button onClick={activateMemeMode}>MEME EDITOR</Button>
+                </div>
             </div>
         </div>
     )

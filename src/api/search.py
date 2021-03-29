@@ -112,11 +112,20 @@ def search_by_time(ep, ms):
     logging.debug(f'search_by_time: ep({ep}) ms({ms}) --> frame({frame})')
 
     #find the relevant scene in the episode
+    #adding in the prev and next scenes into the results
     #it's okay if there is no scene! We'll still display the frames
     scene = db.query_db('''
+        WITH ctx as (
+            SELECT *,
+                    lag(content) over () prev_content,
+                    lead(content) over () next_content
+                FROM captions
+                WHERE episode = ?
+        )
         SELECT *
-            FROM captions
-            WHERE episode = ? AND start_offset <= ? AND ? <= end_offset''', (ep, ms, ms), one=True)
+            FROM ctx 
+            WHERE start_offset <= ? AND ? <= end_offset''', (ep, ms, ms), one=True)
+    logging.debug(scene)
 
     if scene is None:
         logging.info(f"search_by_time: no hits found for ep {ep} ms {ms}")

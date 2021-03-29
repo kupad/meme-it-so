@@ -3,12 +3,14 @@ import { useHistory } from "react-router-dom";
 
 
 import Credits from './Credits.js'
+import SceneCaption from './SceneCaption.js'
 import Button from '../../lcars/Button.js'
 
-const MemeEditor = ({ep, ms, currFrame, title, scene, activateViewMode}) => {
-    const history = useHistory();
+const MemeEditor = ({ep, ms, data, activateViewMode}) => {
+    const { frame: currFrame, title, scene } = data;
+    const { prev_content: prevContent = '', content = '', next_content: nextContent = ''} = scene || {};
 
-    const content = scene ? scene.content : '';
+    const history = useHistory();
     const [ memeText, setMemeText ] = useState( content );
 
     const memeUrl = `/meme/${ep}/${currFrame.toString().padStart(5,'0')}.jpg?txt=${encodeURIComponent(memeText)}`
@@ -30,10 +32,10 @@ const MemeEditor = ({ep, ms, currFrame, title, scene, activateViewMode}) => {
             </div>
             <div className="md:w-1/2 ml-5">
                 <Credits ep={ep} title={title} ms={ms} />
-                <p className='font-mono mt-8'>{content}</p>
+                <SceneCaption prev={prevContent} curr={content} next={nextContent} />
                 <div>
                     <textarea
-                        className="mt-10 h-32 border-2 w-72 rounded-lg border-blue-600 font-meme text-lg text-white bg-blue-900 bg-opacity-50"
+                        className="mt-7 h-32 border-2 w-72 rounded-lg border-blue-600 font-meme text-lg text-white overflow-y-scroll bg-blue-900 bg-opacity-50"
                         onChange={onMemeChange}
                         value={memeText}
                         placeholder="Enter Meme Text"
