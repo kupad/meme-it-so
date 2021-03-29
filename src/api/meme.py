@@ -47,8 +47,10 @@ def generate_meme(ep, frame):
     textpos = ((img_w - text_w) // 2, img_h - text_h - margin_bottom)
     draw.text(textpos, txt,
         align='center',
-        fill=(255,255,255),
         font=font,
+        fill='white',
+        stroke_width=2,
+        stroke_fill='black',
     )
 
     #save image in memory
