@@ -26,7 +26,8 @@ import LCARSBar from './lcars/LCARSBar.js'
 import LandingPage from './pages/LandingPage.js'
 import Scene from './pages/scene/Scene.js'
 import Meme from './pages/meme/Meme.js'
-import Search from './Search.js'
+import Search from './Search.js' //TODO: move to pages
+import About from './pages/About.js'
 
 function App() {
     const history = useHistory();
@@ -70,6 +71,7 @@ function App() {
             </div>
             <Switch>
                 <Route path="/" exact component={LandingPage} />
+                <Route path="/About" component={About} />
                 <Route path="/search/:query" component={Search} />
                 <Route path="/scene/ep/:ep/:ms" component={Scene} />
                 <Route path="/meme/ep/:ep/:frame/t/:txt" component={Meme} />
