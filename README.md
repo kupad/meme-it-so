@@ -1,7 +1,15 @@
 # Meme It So
 
-Meme It So is A media (TV show and Movie) screen capture and text caption                                                                                                                     
+Meme It So is a media (TV show and Movie) screen capture and text caption                                                                                                                     
 database and image macro generator.
+
+It is (clearly) heavily inspired by Frinkiac. I was motivated to create a Frinkiac-like
+app for Star Trek: The Next Generation.
+
+Server is agnostic to the content.
+
+Client-side is currently themed for Star Trek. In the future I
+may try to make it more generic for easy installion for any show.
 
 # License Notice
 
