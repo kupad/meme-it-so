@@ -50,7 +50,7 @@ function App() {
         <div className='min-h-screen mx-auto'>
             <header className='items-center h-24 xl:grid xl:grid-cols-3'>
                 <div className='font-sttng-title text-blue-sttng-credits text-center text-3xl md:text-4xl 2xl:text-6xl'>
-                    <span className='md:ml-5'><Link to='/'>MEME IT SO</Link></span>
+                    <span className='md:ml-5'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>
                 </div>
                 <div className='text-center'>
                     <form className="" onSubmit={handleSearch}>
