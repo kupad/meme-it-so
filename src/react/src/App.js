@@ -40,7 +40,9 @@ function App() {
     }
 
     const handleSearch = (event) => {
-        history.push(`/search/${searchTerm}`)
+        if(searchTerm) {
+            history.push(`/search/${searchTerm}`)
+        }
         event.preventDefault();
     };
 

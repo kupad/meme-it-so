@@ -70,8 +70,10 @@ def search():
         rv['matches'] = []
         return rv
 
+    reqpage = request.args.get('page', default=1, type=int)
+
     #query the whoosh index for hits
-    hits = captions.query(q)
+    hits, respage, pagecount = captions.query_page(q, reqpage)
     #logging.debug(hits)
 
     #map the hits to just the db caption ids
@@ -99,7 +101,9 @@ def search():
         row['img_url'] = repr_img_url(row)
 
     #return matches
-    rv['matches'] = rows
+    rv['hits'] = rows
+    rv['page'] = respage
+    rv['pageCount'] = pagecount
     return rv
 
 @bp.route('/ep/<ep>/<int:ms>', methods=(['GET']))

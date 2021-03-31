@@ -40,26 +40,43 @@ def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
     query the caption index
     Return hits as a list of dicts.
     """
-    ix = index.open_dir(caption_index_dir)
+    ix, q = _get_querier(qstr, caption_index_dir)
 
-    #the OrGroup means search terms are combined with OR instead of AND
-    #the factory 0.9, means that documents that contain more words they search
-    #for scores higher (as opposed to, say, a single term showing up multiple times)
-    #see: https://whoosh.readthedocs.io/en/latest/parsing.html#common-customizations
-    #og = qparser.OrGroup.factory(0.9)
-    #qp = qparser.QueryParser("content", schema=ix.schema, group=og)
-    qp = qparser.QueryParser("content", schema=ix.schema)
-    q = qp.parse(qstr)
-
-    scenes = []
+    scenes = None
     with ix.searcher() as s:
         results = s.search(q, limit=None)
-        for hit in results:
-            scenes.append({
-                'id': int(hit['dbid']),
-                'episode': hit['episode'],
-                'srtidx': int(hit['srtidx'])})
+        scenes = _make_dicts(results)
     return scenes
+
+def query_page(qstr, page=1, pagelen=20, caption_index_dir=CAPTION_INDEX_DIR):
+    """
+    query the caption index,
+    paginate the results
+    Returns:
+        (hits as a list of dicts, page of results, total pagecount)
+    """
+    ix, q = _get_querier(qstr, caption_index_dir)
+
+    with ix.searcher() as s:
+        results = s.search_page(q, page, pagelen=pagelen)
+        scenes = _make_dicts(results)
+        return scenes, results.pagenum, results.pagecount
+
+def _get_querier(qstr, caption_index_dir):
+    ix = index.open_dir(caption_index_dir)
+
+    qp = qparser.QueryParser("content", schema=ix.schema)
+    q = qp.parse(qstr)
+    return ix, q
+
+def _make_dicts(results):
+    dicts = []
+    for hit in results:
+        dicts.append({
+            'id': int(hit['dbid']),
+            'episode': hit['episode'],
+            'srtidx': int(hit['srtidx'])})
+    return dicts
 
 ###############################
 #####  cli commands

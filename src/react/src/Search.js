@@ -19,42 +19,74 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import api from './api.js';
 import StandBy from './lcars/StandBy.js'
 import SearchResults from './SearchResults.js';
 
-const Search = ({match: {params : {query}}}) => {
-    const [ searching, setSearching ] = useState(true);
-    const [ searchResults, setSearchResults] = useState([]);
+const initialResults = {
+    query: '',      //results for this query"
+    page: 0,        //currently up to this page
+    pageCount: 0,   //total pages
+    hits: [],
+    isLoading: false,
+}
 
-    //anytime query changes, we get the data and and update the results
-    useEffect(() => {
-        if(!query) {
-            setSearching(false);
-            setSearchResults([]);
-            return;
-        }
+const Search = ({match: {params: {query: pquery}}}) => {
 
-        setSearching(true);
-        setSearchResults([]);
-        api.searchByQuery(query).then(results => {
-            setSearchResults(results);
-            setSearching(false)
-        });
-    }, [query]);
+    const [ results, setResults] = useState(initialResults);
+    const [ trigger, setTrigger ] = useState({
+        query: pquery,
+        page: 1
+    });
 
-    const handleClick = (scene) => {
-        console.log('ep', scene.ep, 'ms', scene.ms)
+    //when the query param changes, we need to:
+    //  1) reset the results
+    //  2) set the trigger to the new pquery, and set the page to 1
+    if(pquery !== trigger.query) {
+        setResults(initialResults)
+        setTrigger({
+            query: pquery,
+            page: 1,
+        })
     }
+
+    useEffect(() => {
+        //console.log('trigger', trigger)
+
+        setResults(r => ({
+            ...r,
+            isLoading: true,
+        }));
+        api.searchByQuery(trigger.query, trigger.page).then(resp => {
+            setResults(r => {
+                //this guard is mostly here for development rerenders
+                const same = trigger.query === r.query && trigger.page === r.page;
+                return {
+                    ...r,
+                    page: resp.page,
+                    pageCount: resp.pageCount,
+                    hits: same ? r.hits : [...r.hits, ...resp.hits],
+                    query: trigger.query,
+                    isLoading: false,
+                }
+            })
+        });
+    }, [trigger]);
+
+    const handleMore = () => setTrigger(t => ({
+        ...t,
+        page: t.page + 1
+    }))
 
     return (
         <div className="w-11/12 mx-auto mt-10">
-            { searching && <StandBy /> }
+            { results.isLoading && <StandBy /> }
             <SearchResults
-                results={searchResults}
-                onClick={handleClick}
+                results={results.hits}
+                hasMore={results.page < results.pageCount}
+                onMore={handleMore}
             />
         </div>
     );

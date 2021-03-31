@@ -20,13 +20,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 import { Link } from "react-router-dom";
 
-const SearchResults = ({results, onClick}) => {
+import Button from './lcars/Button.js'
+
+const SearchResults = ({results, hasMore, onMore}) => {
     const key = (scene) => {
         return `${scene.ep}-${scene.srtidx}`;
     }
 
     return (
-        <div className='flex flex-wrap'>
+        <div>
+            <div className='flex flex-wrap'>
             {
                 results.map(scene => (
                     <Link
@@ -38,6 +41,13 @@ const SearchResults = ({results, onClick}) => {
                     </Link>
                 ))
             }
+            </div>
+            <div className='text-center my-2'>
+            {
+                hasMore &&
+                <Button onClick={onMore}>MORE</Button>
+            }
+            </div>
         </div>
     );
 };

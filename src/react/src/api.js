@@ -25,14 +25,15 @@ const API_ENDPOINT = "http://localhost:3000/api";
 
 class API {
 
-    static async searchByQuery(query) {
+    static async searchByQuery(query, page) {
+        console.log('searchByQuery', 'query:', query,'page:',page)
         try {
-            const response = await axios.get(`${API_ENDPOINT}/search/?q=${query}`);
+            const response = await axios.get(`${API_ENDPOINT}/search/?q=${query}&page=${page}`);
             //console.log(response);
-            return response.data.matches;
+            return response.data;
         } catch(error) {
             console.log(error)
-            return [];
+            return {'hits': [], 'page': 0, 'pagecount': 0};
         }
     };
 
