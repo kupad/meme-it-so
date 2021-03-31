@@ -22,12 +22,13 @@ import React, { useState } from 'react';
 
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 
-import LCARSBar from './lcars/LCARSBar.js'
-import LandingPage from './pages/LandingPage.js'
-import Scene from './pages/scene/Scene.js'
-import Meme from './pages/meme/Meme.js'
-import Search from './Search.js' //TODO: move to pages
-import About from './pages/About.js'
+import LCARSBar from '../../lcars/LCARSBar.js'
+
+import LandingPage from '../LandingPage/'
+import Scene from '../Scene/'
+import Meme from '../Meme/'
+import Search from '../Search/'
+import About from '../About/'
 
 function App() {
     const history = useHistory();

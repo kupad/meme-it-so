@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import React from 'react';
-import Button from '../lcars/Button.js'
+import Button from '../../lcars/Button.js'
 
 import { useHistory } from "react-router-dom";
 

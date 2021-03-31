@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 import { Link } from "react-router-dom";
 
-import Button from './lcars/Button.js'
+import Button from '../../lcars/Button.js'
 
 const SearchResults = ({results, hasMore, onMore}) => {
     const key = (scene) => {

@@ -21,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { useState, useEffect } from 'react';
 
-import api from './api.js';
-import StandBy from './lcars/StandBy.js'
+import api from '../../api.js';
+import StandBy from '../../lcars/StandBy.js'
 import SearchResults from './SearchResults.js';
 
 const initialResults = {
