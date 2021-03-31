@@ -20,13 +20,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 import React from 'react';
 
-import Credits from './Credits.js'
 import SceneCaption from './SceneCaption.js'
 import Button from '../../lcars/Button.js'
+import Credits from '../../components/Credits/'
 
 const View = ({ep, ms, data, activateMemeMode}) => {
 
-    const { scene = {}, title, img_url: currImg } = data;
+    const { scene = {}, title, imgUrl: currImg } = data;
     const { prev_content: prevContent = '', content = '', next_content: nextContent = ''} = scene || {};
 
     return (

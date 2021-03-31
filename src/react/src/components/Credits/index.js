@@ -19,7 +19,9 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const Credits = ({ep, title, ms}) => {
+import { Link } from "react-router-dom";
+
+const Credits = ({ep, title, ms, eplink=true}) => {
 
     /* Given S03E15 return 03 */
     const getSeasonNum = (ep) => {
@@ -39,11 +41,15 @@ const Credits = ({ep, title, ms}) => {
     }
 
     return (
-        <div className="mt-5 md:mt-0 font-sttng-credits text-blue-sttng-credits">
-            <h1 className="md:text-3xl word-spacing-xl">"{title}"</h1>
-            <h2 className="md:text-lg">
-                Season <span className="tracking-tighter">{getSeasonNum(ep)}</span> / Episode <span className="tracking-tighter">{getEpisodeNum(ep)}</span> <span className="tracking-tighter">({toTimeStr(ms)})</span>
-            </h2>
+        <div className="mt-5 md:mt-0">
+            <div className="mb-2 font-sttng-credits text-blue-sttng-credits">
+                { title && <h1 className="md:text-3xl word-spacing-xl">"{title}"</h1> }
+                <h2 className="md:text-lg">
+                    Season <span className="tracking-tighter">{getSeasonNum(ep)}</span> / Episode <span className="tracking-tighter">{getEpisodeNum(ep)}</span>
+                        {ms && <span className="tracking-tighter">&nbsp;&nbsp;&nbsp;&nbsp;({toTimeStr(ms)})</span>}
+                </h2>
+            </div>
+            { eplink && <Link to={`/episode/ep/${ep}`} className='text-sm px-3 py-1 bg-yellow-500 text-black rounded-full'>VIEW EPISODE</Link> }
         </div>
     );
 }

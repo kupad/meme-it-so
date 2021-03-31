@@ -47,6 +47,17 @@ class API {
             return {};
         }
     }
+
+    static async getAllScenes(ep, page=1) {
+        try {
+            const response = await axios.get(`${API_ENDPOINT}/episode/${ep}?page=${page}`);
+            //console.log(response);
+            return response.data;
+        } catch(error) {
+            console.log(error)
+            return {};
+        }
+    }
 }
 
 export default API;

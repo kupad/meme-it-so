@@ -26,7 +26,7 @@ const ThumbnailNav = ({ep, fps, currFrame}) => {
     const [ thumbs, setThumbs] = useState([])
 
     const vpwidth = window.innerWidth;
-    console.log(vpwidth);
+    //console.log(vpwidth);
 
     //keep nitems odd. choose number based on screen size
     const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;

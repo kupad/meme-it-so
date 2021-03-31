@@ -26,8 +26,10 @@ from conf import DATABASE_PATH
 from . import db
 from .utils import captions
 from .utils import vidtools
+
 from . import search
 from . import meme
+from . import episode 
 
 def create_app(test_config=None):
     logging.basicConfig(level=logging.DEBUG)
@@ -61,6 +63,7 @@ def create_app(test_config=None):
 
     #register blueprints
     app.register_blueprint(search.bp, url_prefix='/api/search/')
+    app.register_blueprint(episode.bp, url_prefix='/api/episode/')
     app.register_blueprint(meme.bp, url_prefix='/meme/')
 
     return app

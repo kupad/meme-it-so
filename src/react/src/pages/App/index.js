@@ -29,6 +29,7 @@ import Scene from '../Scene/'
 import Meme from '../Meme/'
 import Search from '../Search/'
 import About from '../About/'
+import Episode from '../Episode/'
 
 function App() {
     const history = useHistory();
@@ -78,6 +79,7 @@ function App() {
                 <Route path="/search/:query" component={Search} />
                 <Route path="/scene/ep/:ep/:ms" component={Scene} />
                 <Route path="/meme/ep/:ep/:frame/t/:txt" component={Meme} />
+                <Route path="/episode/ep/:ep" component={Episode} />
             </Switch>
         </div>
     )

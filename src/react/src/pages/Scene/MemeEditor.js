@@ -22,9 +22,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import React, {useState} from 'react';
 import { useHistory } from "react-router-dom";
 
-
-import Credits from './Credits.js'
 import SceneCaption from './SceneCaption.js'
+
+import Credits from '../../components/Credits/'
 import Button from '../../lcars/Button.js'
 
 const MemeEditor = ({ep, ms, data, activateViewMode}) => {

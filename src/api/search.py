@@ -27,32 +27,11 @@ from flask import ( Blueprint, g, request, session, url_for )
 
 from . import db
 from .utils import captions
+from .utils.frames import closest_frame, repr_img_url, frame_to_url
 from .utils.eptools import get_season
 
+
 bp = Blueprint('search', __name__)
-
-thumbnails='/static/thumbnails' #base url for thumbnails
-nthframe=6 #work with every 6th frame
-
-def closest_frame(ms,fps):
-    """returns the closest frame to the time offset"""
-    est_frame = round( (ms / 1000) * fps)
-    frame = est_frame - (est_frame % nthframe)
-    return frame
-
-def repr_frame(scene):
-    """returns the frame that represents this scene"""
-    return closest_frame(scene['start_offset'], scene['fps'])
-
-def frame_to_url(ep, frame):
-    """translates a frame to an img url"""
-    season = get_season(ep)
-    img_url = f'{thumbnails}/{season}/{ep}/{frame:05}.jpg'
-    return img_url
-
-def repr_img_url(scene):
-    """return an image_url that will represent this scene"""
-    return frame_to_url(scene['ep'], repr_frame(scene))
 
 @bp.route('/', methods=(['GET']))
 def search():
@@ -106,6 +85,7 @@ def search():
     rv['pageCount'] = pagecount
     return rv
 
+#should this be moved to the episode blueprint?
 @bp.route('/ep/<ep>/<int:ms>', methods=(['GET']))
 def search_by_time(ep, ms):
     """
@@ -153,9 +133,13 @@ def search_by_time(ep, ms):
         logging.info(f"search_by_time: no hits found for ep {ep} ms {ms}")
         rv['msg'] = 'No hits found'
 
-    rv['scene'] = scene
-    rv['frame'] = frame
-    rv['img_url'] = frame_to_url(ep, frame)
-    rv['title'] = title
-    rv['fps'] = fps
+    rv = {
+        'ep': ep,
+        'scene': scene,
+        'frame': frame,
+        'imgUrl': frame_to_url(ep, frame),
+        'title': title,
+        'fps': fps
+    }
+
     return rv
