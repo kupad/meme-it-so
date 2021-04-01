@@ -28,8 +28,11 @@ import Credits from '../../components/Credits/'
 import Button from '../../lcars/Button.js'
 
 const MemeEditor = ({ep, ms, data, activateViewMode}) => {
-    const { frame: currFrame, title, scene } = data;
-    const { prev_content: prevContent = '', content = '', next_content: nextContent = ''} = scene || {};
+    const { frame: currFrame, title, prevScene, scene, nextScene } = data;
+
+    const { content: prevContent = '' } = prevScene || {};
+    const { content = '' } = scene || {};
+    const { content: nextContent = '' } = nextScene || {};
 
     const history = useHistory();
     const [ memeText, setMemeText ] = useState( content );

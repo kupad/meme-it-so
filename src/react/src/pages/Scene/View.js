@@ -26,9 +26,11 @@ import Credits from '../../components/Credits/'
 
 const View = ({ep, ms, data, activateMemeMode}) => {
 
-    const { scene = {}, title, imgUrl: currImg } = data;
-    const { prev_content: prevContent = '', content = '', next_content: nextContent = ''} = scene || {};
+    const { prevScene, scene, nextScene, title, imgUrl: currImg } = data;
 
+    const { content: prevContent = '' } = prevScene || {};
+    const { content = '' } = scene || {};
+    const { content: nextContent = '' } = nextScene || {};
 
     return (
         <div className="md:flex m-auto">

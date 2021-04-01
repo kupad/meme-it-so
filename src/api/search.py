@@ -85,11 +85,12 @@ def search():
     rv['pageCount'] = pagecount
     return rv
 
-#should this be moved to the episode blueprint?
 @bp.route('/ep/<ep>/<int:ms>', methods=(['GET']))
 def search_by_time(ep, ms):
     """
-    find a matching frame in an episode via the ms offset
+    Find a matching frame in an episode via the ms offset
+    Returns the matching subtitle information for the matching frame if available,
+    Also returns the surrounding subtitle inforation, even if no subtitles at this particular offset
     """
     logging.debug(f'ep: {ep} ms: {ms}')
     rv = {}
@@ -107,6 +108,8 @@ def search_by_time(ep, ms):
         logging.info(f"search_by_time: no hits found for ep {ep} ms {ms}")
         abort()
 
+    logging.debug(f'epvidinfo: {epvidinfo}')
+
     fps = epvidinfo['fps']
 
     #calculate largest frame that is a multiple of nthframe
@@ -117,31 +120,50 @@ def search_by_time(ep, ms):
     frame = closest_frame(ms, fps)
     logging.debug(f'search_by_time: ep({ep}) ms({ms}) --> frame({frame})')
 
-    #find the relevant scene in the episode
-    #adding in the prev and next scenes into the results
-    #it's okay if there is no scene! We'll still display the frames
+    #find the relevant scene, along with the previous scene and next scene.
+    #For now, doing this in a straightforward way: 3 sql queries...
+
+    #first find the scene
+    #it's okay if we don't find anything!
     scene = db.query_db('''
-        WITH ctx as (
-            SELECT *,
-                    lag(content) over () prev_content,
-                    lead(content) over () next_content
-                FROM captions
-                WHERE episode = ?
-        )
         SELECT *
-            FROM ctx
-            WHERE start_offset <= ? AND ? <= end_offset''', (ep, ms, ms), one=True)
-    logging.debug(scene)
+            FROM captions
+            WHERE episode = ?
+            AND start_offset <= ? AND ? <= end_offset''', (ep, ms, ms,), one=True)
 
-    if scene is None:
-        logging.info(f"search_by_time: no hits found for ep {ep} ms {ms}")
-        rv['msg'] = 'No hits found'
+    if scene:
+        logging.debug(f'scene: {scene}')
+    else:
+        logging.debug(f"search_by_time: no hits found for ep {ep} ms {ms}")
 
-    logging.debug(f'nframes: {epvidinfo["nframes"]}')
+    #boundaries for finding prev and next scenes
+    #if we found a scene, the boundary is the start and end of the scene.
+    #otherwise it's just the time we received
+    start_bound = scene['start_offset'] if scene else ms
+    end_bound = scene['end_offset'] if scene else ms
+
+    #prev_scene is the scene with the largest start_offset smaller then start boundary
+    prev_scene = db.query_db('''
+        SELECT max(start_offset), *
+            FROM captions
+            WHERE episode = ?
+            AND start_offset < ?''', (ep, start_bound), one=True)
+    logging.debug(f'prev_scene: {prev_scene}')
+
+    #next_scene is the scene with the smallest end_offset larger than the end boundary
+    next_scene = db.query_db('''
+        SELECT min(end_offset), *
+            FROM captions
+            WHERE episode = ? AND
+            end_offset > ?''', (ep, end_bound), one=True)
+    logging.debug(f'next_scene: {next_scene}')
+
 
     rv = {
         'ep': ep,
+        'prevScene': prev_scene,
         'scene': scene,
+        'nextScene': next_scene,
         'frame': frame,
         'imgUrl': frame_to_url(ep, frame),
         'fps': fps,
