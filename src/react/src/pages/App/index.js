@@ -30,6 +30,7 @@ import Meme from '../Meme/'
 import Search from '../Search/'
 import About from '../About/'
 import Episode from '../Episode/'
+import NotFound from '../NotFound/'
 
 function App() {
     const history = useHistory();
@@ -80,6 +81,7 @@ function App() {
                 <Route path="/scene/ep/:ep/:ms" component={Scene} />
                 <Route path="/meme/ep/:ep/:frame/t/:txt" component={Meme} />
                 <Route path="/episode/ep/:ep" component={Episode} />
+                <Route component={NotFound} />
             </Switch>
         </div>
     )

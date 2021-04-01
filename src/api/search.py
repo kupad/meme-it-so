@@ -27,7 +27,7 @@ from flask import ( Blueprint, g, request, session, url_for )
 
 from . import db
 from .utils import captions
-from .utils.frames import closest_frame, repr_img_url, frame_to_url
+from .utils.frames import nthframe, closest_frame, repr_img_url, frame_to_url
 from .utils.eptools import get_season
 
 
@@ -91,11 +91,12 @@ def search_by_time(ep, ms):
     """
     find a matching frame in an episode via the ms offset
     """
+    logging.debug(f'ep: {ep} ms: {ms}')
     rv = {}
 
     #first get video and episode information for the episode.
     epvidinfo = db.query_db('''
-        SELECT v.fps, e.title
+        SELECT v.*, e.title
             FROM video_info v
             INNER JOIN episode_guide e
             using (episode)
@@ -107,7 +108,10 @@ def search_by_time(ep, ms):
         abort()
 
     fps = epvidinfo['fps']
-    title = epvidinfo['title']
+
+    #calculate largest frame that is a multiple of nthframe
+    lastframe = epvidinfo['nframes'] - 1
+    maxframe = lastframe - lastframe % nthframe
 
     #find the closest frame to the ms offset in the episode
     frame = closest_frame(ms, fps)
@@ -133,13 +137,16 @@ def search_by_time(ep, ms):
         logging.info(f"search_by_time: no hits found for ep {ep} ms {ms}")
         rv['msg'] = 'No hits found'
 
+    logging.debug(f'nframes: {epvidinfo["nframes"]}')
+
     rv = {
         'ep': ep,
         'scene': scene,
         'frame': frame,
         'imgUrl': frame_to_url(ep, frame),
-        'title': title,
-        'fps': fps
+        'fps': fps,
+        'title': epvidinfo['title'],
+        'maxframe': maxframe,
     }
 
     return rv

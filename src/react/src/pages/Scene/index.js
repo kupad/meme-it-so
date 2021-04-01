@@ -32,6 +32,8 @@ const Scene = ({match: {params : {ep, ms}}}) => {
     const [ isMemeMode, setIsMemeMode ] = useState(false);
     const [ data, setData ] = useState({});
 
+    //console.log('ep', ep, 'ms', ms, 'data', data)
+
     //fetch data for this ep/ms
     useEffect(() => {
         setSearching(true);
@@ -41,9 +43,9 @@ const Scene = ({match: {params : {ep, ms}}}) => {
         });
     }, [ep, ms]);
 
-    const {frame: currFrame, scene, img_url: currImg, title, fps } = data;
+    const {frame: currFrame, scene, img_url: currImg, title, fps, maxframe } = data;
 
-    if(!currFrame) {
+    if(!(currFrame >= 0)) {
         return <div></div>;
     }
 
@@ -58,7 +60,7 @@ const Scene = ({match: {params : {ep, ms}}}) => {
                     ? <MemeEditor ep={ep} ms={ms} data={data} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
                     : <View ep={ep} ms={ms} data={data} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
             }
-            <ThumbnailNav ep={ep} currFrame={currFrame} fps={fps} />
+            <ThumbnailNav ep={ep} currFrame={currFrame} fps={fps} maxframe={maxframe}/>
         </div>
     )
 

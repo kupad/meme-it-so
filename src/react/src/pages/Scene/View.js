@@ -29,6 +29,7 @@ const View = ({ep, ms, data, activateMemeMode}) => {
     const { scene = {}, title, imgUrl: currImg } = data;
     const { prev_content: prevContent = '', content = '', next_content: nextContent = ''} = scene || {};
 
+
     return (
         <div className="md:flex m-auto">
             <div className="md:w-1/2">
