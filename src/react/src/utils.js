@@ -6,3 +6,10 @@ export function toTimeStr(ms) {
     const s = Math.floor(totseconds % 60).toString().padStart(2,'0')
     return `${m}:${s}`;
 }
+
+/*
+b64 encode string s using the URL and filesystem-safe alphabet, which substitutes - instead of + and _ instead of / in the standard Base64 alphabet,
+*/
+export function urlsafe_btoa(s) {
+    return btoa(s).replace('+', '-').replace('/','_');
+}

@@ -16,8 +16,10 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+import logging
 import os
+import base64
+import urllib
 from io import BytesIO
 
 from flask import ( current_app, Blueprint, request, send_from_directory, send_file, safe_join, abort )
@@ -45,7 +47,12 @@ def generate_meme(ep, frame):
         potentially: store the meme on disk and cron will kill cached ones
         that haven't been accessed in a while?
     """
-    txt = request.args.get('txt', '')
+    enctxt = request.args.get('txt', '')
+    #txt = urllib.parse.unquote(base64.standard_b64decode(enctxt).decode('utf-8'))
+    #txt = urllib.parse.unquote(enctxt)
+    txt = base64.urlsafe_b64decode(enctxt).decode('utf-8')
+    logging.debug(txt)
+
     #find path to image
     img_dir = ep_to_thumbnail_dir(current_app.static_folder,ep)
     img_name = f'{frame:05}.jpg'

@@ -23,11 +23,10 @@ import { useHistory } from "react-router-dom";
 
 import Button from '../../lcars/Button.js'
 
-const Meme = ({match: {params : {ep, frame, txt}}}) => {
+const Meme = ({match: {params : {ep, frame, txt: enctxt}}}) => {
     const history = useHistory();
 
-    //TODO: repeated in the MemeEditor. factor out
-    const memeUrl = `/meme/${ep}/${frame.toString().padStart(5,'0')}.jpg?txt=${encodeURIComponent(txt)}`
+    const memeUrl = `/meme/${ep}/${frame.toString().padStart(5,'0')}.jpg?txt=${enctxt}`
 
     //TODO:
     //  - don't wrap the anchors in the button

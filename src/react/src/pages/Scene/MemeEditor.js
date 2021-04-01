@@ -19,34 +19,39 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import React, {useState} from 'react';
+import React from 'react';
 import { useHistory } from "react-router-dom";
 
 import SceneCaption from './SceneCaption.js'
-
 import Credits from '../../components/Credits/'
 import Button from '../../lcars/Button.js'
+import {useHistoryState} from '../../hooks.js'
+import {urlsafe_btoa} from '../../utils.js'
+
+const encode = (s) => {
+    return urlsafe_btoa(s);
+}
 
 const MemeEditor = ({ep, ms, data, activateViewMode}) => {
+    const history = useHistory();
+
     const { frame: currFrame, title, prevScene, scene, nextScene } = data;
 
+    //get the prev, current, and next captions
     const { content: prevContent = '' } = prevScene || {};
     const { content = '' } = scene || {};
     const { content: nextContent = '' } = nextScene || {};
 
-    const history = useHistory();
-    const [ memeText, setMemeText ] = useState( content );
+    const [ memeText, setMemeText ] = useHistoryState( 'memeText', content);
 
-    const memeUrl = `/meme/${ep}/${currFrame.toString().padStart(5,'0')}.jpg?txt=${encodeURIComponent(memeText)}`
-
-    /* handlers */
+    const memeUrl = `/meme/${ep}/${currFrame.toString().padStart(5,'0')}.jpg?txt=${encode(memeText)}`
 
     //when the meme input box changes
     const onMemeChange = (event) => setMemeText(event.target.value);
 
     //when the generate button is pressed
     const onGenerate = () => {
-        history.push(`/meme/ep/${ep}/${currFrame.toString().padStart(5,'0')}/t/${encodeURIComponent(memeText)}`)
+        history.push(`/meme/ep/${ep}/${currFrame.toString().padStart(5,'0')}/t/${encode(memeText)}`)
     }
 
     return (

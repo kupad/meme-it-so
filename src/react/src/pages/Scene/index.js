@@ -26,10 +26,12 @@ import StandBy from '../../lcars/StandBy.js';
 import View from './View.js'
 import MemeEditor from './MemeEditor.js'
 import ThumbnailNav from './ThumbnailNav.js'
+import {useHistoryState} from '../../hooks.js'
 
 const Scene = ({match: {params : {ep, ms}}}) => {
+
     const [ searching, setSearching ] = useState(true);
-    const [ isMemeMode, setIsMemeMode ] = useState(false);
+    const [ isMemeMode, setIsMemeMode ] = useHistoryState('isMemeMode', false);
     const [ data, setData ] = useState({});
 
     //console.log('ep', ep, 'ms', ms, 'data', data)
