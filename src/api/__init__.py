@@ -29,7 +29,8 @@ from .utils import vidtools
 
 from . import search
 from . import meme
-from . import episode 
+from . import gif
+from . import episode
 
 def create_app(test_config=None):
     logging.basicConfig(level=logging.DEBUG)
@@ -65,5 +66,6 @@ def create_app(test_config=None):
     app.register_blueprint(search.bp, url_prefix='/api/search/')
     app.register_blueprint(episode.bp, url_prefix='/api/episode/')
     app.register_blueprint(meme.bp, url_prefix='/meme/')
+    app.register_blueprint(gif.bp, url_prefix='/gif/')
 
     return app
