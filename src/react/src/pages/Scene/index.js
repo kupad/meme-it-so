@@ -28,10 +28,16 @@ import MemeEditor from './MemeEditor.js'
 import ThumbnailNav from './ThumbnailNav.js'
 import {useHistoryState} from '../../hooks.js'
 
+const Mode = {
+    VIEW: 'VIEW',
+    MEME: 'MEME',
+    GIF: 'GIF',
+}
+
 const Scene = ({match: {params : {ep, ms}}}) => {
 
     const [ searching, setSearching ] = useState(true);
-    const [ isMemeMode, setIsMemeMode ] = useHistoryState('isMemeMode', false);
+    const [ mode, setMode] = useHistoryState('mode', Mode.VIEW);
     const [ data, setData ] = useState({});
 
     //console.log('ep', ep, 'ms', ms, 'data', data)
@@ -51,14 +57,14 @@ const Scene = ({match: {params : {ep, ms}}}) => {
         return <div></div>;
     }
 
-    const activateMemeMode = () => setIsMemeMode(true);
-    const activateViewMode = () => setIsMemeMode(false);
+    const activateMemeMode = () => setMode(Mode.MEME);
+    const activateViewMode = () => setMode(Mode.VIEW);
 
     return (
         <div className="w-11/12 mx-auto mt-10">
             { searching && <StandBy /> }
             {
-                isMemeMode
+                mode === Mode.MEME
                     ? <MemeEditor ep={ep} ms={ms} data={data} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
                     : <View ep={ep} ms={ms} data={data} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
             }
