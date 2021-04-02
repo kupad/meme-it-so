@@ -24,9 +24,7 @@ import SceneCaption from './SceneCaption.js'
 import Button from '../../lcars/Button.js'
 import Credits from '../../components/Credits/'
 
-const View = ({ep, ms, data, activateMemeMode}) => {
-
-    const { prevScene, scene, nextScene, title, imgUrl: currImg } = data;
+const View = ({ep, ms, data: {prevScene, scene, nextScene, title, imgUrl: currImg}, activateMemeMode}) => {
 
     const { content: prevContent = '' } = prevScene || {};
     const { content = '' } = scene || {};

@@ -32,10 +32,8 @@ const encode = (s) => {
     return urlsafe_btoa(s);
 }
 
-const MemeEditor = ({ep, ms, data, activateViewMode}) => {
+const MemeEditor = ({ep, ms, data: {frame: currFrame, title, prevScene, scene, nextScene}, activateViewMode}) => {
     const history = useHistory();
-
-    const { frame: currFrame, title, prevScene, scene, nextScene } = data;
 
     //get the prev, current, and next captions
     const { content: prevContent = '' } = prevScene || {};

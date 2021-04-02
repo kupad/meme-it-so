@@ -31,7 +31,6 @@ import {useHistoryState} from '../../hooks.js'
 const Mode = {
     VIEW: 'VIEW',
     MEME: 'MEME',
-    GIF: 'GIF',
 }
 
 const Scene = ({match: {params : {ep, ms}}}) => {
@@ -65,10 +64,10 @@ const Scene = ({match: {params : {ep, ms}}}) => {
             { searching && <StandBy /> }
             {
                 mode === Mode.MEME
-                    ? <MemeEditor ep={ep} ms={ms} data={data} fps={fps} scene={scene} currFrame={currFrame} currImg={currImg} title={title} activateViewMode={activateViewMode}/>
-                    : <View ep={ep} ms={ms} data={data} scene={scene} currImg={currImg} title={title} activateMemeMode={activateMemeMode} />
+                    ? <MemeEditor ep={ep} ms={ms} data={data} activateViewMode={activateViewMode}/>
+                    : <View ep={ep} ms={ms} data={data} activateMemeMode={activateMemeMode} />
             }
-            <ThumbnailNav ep={ep} currFrame={currFrame} fps={fps} maxframe={maxframe}/>
+            <ThumbnailNav ep={ep} data={data}  />
         </div>
     )
 

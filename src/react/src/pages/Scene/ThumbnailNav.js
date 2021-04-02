@@ -33,8 +33,9 @@ import { Link } from "react-router-dom";
 
 const nframes = 6; //every nth frame
 
-const ThumbnailNav = ({ep, fps, maxframe, currFrame}) => {
+const ThumbnailNav = ({ep, data: {frame: currFrame, fps, maxframe}}) => {
 
+    //const {frame: currFrame, fps, maxframe } = data;
     const [ thumbs, setThumbs] = useState([])
 
     //viewport width.
@@ -44,6 +45,8 @@ const ThumbnailNav = ({ep, fps, maxframe, currFrame}) => {
     //nitems is the number of thumbs to show in the nav
     //keeping nitems odd. choose number based on screen size
     const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
+    //const nitems = 39;
+
 
     //Generate Thumbnails
     //If we have a currFrame, but the thumbs is null, we generate the thumbs now.
@@ -109,7 +112,7 @@ const ThumbnailNav = ({ep, fps, maxframe, currFrame}) => {
     /* thumnail controls */
 
     return (
-        <div className='flex justify-center mt-20 align-middle content-center items-center'>
+        <div className='flex flex-wrap justify-center mt-20 align-middle content-center items-center'>
             <button className='bg-yellow-500 h-10 rounded-l-full text-xl text-black mr-2 py-2 px-5' onClick={onClickPrevThumbs} >
                 PREV
             </button>
