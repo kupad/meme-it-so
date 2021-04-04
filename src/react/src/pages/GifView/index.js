@@ -58,8 +58,12 @@ const GifView = ({match: {params : {ep, startframe, endframe}}}) => {
     return (
         <div className="flex w-full justify-center">
             <div className='flex flex-col items-center mr-2'>
-                <Button className='my-5 w-32 rounded-r-none'><a href={gifUrl} rel="noopener noreferrer" download>SAVE</a></Button>
-                <Button className='my-5 w-32 rounded-r-none'><a href={gifUrl} rel="noopener noreferrer" target='_blank'>VIEW</a></Button>
+                { !generating &&
+                    <>
+                        <Button className='my-5 w-32 rounded-r-none'><a href={gifUrl} rel="noopener noreferrer" download>SAVE</a></Button>
+                        <Button className='my-5 w-32 rounded-r-none'><a href={gifUrl} rel="noopener noreferrer" target='_blank'>VIEW</a></Button>
+                    </>
+                }
                 <Button onClick={history.goBack} className='my-5 w-32 rounded-r-none'>BACK</Button>
             </div>
             <div className='relative'>
