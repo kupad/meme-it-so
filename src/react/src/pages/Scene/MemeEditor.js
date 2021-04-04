@@ -42,7 +42,7 @@ const MemeEditor = ({ep, ms, data: {frame: currFrame, title, prevScene, scene, n
 
     const [ memeText, setMemeText ] = useHistoryState( 'memeText', content);
 
-    const memeUrl = `/meme/${ep}/${currFrame.toString().padStart(5,'0')}.jpg?txt=${encode(memeText)}`
+    const memeUrl = `/api/meme/${ep}/${currFrame.toString().padStart(5,'0')}.jpg?txt=${encode(memeText)}`
 
     //when the meme input box changes
     const onMemeChange = (event) => setMemeText(event.target.value);
@@ -74,7 +74,7 @@ const MemeEditor = ({ep, ms, data: {frame: currFrame, title, prevScene, scene, n
                 </div>
             </div>
         </div>
-        )
+    )
 }
 
 export default MemeEditor;

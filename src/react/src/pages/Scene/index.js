@@ -19,21 +19,25 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 import React, { useState, useEffect } from 'react';
-
+import { useHistory } from "react-router-dom";
 import Api from '../../api.js';
 import StandBy from '../../lcars/StandBy.js';
 
+import {frame2ms} from '../../utils.js'
 import View from './View.js'
 import MemeEditor from './MemeEditor.js'
+import GifEditor from './GifEditor.js'
 import ThumbnailNav from './ThumbnailNav.js'
 import {useHistoryState} from '../../hooks.js'
 
 const Mode = {
     VIEW: 'VIEW',
     MEME: 'MEME',
+    GIF: 'GIF'
 }
 
 const Scene = ({match: {params : {ep, ms}}}) => {
+    const history = useHistory();
 
     const [ searching, setSearching ] = useState(true);
     const [ mode, setMode] = useHistoryState('mode', Mode.VIEW);
@@ -58,6 +62,21 @@ const Scene = ({match: {params : {ep, ms}}}) => {
 
     const activateMemeMode = () => setMode(Mode.MEME);
     const activateViewMode = () => setMode(Mode.VIEW);
+    const activateGifMode = () => setMode(Mode.GIF);
+
+
+    //viewport width.
+    const vpwidth = window.innerWidth;
+    //console.log('vpwidth', vpwidth);
+
+    //nitems is the number of thumbs to show in the nav
+    //keeping nitems odd. choose number based on screen size
+    const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
+    //const nitems = 39;
+
+    const handleThumbClick = (frame) => {
+        history.push(`/scene/ep/${ep}/${frame2ms(frame,fps)}`);
+    }
 
     return (
         <div className="w-11/12 mx-auto mt-10">
@@ -65,9 +84,12 @@ const Scene = ({match: {params : {ep, ms}}}) => {
             {
                 mode === Mode.MEME
                     ? <MemeEditor ep={ep} ms={ms} data={data} activateViewMode={activateViewMode}/>
-                    : <View ep={ep} ms={ms} data={data} activateMemeMode={activateMemeMode} />
+                    : mode === Mode.GIF
+                        ? <GifEditor ep={ep} startms={ms} data={data} activateViewMode={activateViewMode} />
+                        : <View ep={ep} ms={ms} data={data} activateGifMode={activateGifMode} activateMemeMode={activateMemeMode} />
             }
-            <ThumbnailNav ep={ep} data={data}  />
+            <div className="mb-20" />
+            { mode !== Mode.GIF && <ThumbnailNav ep={ep} data={data} nitems={nitems} onThumbClick={handleThumbClick} /> }
         </div>
     )
 

@@ -21,6 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import axios from 'axios';
 
+import {padFrame} from './utils.js'
+
 const API_ENDPOINT = "http://localhost:3000/api";
 
 class API {
@@ -56,6 +58,20 @@ class API {
         } catch(error) {
             console.log(error)
             return {};
+        }
+    }
+
+    static gifUrl(ep, startframe, endframe) {
+        return `/api/gif/ep/${ep}/${padFrame(startframe)}.${padFrame(endframe)}.gif`
+    }
+
+    //get the gif as base64 encoded string
+    static async genGif(ep, start, end) {
+        try {
+            const response = await axios.get(this.gifUrl(ep,start,end), { responseType: 'arraybuffer'});
+            return Buffer.from(response.data, 'binary').toString('base64');
+        } catch(error) {
+            console.log(error)
         }
     }
 }

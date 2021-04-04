@@ -26,7 +26,7 @@ import Button from '../../lcars/Button.js'
 const Meme = ({match: {params : {ep, frame, txt: enctxt}}}) => {
     const history = useHistory();
 
-    const memeUrl = `/meme/${ep}/${frame.toString().padStart(5,'0')}.jpg?txt=${enctxt}`
+    const memeUrl = `/api/meme/${ep}/${frame.toString().padStart(5,'0')}.jpg?txt=${enctxt}`
 
     //TODO:
     //  - don't wrap the anchors in the button

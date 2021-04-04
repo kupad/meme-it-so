@@ -28,25 +28,31 @@ ThumbnailNav:
   -item->frame is item*nframes
 */
 
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 
-const nframes = 6; //every nth frame
+import { staticImgUrl, frame2ms, nframes } from '../../utils.js'
 
-const ThumbnailNav = ({ep, data: {frame: currFrame, fps, maxframe}}) => {
+const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nitems, ep, data: {frame: currFrame, fps, maxframe}}) => {
+    const history = useHistory();
 
-    //const {frame: currFrame, fps, maxframe } = data;
     const [ thumbs, setThumbs] = useState([])
 
-    //viewport width.
-    const vpwidth = window.innerWidth;
-    //console.log('vpwidth', vpwidth);
+    const calcMid = (bounds) => {
+        const a = Math.floor((bounds.start + bounds.end) / 2);
+        return a + (a%nframes);
+    }
 
-    //nitems is the number of thumbs to show in the nav
-    //keeping nitems odd. choose number based on screen size
-    const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
-    //const nitems = 39;
+    const mid = bounds ? calcMid(bounds) : -1;
 
+    useEffect(() => {
+        //if(thumbs.length > 0 && !bounds ) {
+            onBoundChange({
+                 start: thumbs[0],
+                 end: thumbs[thumbs.length -1],
+            })
+        //}
+    }, []);
 
     //Generate Thumbnails
     //If we have a currFrame, but the thumbs is null, we generate the thumbs now.
@@ -64,20 +70,23 @@ const ThumbnailNav = ({ep, data: {frame: currFrame, fps, maxframe}}) => {
         const firstFrame = Math.max(0, lastFrame - (nitems-1)*nframes);
 
         //build the array and add to the imgUrls
-        const imgUrls = [];
+        const frames = [];
         for(let i=0; i < nitems; i++) {
-            imgUrls.push(firstFrame + (i*nframes))
+            frames.push(firstFrame + (i*nframes))
         }
-        setThumbs(imgUrls);
+        setThumbs(frames);
+        //if(isMultiselect && !bounds) {
+            //onBoundChange({
+             //    start: frames[0],
+            //     end: frames[frames.length -1],
+            //})
+        //}
     }
 
-    const shift = Math.floor(nitems/2); //number of items to shift left and right. looks familiar, but independent
+    //const shift = Math.floor(nitems/2); //number of items to shift left and right. looks familiar, but independent
+    const shift = 3; //number of items to shift left and right. looks familiar, but independent
 
-    //given a frame, return ms offset
-    const frame2ms = (frame) => {
-        return Math.round(frame / fps * 1000);
-    }
-
+    //see previous thumbs
     const onClickPrevThumbs = () => {
         //we normally shift {shift} items at a time.
         //but if we're within {shift} items to the front, we can't go more than {distance}
@@ -87,44 +96,87 @@ const ThumbnailNav = ({ep, data: {frame: currFrame, fps, maxframe}}) => {
         const distance = firstFrame / nframes;
         const s = Math.min(shift, distance); //actual shift
 
-        setThumbs(thumbs.map(frame => {
+        const nthumbs = thumbs.map(frame => {
             return frame - s*nframes
-        }))
+        })
+        setThumbs(nthumbs);
+
+        //bounds are never off view. also has the effect of never going over nitems long
+        onBoundChange({
+            start: Math.max(nthumbs[0], bounds.start),
+            end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
+        })
     }
+
+    //see next thumbs
     const onClickNextThumbs = () => {
         //we normally shift {shift} items at a time.
         //but if we're within {shift} items to the end, we can't go more than {distance}
         const lastFrame = thumbs[thumbs.length - 1]
         if(lastFrame === maxframe) return;
+
         const distance = (maxframe - lastFrame) / nframes;
         const s = Math.min(shift, distance);
 
-        setThumbs(thumbs.map(frame => {
+        const nthumbs = thumbs.map(frame => {
             return frame + s*nframes
-        }))
+        })
+        setThumbs(nthumbs);
+
+        //bounds are never off view. also has the effect of never going over nitems long
+        onBoundChange({
+            start: Math.max(nthumbs[0], bounds.start),
+            end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
+        })
     }
 
-    /* Given S03E15 return S03 */
-    const getSeason = (ep) => {
-        return ep.substring(0,3);
+    //when isMultiselect, this is wat we run, to choose what thumbs are selected
+    //based on what was clicked.
+    //Goal:
+    //  --if we're left of the current midpoint, add to the left
+    //  --if we're right of the current midpoint, add to the right
+    const selectOnClick = (frame) => {
+        const changeStart = frame <= mid;
+
+        const nbounds = changeStart
+            ? { start: frame, end: bounds.end}
+            : { start: bounds.start, end: frame}
+
+        onBoundChange(nbounds);
+    }
+
+    //change currently selected frame based on what was clicked
+    const changeOnClick = (frame) => {
+        history.push(`/scene/ep/${ep}/${frame2ms(frame,fps)}`);
+    }
+
+    const onThumbClick = isMultiselect ? selectOnClick : changeOnClick;
+
+    //is the given frame currently selected?
+    const isSelected = (frame) => {
+        const rv = (isMultiselect && bounds)
+            ? frame >= bounds.start && frame <= bounds.end
+            : frame === currFrame;
+        //console.log('isSelected:', 'frame', frame, rv, 'multisel', isMultiselect, 'bounds', bounds);
+        return rv;
     }
 
     /* thumnail controls */
 
     return (
-        <div className='flex flex-wrap justify-center mt-20 align-middle content-center items-center'>
+        <div className='flex flex-wrap justify-center align-middle content-center items-center'>
             <button className='bg-yellow-500 h-10 rounded-l-full text-xl text-black mr-2 py-2 px-5' onClick={onClickPrevThumbs} >
                 PREV
             </button>
             {
                 thumbs.map(frame => (
-                    <Link key={frame} to={`/scene/ep/${ep}/${frame2ms(frame)}`} >
-                        <img
-                            className={`p-2 ${frame === currFrame ? 'border-2 border-yellow-500' : ''}`}
-                            src={`/static/thumbnails/${getSeason(ep)}/${ep}/${frame.toString().padStart(5,'0')}.jpg`} width="160" height="120"
-                            alt=''
-                        />
-                    </Link>
+                    <img
+                        key={frame}
+                        className={`p-2 ${ isSelected(frame) ? 'border-2 border-yellow-500' : ''} ${frame === mid ? 'border-4 border-blue-600' : ''} `}
+                        src={staticImgUrl(ep,frame)} width="160" height="120"
+                        alt=''
+                        onClick={()=>onThumbClick(frame)}
+                    />
                 ))
             }
             <button

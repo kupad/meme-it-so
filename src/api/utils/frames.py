@@ -32,6 +32,11 @@ def frame_to_url(ep, frame):
     img_url = f'{thumbnails}/{season}/{ep}/{frame:05}.jpg'
     return img_url
 
+def frame2ms(frame, fps):
+    """returns time offset given frame and fps"""
+    ms = frame / fps * 1000;
+    return ms
+
 def closest_frame(ms, fps):
     """returns the closest frame to the time offset"""
     est_frame = round( (ms / 1000) * fps)

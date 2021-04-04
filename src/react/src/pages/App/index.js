@@ -27,6 +27,7 @@ import LCARSBar from '../../lcars/LCARSBar.js'
 import LandingPage from '../LandingPage/'
 import Scene from '../Scene/'
 import Meme from '../Meme/'
+import GifView from '../GifView/'
 import Search from '../Search/'
 import About from '../About/'
 import Episode from '../Episode/'
@@ -79,6 +80,7 @@ function App() {
                 <Route path="/About" component={About} />
                 <Route path="/search/:query" component={Search} />
                 <Route path="/scene/ep/:ep/:ms" component={Scene} />
+                <Route path="/gif/ep/:ep/sf/:startframe/ef/:endframe" component={GifView} />
                 <Route path="/meme/ep/:ep/:frame/t/:txt" component={Meme} />
                 <Route path="/episode/ep/:ep" component={Episode} />
                 <Route component={NotFound} />

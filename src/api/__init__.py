@@ -65,7 +65,7 @@ def create_app(test_config=None):
     #register blueprints
     app.register_blueprint(search.bp, url_prefix='/api/search/')
     app.register_blueprint(episode.bp, url_prefix='/api/episode/')
-    app.register_blueprint(meme.bp, url_prefix='/meme/')
-    app.register_blueprint(gif.bp, url_prefix='/gif/')
+    app.register_blueprint(meme.bp, url_prefix='/api/meme/')
+    app.register_blueprint(gif.bp, url_prefix='/api/gif/')
 
     return app

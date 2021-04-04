@@ -24,7 +24,7 @@ import SceneCaption from './SceneCaption.js'
 import Button from '../../lcars/Button.js'
 import Credits from '../../components/Credits/'
 
-const View = ({ep, ms, data: {prevScene, scene, nextScene, title, imgUrl: currImg}, activateMemeMode}) => {
+const View = ({ep, ms, data: {prevScene, scene, nextScene, title, imgUrl: currImg}, activateGifMode, activateMemeMode}) => {
 
     const { content: prevContent = '' } = prevScene || {};
     const { content = '' } = scene || {};
@@ -42,8 +42,9 @@ const View = ({ep, ms, data: {prevScene, scene, nextScene, title, imgUrl: currIm
                     curr={content}
                     next={nextContent}
                 />
-            <div className='mt-7'>
+            <div className='mt-7 space-x-8'>
                     <Button onClick={activateMemeMode}>MEME EDITOR</Button>
+                    <Button onClick={activateGifMode}>GIF EDITOR</Button>
                 </div>
             </div>
         </div>

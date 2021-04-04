@@ -69,6 +69,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     word-spacing: .5rem;
 }
 
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
 @tailwind utilities;
 
 
