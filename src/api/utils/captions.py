@@ -22,6 +22,7 @@ functions for interacting with and creating the whoosh captions full text search
 """
 
 import os
+import logging
 import sqlite3
 
 import click
@@ -40,7 +41,11 @@ def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
     query the caption index
     Return hits as a list of dicts.
     """
-    ix, q = _get_querier(qstr, caption_index_dir)
+    try:
+        ix, q = _get_querier(qstr, caption_index_dir)
+    except index.EmptyIndexError:
+        logging.error("captions.query: Did you create the whoosh index?")
+        raise index.EmptyIndexError
 
     scenes = None
     with ix.searcher() as s:
@@ -55,7 +60,11 @@ def query_page(qstr, page=1, pagelen=20, caption_index_dir=CAPTION_INDEX_DIR):
     Returns:
         (hits as a list of dicts, page of results, total pagecount)
     """
-    ix, q = _get_querier(qstr, caption_index_dir)
+    try:
+        ix, q = _get_querier(qstr, caption_index_dir)
+    except index.EmptyIndexError:
+        logging.error("captions.query: Did you create the whoosh index?")
+        raise index.EmptyIndexError
 
     with ix.searcher() as s:
         results = s.search_page(q, page, pagelen=pagelen)

@@ -11,6 +11,26 @@ Server is agnostic to the content.
 Client-side is currently themed for Star Trek. In the future I
 may try to make it more generic for easy installion for any show.
 
+# Installation
+
+```
+#install ffmpeg
+> sudo apt install ffmpeg
+
+# install python3-dev tools
+> sudo apt-get install python3-dev python3-pip python3-venv python3-wheel -y
+
+# run venv:
+> python3 -m venv venv
+
+# activate venv
+> source venv/bin/activate 
+
+#install meme-it-so:
+> pip install .
+```
+
+
 # License Notice
 
 "Meme It So" is a media (TV show and Movie) screen capture and text caption                                                                                                                     
