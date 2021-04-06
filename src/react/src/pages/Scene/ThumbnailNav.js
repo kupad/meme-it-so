@@ -75,12 +75,6 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
             frames.push(firstFrame + (i*nframes))
         }
         setThumbs(frames);
-        //if(isMultiselect && !bounds) {
-            //onBoundChange({
-             //    start: frames[0],
-            //     end: frames[frames.length -1],
-            //})
-        //}
     }
 
     //const shift = Math.floor(nitems/2); //number of items to shift left and right. looks familiar, but independent
@@ -102,10 +96,11 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
         setThumbs(nthumbs);
 
         //bounds are never off view. also has the effect of never going over nitems long
-        onBoundChange({
-            start: Math.max(nthumbs[0], bounds.start),
-            end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
-        })
+        if(isMultiselect)
+            onBoundChange({
+                start: Math.max(nthumbs[0], bounds.start),
+                end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
+            })
     }
 
     //see next thumbs
@@ -124,10 +119,11 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
         setThumbs(nthumbs);
 
         //bounds are never off view. also has the effect of never going over nitems long
-        onBoundChange({
-            start: Math.max(nthumbs[0], bounds.start),
-            end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
-        })
+        if(isMultiselect)
+            onBoundChange({
+                start: Math.max(nthumbs[0], bounds.start),
+                end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
+            })
     }
 
     //when isMultiselect, this is wat we run, to choose what thumbs are selected
