@@ -26,7 +26,7 @@ import logging
 import sqlite3
 
 import click
-from flask.cli import with_appcontext
+from flask.cli import with_appcontext, current_app
 
 import whoosh.index as index
 from whoosh import qparser
@@ -34,13 +34,14 @@ from whoosh.analysis import StandardAnalyzer
 from whoosh.fields import *
 
 from .. import db
-from conf import CAPTION_INDEX_DIR
 
-def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
+def query(qstr):
     """
     query the caption index
     Return hits as a list of dicts.
     """
+    caption_index_dir=current_app.config['CAPTION_INDEX_DIR']
+
     try:
         ix, q = _get_querier(qstr, caption_index_dir)
     except index.EmptyIndexError:
@@ -53,13 +54,15 @@ def query(qstr, caption_index_dir=CAPTION_INDEX_DIR):
         scenes = _make_dicts(results)
     return scenes
 
-def query_page(qstr, page=1, pagelen=20, caption_index_dir=CAPTION_INDEX_DIR):
+def query_page(qstr, page=1, pagelen=20):
     """
     query the caption index,
     paginate the results
     Returns:
         (hits as a list of dicts, page of results, total pagecount)
     """
+    caption_index_dir=current_app.config['CAPTION_INDEX_DIR']
+
     try:
         ix, q = _get_querier(qstr, caption_index_dir)
     except index.EmptyIndexError:
@@ -99,6 +102,8 @@ def init_app(app):
 @with_appcontext
 def init_caption_index_command():
     """creates whoosh full text search index for captions"""
+    caption_index_dir=current_app.config['CAPTION_INDEX_DIR']
+
     click.echo('creating fts caption index. this will take a few moments.')
 
     ##create schema
@@ -110,11 +115,11 @@ def init_caption_index_command():
                     content=TEXT(stored=False, analyzer=StandardAnalyzer(minsize=1)))
 
     #create the index dir if it doesn't exist
-    if not os.path.exists(CAPTION_INDEX_DIR):
-        os.makedirs(CAPTION_INDEX_DIR, exist_ok=True)
+    if not os.path.exists(caption_index_dir):
+        os.makedirs(caption_index_dir, exist_ok=True)
 
     #create the index. this will delete a previous exiting one
-    ix = index.create_in(CAPTION_INDEX_DIR, schema)
+    ix = index.create_in(caption_index_dir, schema)
 
     #get all caption rows from the database and add them to the index
     writer = ix.writer()

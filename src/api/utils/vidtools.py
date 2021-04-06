@@ -25,14 +25,15 @@ Tools for manipulating video:
 import os
 import argparse
 import subprocess
+import csv
+import logging
 
 from moviepy.editor import *
 from PIL import Image
 
 import click
-from flask.cli import with_appcontext
+from flask.cli import with_appcontext, current_app
 
-import conf
 from .. import db
 from .eptools import get_season, episode_from_filename, collect_episodes
 
@@ -96,7 +97,9 @@ def was_extracted(ep, dest_dir):
 
 def find_video(episode):
     """given an episode (SsEe), find the path to the video file"""
-    for dirpath, dirnames, filenames in os.walk(conf.SERIES_DIR):
+    video_dir = current_app.config['VIDEO_DIR']
+
+    for dirpath, dirnames, filenames in os.walk(video_dir):
         for filename in filenames:
             if not is_video(filename): continue
 
@@ -106,10 +109,63 @@ def find_video(episode):
                 return path
     return None
 
+def read_source_video_info():
+    """
+    From the source videos, read in video information
+    Looking for things like: fps, duration, nframes
+    FYI: This takes a little while, since reading the information from each file takes
+        about a second
+    return a list of dictionaries
+    """
+    source_video_dir = current_app.config['VIDEO_DIR']
+
+    logging.info("reading video information")
+    #get all the episodes from the source_dir
+    episodes = collect_episodes(source_video_dir)
+
+    #collect video information
+    video_info = []
+    for episode, source_path in episodes:
+        logging.debug(f"reading video info: {episode}")
+        clip = VideoFileClip(source_path)
+        video_info.append((
+            episode,
+            clip.reader.fps,
+            clip.reader.duration,
+            clip.reader.nframes,
+        ))
+    return video_info
+
+def write_video_meta_csv(video_info):
+    """
+    given video meta info read in from the original source video files
+    write the video_info into csv
+    """
+    logging.info("writing video information")
+    video_meta_path = current_app.config['VIDEO_META_PATH']
+    with open(video_meta_path, 'w') as csvfile:
+        fieldnames = ['episode', 'fps', 'duration', 'nframes']
+        writer = csv.writer(csvfile)
+        writer.writerow(fieldnames)
+        for v in video_info:
+            writer.writerow(list(v))
+
+def read_video_meta_csv():
+    """
+    read the video information from the video meta file
+    """
+    video_meta_path = current_app.config['VIDEO_META_PATH']
+    video_info = []
+    with open(video_meta_path, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            video_info.append(row)
+    return video_info
+
 def extract_episode(ep, source_path, force_extract=False):
-    output_dir=conf.THUMBNAILS_DIR
-    width=conf.GIF_WIDTH
-    height=conf.GIF_HEIGHT
+    output_dir= current_app.config['THUMBNAILS_DIR']
+    width  = current_app.config['GIF_WIDTH']
+    height = current_app.config['GIF_HEIGHT']
 
     #get the outputdir
     season = get_season(ep)
@@ -127,13 +183,14 @@ def extract_episode(ep, source_path, force_extract=False):
 def init_app(app):
     app.cli.add_command(extract_all_thumbs_cmd)
     app.cli.add_command(extract_ep_thumbs_cmd)
+    app.cli.add_command(write_video_meta_csv_cmd)
 
 @click.command('extract-all-thumbs')
 @with_appcontext
 def extract_all_thumbs_cmd():
     """extract all thumbnails. it will skip episodes already extracted"""
     click.echo('Extracting thumbs')
-    source_dir=conf.SERIES_DIR
+    output_dir= current_app.config['VIDEO_DIR']
 
     #get all the episodes from the source_dir
     episodes = collect_episodes(source_dir)
@@ -158,3 +215,10 @@ def extract_ep_thumbs_cmd(ep):
         extract_episode(ep, source_path, force_extract=True)
     else:
         print(f'video for episode {episode} not found')
+
+@click.command('create-video-meta-csv')
+@with_appcontext
+def write_video_meta_csv_cmd():
+    """create video_meta_csv"""
+    click.echo('creating video info csv')
+    write_video_meta_csv(read_source_video_info())

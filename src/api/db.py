@@ -28,6 +28,8 @@ import click
 from flask import g, current_app
 from flask.cli import with_appcontext
 
+from .utils.vidtools import read_video_meta_csv
+
 def make_dicts(cursor, row):
     """convert rows to dictionary"""
     return dict((cursor.description[idx][0], value)
@@ -77,7 +79,6 @@ import logging
 import srt
 from moviepy.editor import VideoFileClip
 
-from conf import SOURCE_SRT_DIR, SERIES_DIR, EPISODE_GUIDE_PATH, DATABASE_PATH
 from .utils.eptools import episode_from_filename, collect_episodes
 
 def td2ms(td):
@@ -87,11 +88,13 @@ def is_srt(filename):
     """is this an srt file? (well, does it claim to be?)"""
     return filename.endswith('.srt')
 
-def read_srt(srt_dir=SOURCE_SRT_DIR):
+def read_srt():
     """
     Search through the srt_dir to find all srt files.
     Parse each file, and return as a list of tuples, sorted asc by episoe-srtidx
     """
+    srt_dir = current_app.config['SRT_DIR']
+
     logging.info("reading srt data")
     #first read in all the subtitles
     allsubs = []
@@ -120,39 +123,17 @@ def read_srt(srt_dir=SOURCE_SRT_DIR):
     allsubs.sort(key=lambda s: (s[0],s[1]))
     return allsubs
 
-def read_video_info(source_video_dir=SERIES_DIR):
-    """
-    From the source videos, read in video information
-    Looking for things like: fps, duration, nframes
-    FYI: This takes a little while, since reading the information from each file takes
-        about a second
-    return a list of dictionaries
-    """
-    logging.info("reading video information")
-    #get all the episodes from the source_dir
-    episodes = collect_episodes(source_video_dir)
-
-    #collect video information
-    video_info = []
-    for episode, source_path in episodes:
-        logging.debug(f"reading video info: {episode}")
-        clip = VideoFileClip(source_path)
-        video_info.append((
-            episode,
-            clip.reader.fps,
-            clip.reader.duration,
-            clip.reader.nframes,
-        ))
-    return video_info
 
 #http://epguides.com/StarTrekTheNextGeneration/
 #http://epguides.com/common/exportToCSVmaze.asp?maze=491
 #number,season,episode,airdate,title,tvmaze link
-def read_episode_guide(episode_guide_path=EPISODE_GUIDE_PATH):
+def read_episode_guide():
     """
     read the entire episode guide into memory
     episode guide has info like: title, airdate
     """
+    episode_guide_path=current_app.config['EPISODE_GUIDE_PATH']
+
     logging.info("reading episode_guide into memory")
     episode_guide = []
     with open(episode_guide_path, 'r') as csvfile:
@@ -199,7 +180,7 @@ def load_db():
     """Clear existing data and create new tables."""
     logging.basicConfig(level=logging.DEBUG)
     load_subs(read_srt())
-    load_video_info(read_video_info())
+    load_video_info(read_video_meta_csv())
     load_episode_guide(read_episode_guide())
 
 def init_app(app):

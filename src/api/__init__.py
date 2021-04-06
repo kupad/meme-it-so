@@ -21,7 +21,6 @@ import os
 import logging
 
 from flask import Flask, g
-from conf import DATABASE_PATH
 
 from . import db
 from .utils import captions
@@ -38,14 +37,35 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
+    #override by creating 'application.cfg' and placing in the instance dir
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'memeitso.db'),
+        #override
+        SECRET_KEY = 'dev',
+
+        #These are the most likely to be overridden, since where people
+        #keep the source video files are what is most likely to change
+        SRT_DIR            = os.path.join(app.instance_path, 'srt'),
+        VIDEO_DIR          = os.path.join(app.instance_path, 'video'),
+        EPISODE_GUIDE_PATH = os.path.join(app.instance_path, 'episode_guide.csv'),
+
+        #and might likely to want to move where the thumbnails are stored
+        #but a symblink is a good solution for this
+        THUMBNAILS_DIR     = os.path.join(app.static_folder, 'thumbnails'),
+
+        #TODO: small, mid, large thumbs
+        GIF_WIDTH          = 480,
+        GIF_HEIGHT         = 356,
+
+        DATABASE           = os.path.join(app.instance_path, 'memeitso.db'),
+        CAPTION_INDEX_DIR  = os.path.join(app.instance_path, 'caption_index'),
+        VIDEO_META_PATH    = os.path.join(app.instance_path, 'video_meta.csv'),
+        DEFAULT_VIDEO_FPS  = 23.976023976023978,
+
     )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile('application.cfg', silent=True)
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)

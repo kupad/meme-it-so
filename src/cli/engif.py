@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#FIXME-- lots of changes since this was first written, and it's not being
-#used currently. When I implement gifs on the frontend this will be relevant
+#FIXME-- lots of changes since this was first written, and it's not being maintained
 
 import os
 import argparse
