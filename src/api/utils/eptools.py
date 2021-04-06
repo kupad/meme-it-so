@@ -19,6 +19,33 @@
 
 import os
 import re
+import csv
+import logging
+
+from flask import current_app
+
+#episode guide: csv that contains information about episode (like title, airdate).
+#this is different than video information (duration, fps...)
+#http://epguides.com/StarTrekTheNextGeneration/
+#http://epguides.com/common/exportToCSVmaze.asp?maze=491
+#number,season,episode,airdate,title,tvmaze link
+def read_episode_guide():
+    """
+    read the entire episode guide into memory
+    episode guide has info like: title, airdate
+    """
+    episode_guide_path=current_app.config['EPISODE_GUIDE_PATH']
+
+    logging.info("reading episode_guide into memory")
+    episode_guide = []
+    with open(episode_guide_path, 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            season_num  = int(row['season'])
+            episode_num = int(row['episode'])
+            episode = f'S{season_num:02}E{episode_num:02}'
+            episode_guide.append((episode, season_num, episode_num, row['title'], row['airdate']))
+    return episode_guide
 
 def episode_from_filename(filename):
     """video and srt files are expected to contain a S{number}E{number} like S07E02"""

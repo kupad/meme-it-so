@@ -28,6 +28,7 @@ import click
 from flask import g, current_app
 from flask.cli import with_appcontext
 
+from .utils.eptools import read_episode_guide
 from .utils.vidtools import read_video_meta_csv
 
 def make_dicts(cursor, row):
@@ -124,26 +125,6 @@ def read_srt():
     return allsubs
 
 
-#http://epguides.com/StarTrekTheNextGeneration/
-#http://epguides.com/common/exportToCSVmaze.asp?maze=491
-#number,season,episode,airdate,title,tvmaze link
-def read_episode_guide():
-    """
-    read the entire episode guide into memory
-    episode guide has info like: title, airdate
-    """
-    episode_guide_path=current_app.config['EPISODE_GUIDE_PATH']
-
-    logging.info("reading episode_guide into memory")
-    episode_guide = []
-    with open(episode_guide_path, 'r') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            season_num  = int(row['season'])
-            episode_num = int(row['episode'])
-            episode = f'S{season_num:02}E{episode_num:02}'
-            episode_guide.append((episode, season_num, episode_num, row['title'], row['airdate']))
-    return episode_guide
 
 def load_subs(allsubs):
     """load subtitles into database"""
