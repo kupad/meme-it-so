@@ -29,6 +29,7 @@ from flask import g, current_app
 from flask.cli import with_appcontext
 
 from .utils.eptools import read_episode_guide
+from .utils.srttools import read_srt_csv
 from .utils.vidtools import read_video_meta_csv
 
 def make_dicts(cursor, row):
@@ -77,53 +78,10 @@ import os
 import csv
 import logging
 
-import srt
+
 from moviepy.editor import VideoFileClip
 
 from .utils.eptools import episode_from_filename, collect_episodes
-
-def td2ms(td):
-    return int(td.total_seconds()*1000)
-
-def is_srt(filename):
-    """is this an srt file? (well, does it claim to be?)"""
-    return filename.endswith('.srt')
-
-def read_srt():
-    """
-    Search through the srt_dir to find all srt files.
-    Parse each file, and return as a list of tuples, sorted asc by episoe-srtidx
-    """
-    srt_dir = current_app.config['SRT_DIR']
-
-    logging.info("reading srt data")
-    #first read in all the subtitles
-    allsubs = []
-    for dirpath, dirnames, filenames in os.walk(srt_dir):
-        for filename in filenames:
-
-            #skip non-srt files
-            if not is_srt(filename): continue
-
-            ep = episode_from_filename(filename) #eg: S07E02
-
-            #skip if the srt file does not contain episode information
-            if ep is None:
-                print("warning: skipping because it does not contain match SsEe format", path)
-                continue
-
-            path = os.path.join(dirpath, filename)
-
-            with open(path, 'r') as srtfile:
-                subs = srt.parse(srtfile)
-                for sub in subs:
-                    if 'opensubtitles' in sub.content.lower(): continue
-                    if ('VPN' in sub.content) or ('iSubDB' in sub.content): continue
-                    if 'VPN' in sub.content: continue
-                    allsubs.append( (ep, int(sub.index), td2ms(sub.start), td2ms(sub.end), sub.content))
-    allsubs.sort(key=lambda s: (s[0],s[1]))
-    return allsubs
-
 
 
 def load_subs(allsubs):
@@ -160,7 +118,7 @@ def init_db():
 def load_db():
     """Clear existing data and create new tables."""
     logging.basicConfig(level=logging.DEBUG)
-    load_subs(read_srt())
+    load_subs(read_srt_csv())
     load_video_info(read_video_meta_csv())
     load_episode_guide(read_episode_guide())
 

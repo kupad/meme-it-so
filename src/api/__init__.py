@@ -23,6 +23,7 @@ import logging
 from flask import Flask, g
 
 from . import db
+from .utils import srttools
 from .utils import captions
 from .utils import vidtools
 
@@ -46,10 +47,9 @@ def create_app(test_config=None):
         #keep the source video files are what is most likely to change
         SRT_DIR            = os.path.join(app.instance_path, 'srt'),
         VIDEO_DIR          = os.path.join(app.instance_path, 'video'),
-        EPISODE_GUIDE_PATH = os.path.join(app.instance_path, 'episode_guide.csv'),
 
         #and might likely to want to move where the thumbnails are stored
-        #but a symblink is a good solution for this
+        #but a symlink is a good solution for this
         THUMBNAILS_DIR     = os.path.join(app.static_folder, 'thumbnails'),
 
         #TODO: small, mid, large thumbs
@@ -58,7 +58,9 @@ def create_app(test_config=None):
 
         DATABASE           = os.path.join(app.instance_path, 'memeitso.db'),
         CAPTION_INDEX_DIR  = os.path.join(app.instance_path, 'caption_index'),
+        EPISODE_GUIDE_PATH = os.path.join(app.instance_path, 'episode_guide.csv'),
         VIDEO_META_PATH    = os.path.join(app.instance_path, 'video_meta.csv'),
+        SRT_CSV_PATH       = os.path.join(app.instance_path, 'subtitles.csv'),
         DEFAULT_VIDEO_FPS  = 23.976023976023978,
 
     )
@@ -77,6 +79,7 @@ def create_app(test_config=None):
         pass
 
     #register hooks and cli commands
+    srttools.init_app(app)
     db.init_app(app)
     captions.init_app(app)
     vidtools.init_app(app)
