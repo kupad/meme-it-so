@@ -1,0 +1,4 @@
+include memeitso_server/schema.sql
+graft memeitso_server/static
+graft memeitso_server/templates
+global-exclude *.pyc

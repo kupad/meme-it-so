@@ -90,4 +90,11 @@ def create_app(test_config=None):
     app.register_blueprint(meme.bp, url_prefix='/api/meme/')
     app.register_blueprint(gif.bp, url_prefix='/api/gif/')
 
+    # a simple page that pings back
+    @app.route('/api/ping')
+    def hello():
+        rv = {'msg': '...pong'}
+        return rv
+
     return app
+
