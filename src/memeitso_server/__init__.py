@@ -49,7 +49,8 @@ def create_app(test_config=None):
         VIDEO_DIR          = os.path.join(app.instance_path, 'video'),
 
         #and might likely to want to move where the thumbnails are stored
-        #but a symlink is a good solution for this
+        #keep in mind: this is not the URL to the thumbnails, but how the server
+        #finds the thumbnails
         THUMBNAILS_DIR     = os.path.join(app.static_folder, 'thumbnails'),
 
         #TODO: small, mid, large thumbs
@@ -97,4 +98,3 @@ def create_app(test_config=None):
         return rv
 
     return app
-

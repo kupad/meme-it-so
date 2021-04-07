@@ -23,7 +23,8 @@ import axios from 'axios';
 
 import {padFrame} from './utils.js'
 
-const API_ENDPOINT = "http://localhost:3000/api";
+//const API_ENDPOINT = "http://localhost:3000/api";
+const API_ENDPOINT = "/api";
 
 class API {
 

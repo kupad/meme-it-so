@@ -36,10 +36,10 @@ nthframe=6 #FIXME: this needs to be make a configurable option
 #IMPACT = 'Impact.ttf'
 
 #FIXME: factor out: being used 2x
-def ep_to_thumbnail_dir(static_folder, ep):
+def ep_to_thumbnail_dir(ep):
     #TODO: confirm that ep is of SxxExx format!!
     season = get_season(ep)
-    img_dir = os.path.join(static_folder, 'thumbnails', season, ep)
+    img_dir = safe_join(current_app.config["THUMBNAILS_DIR"], season, ep)
     return img_dir
 
 @bp.route('ping', methods=(['GET']))
@@ -69,7 +69,7 @@ def generate_gif(ep, start_frame, end_frame):
     #logging.debug(txt)
 
     #find path to image dir
-    img_dir = ep_to_thumbnail_dir(current_app.static_folder,ep)
+    img_dir = ep_to_thumbnail_dir(ep)
 
     #add all relevant image paths
     paths = [ safe_join(img_dir, f'{frame:05}.jpg') for frame in range(start_frame,end_frame+nthframe,nthframe)]

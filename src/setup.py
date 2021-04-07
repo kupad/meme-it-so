@@ -27,6 +27,7 @@ setup(
     zip_safe=False,
     setup_requires=['wheel'],
     install_requires=[
+        'wheel',
         'flask',
         'moviepy',
         'srt',

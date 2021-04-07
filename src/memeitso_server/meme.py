@@ -33,12 +33,11 @@ bp = Blueprint('meme', __name__)
 
 IMPACT = 'Impact.ttf'
 
-def ep_to_thumbnail_dir(static_folder, ep):
+def ep_to_thumbnail_dir(ep):
     #TODO: confirm that ep is of SxxExx format!!
     season = get_season(ep)
-    img_dir = os.path.join(static_folder, 'thumbnails', season, ep)
+    img_dir = safe_join(current_app.config["THUMBNAILS_DIR"], season, ep)
     return img_dir
-
 
 @bp.route('/<ep>/<int:frame>.jpg', methods=(['GET']))
 def generate_meme(ep, frame):
@@ -54,7 +53,7 @@ def generate_meme(ep, frame):
     logging.debug(txt)
 
     #find path to image
-    img_dir = ep_to_thumbnail_dir(current_app.static_folder,ep)
+    img_dir = ep_to_thumbnail_dir(ep)
     img_name = f'{frame:05}.jpg'
     img_path = safe_join(img_dir, img_name)
 
