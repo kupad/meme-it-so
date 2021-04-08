@@ -38,6 +38,7 @@ const LandingPage = () => {
             <ul className='text-center text-3xl'>
                 <li className=''>STTNG SCREENCAP DATABANK LINK READY</li>
                 <li className=''>MEME GENERATOR ONLINE</li>
+                <li className=''>GIF GENERATOR ONLINE</li>
                 <li className=''>AWAITING QUERY PARAMETERS</li>
             </ul>
             <div className='absolute bottom-2 right-2'>

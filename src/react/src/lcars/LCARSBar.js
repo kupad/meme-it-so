@@ -22,6 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 const LCARSBar = ({msg}) => (
     <div className="flex h-9 w-full">
+        <div className="bg-purple-400 mr-2 w-10 rounded-l-full" />
         <div className="bg-purple-400 mr-2 w-1/5" />
         <div className="bg-yellow-500 mr-2 w-10" />
         <div className="bg-purple-400 mr-2 w-1/6" />

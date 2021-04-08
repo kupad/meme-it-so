@@ -73,7 +73,7 @@ function App() {
                 <div className=''></div>
             </header>
             <div className="w-99 mb-10 mx-auto">
-                <LCARSBar msg="STTNG SCREENCAP DATABASE"/>
+                <LCARSBar msg="STAR TREK TNG MEME GENERATOR"/>
             </div>
             <Switch>
                 <Route path="/" exact component={LandingPage} />
