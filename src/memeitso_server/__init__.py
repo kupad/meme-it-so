@@ -19,6 +19,7 @@
 
 import os
 import logging
+from pprint import pformat
 
 from flask import Flask, g
 
@@ -72,9 +73,9 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     #TODO: logging level should be configurable
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level= logging.DEBUG)
 
-    logging.debug(f"THUMBNAILS_DIR: {app.config['THUMBNAILS_DIR']}")
+    logging.info("app.confg %s:", pformat(app.config))
 
     # ensure the instance folder exists
     try:
