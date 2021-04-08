@@ -171,7 +171,7 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
                 thumbs.map(frame => (
                     <img
                         key={frame}
-                        className={`p-2 ${ isSelected(frame) ? 'border-2 border-yellow-500' : ''} ${frame === mid ? 'border-4 border-blue-600' : ''} `}
+                        className={`p-2 ${ isSelected(frame) ? 'border-2 border-yellow-500' : ''}`}
                         src={staticImgUrl(ep,frame)} width="160" height="120"
                         alt=''
                         onClick={()=>onThumbClick(frame)}
