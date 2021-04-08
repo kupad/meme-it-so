@@ -50,6 +50,7 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
             onBoundChange({
                  start: thumbs[0],
                  end: thumbs[thumbs.length -1],
+                 reprFrame: thumbs[0],
             })
         //}
     }, []);
@@ -99,7 +100,8 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
         if(isMultiselect)
             onBoundChange({
                 start: Math.max(nthumbs[0], bounds.start),
-                end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
+                end: Math.min(nthumbs[nthumbs.length-1], bounds.end),
+                reprFrame: Math.min(nthumbs[0], bounds.start),
             })
     }
 
@@ -122,7 +124,8 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
         if(isMultiselect)
             onBoundChange({
                 start: Math.max(nthumbs[0], bounds.start),
-                end: Math.min(nthumbs[nthumbs.length-1], bounds.end)
+                end: Math.min(nthumbs[nthumbs.length-1], bounds.end),
+                reprFrame: Math.min(nthumbs[0], bounds.start),
             })
     }
 
@@ -135,8 +138,8 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
         const changeStart = frame <= mid;
 
         const nbounds = changeStart
-            ? { start: frame, end: bounds.end}
-            : { start: bounds.start, end: frame}
+            ? { start: frame, end: bounds.end, reprFrame: frame}
+            : { start: bounds.start, end: frame, reprFrame: bounds.start}
 
         onBoundChange(nbounds);
     }

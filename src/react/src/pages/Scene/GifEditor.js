@@ -30,11 +30,14 @@ import { frame2ms, padFrame, staticImgUrl} from '../../utils.js'
 const nitems=39;
 
 const GifEditor = ({ep, startms, data, activateViewMode}) => {
-    const history = useHistory();
 
     const {fps} = data;
 
+    const history = useHistory();
     const [bounds, setBounds] = useState(null);
+
+    console.log('bounds: ', bounds)
+
 
     const onGenerate = () => {
         history.push(`/gif/ep/${ep}/sf/${padFrame(bounds.start)}/ef/${padFrame(bounds.end)}`)
@@ -55,7 +58,7 @@ const GifEditor = ({ep, startms, data, activateViewMode}) => {
                 <div className="border flex-grow-0">
                     { bounds &&
                         //<img src={`/api/gif/ep/${ep}/${bounds.start}.${bounds.end}.gif`} width="320" alt='' />
-                        <img src={staticImgUrl(ep,bounds.start)} width="320" height="240" alt='' />
+                        <img src={staticImgUrl(ep,bounds.reprFrame)} width="320" height="240" alt='' />
                     }
                 </div>
                 <div className='h-56 relative flex flex-col justify-center'>
