@@ -33,7 +33,6 @@ from . import gif
 from . import episode
 
 def create_app(test_config=None):
-    logging.basicConfig(level=logging.DEBUG)
 
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -63,7 +62,6 @@ def create_app(test_config=None):
         VIDEO_META_PATH    = os.path.join(app.instance_path, 'video_meta.csv'),
         SRT_CSV_PATH       = os.path.join(app.instance_path, 'subtitles.csv'),
         DEFAULT_VIDEO_FPS  = 23.976023976023978,
-
     )
 
     if test_config is None:
@@ -72,6 +70,11 @@ def create_app(test_config=None):
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
+
+    #TODO: logging level should be configurable
+    logging.basicConfig(level=logging.DEBUG)
+
+    logging.debug(f"THUMBNAILS_DIR: {app.config['THUMBNAILS_DIR']}")
 
     # ensure the instance folder exists
     try:
