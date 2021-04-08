@@ -32,6 +32,8 @@ bp = Blueprint('meme', __name__)
 #nthframe=6
 
 IMPACT = 'Impact.ttf'
+FALLBACK = 'DejaVuSans-Bold.ttf' #just some attempt to have a free font available.
+                                 #consider distributing a free font that is a good IMPACT replacement
 
 def ep_to_thumbnail_dir(ep):
     #TODO: confirm that ep is of SxxExx format!!
@@ -56,6 +58,7 @@ def generate_meme(ep, frame):
     img_dir = ep_to_thumbnail_dir(ep)
     img_name = f'{frame:05}.jpg'
     img_path = safe_join(img_dir, img_name)
+    logging.debug(f'meme opening {img_path}')
 
     pil_img=None
     try:
@@ -65,7 +68,17 @@ def generate_meme(ep, frame):
         abort(404)
 
     margin_bottom = 20 #pixels
-    font = ImageFont.truetype(IMPACT, 32)
+    try:
+        font = ImageFont.truetype(IMPACT, 32)
+    except OSError:
+        logging.warning(f'meme.py: looks like {IMPACT} font is not available. Consider installing mstcorefonts. Trying {FALLBACK}')
+        try:
+            font = ImageFont.truetype(FALLBACK, 32)
+        except OSError:
+            logging.error(f'meme.py: {FALLBACK} is not available. Need to install {IMPACT} or {FALLBACK}')
+            #TODO: return a placeholder error image here
+            abort()
+
     img_w, img_h = pil_img.size
     draw = ImageDraw.Draw(pil_img)
     text_w, text_h = draw.textsize(txt, font)
