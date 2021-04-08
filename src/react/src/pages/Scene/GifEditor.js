@@ -44,10 +44,10 @@ const GifEditor = ({ep, startms, data, activateViewMode}) => {
         setBounds(b);
     }
 
-    //if(!bounds)
-     //   return <div/>
     //total time of selected frames
-    const totalTime = bounds ? (frame2ms(bounds.end, fps) - frame2ms(bounds.start,fps)) / 1000 : 0;
+    const totalTime = bounds
+        ? Math.max(0,(frame2ms(bounds.end, fps) - frame2ms(bounds.start,fps)) / 1000)
+        : 0;
 
     return (
         <div>
