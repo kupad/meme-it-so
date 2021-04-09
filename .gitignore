@@ -1,7 +1,7 @@
 #meme-it-so ignores
 data/
 tmp/
-TODO
+deploy
 src/api/static/thumbnails/ #points to the thumbnail data, do not put in repos
 
 #vim
