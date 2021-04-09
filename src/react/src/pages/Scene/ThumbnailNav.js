@@ -40,11 +40,12 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
 
     const calcMid = (bounds) => {
         const a = Math.floor((bounds.start + bounds.end) / 2);
-        return a + (a%nframes);
+        return a - Math.floor(a%nframes);
     }
 
     const mid = bounds ? calcMid(bounds) : -1;
 
+        /*
     useEffect(() => {
         //if(thumbs.length > 0 && !bounds ) {
             onBoundChange({
@@ -54,6 +55,7 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
             })
         //}
     }, []);
+    */
 
     //Generate Thumbnails
     //If we have a currFrame, but the thumbs is null, we generate the thumbs now.
@@ -135,7 +137,9 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
     //  --if we're left of the current midpoint, add to the left
     //  --if we're right of the current midpoint, add to the right
     const selectOnClick = (frame) => {
-        const changeStart = frame <= mid;
+        const changeStart = frame < mid;
+        console.log(frame)
+        console.log(mid)
 
         const nbounds = changeStart
             ? { start: frame, end: bounds.end, reprFrame: frame}
@@ -171,7 +175,7 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
                 thumbs.map(frame => (
                     <img
                         key={frame}
-                        className={`p-2 ${ isSelected(frame) ? 'border-2 border-yellow-500' : ''}`}
+                        className={`p-2 ${ isSelected(frame) ? 'border-2 border-yellow-500' : ''} ${ frame===mid ? 'border-4' : ''}`}
                         src={staticImgUrl(ep,frame)} width="160" height="120"
                         alt=''
                         onClick={()=>onThumbClick(frame)}

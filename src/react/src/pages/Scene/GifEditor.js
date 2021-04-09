@@ -34,14 +34,14 @@ const nitems=39;
 
 const GifEditor = ({ep, startms, data, activateViewMode}) => {
 
-    const {fps, scene} = data;
+    const {fps, scene, frame: currFrame} = data;
 
     console.log('scene: ', scene)
 
     const { content = '' } = scene || {};
 
     const history = useHistory();
-    const [bounds, setBounds] = useState(null);
+    const [bounds, setBounds] = useState({ start: currFrame, end: currFrame, reprFrame: currFrame });
     const [ memeText, setMemeText ] = useHistoryState('gifMemeText', content);
     //const [ memeText, setMemeText ] = useState(content);
 
