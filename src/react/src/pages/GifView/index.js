@@ -32,25 +32,28 @@ import {staticImgUrl, padFrame} from '../../utils.js'
 //    return urlsafe_btoa(s);
 //}
 
-const GifView = ({match: {params : {ep, startframe, endframe}}}) => {
+const GifView = ({match: {params : {ep, startframe, endframe, txt: enctxt = ''}}}) => {
     const history = useHistory();
 
     const [ generating, setGenerating ] = useState('true');
     const [ base64gif, setBase64Gif] = useState('');
 
-    const gifUrl = `/api/gif/ep/${ep}/${padFrame(startframe)}.${padFrame(endframe)}.gif`
+    const gifUrl = `/api/gif/ep/${ep}/${padFrame(startframe)}.${padFrame(endframe)}.gif?txt=${enctxt}`
+    console.log('enctxt: ', enctxt)
+    console.log('gifUrl: ', gifUrl)
+
     const placeholder = staticImgUrl(ep,startframe)
 
     useEffect(() => {
         //setSearching(true);
-        Api.genGif(ep, startframe, endframe).then(respgif => {
+        Api.genGif(ep, startframe, endframe, enctxt).then(respgif => {
             //setData(result);
             //setSearching(false)
             console.log('gif', respgif)
             setBase64Gif(respgif);
             setGenerating(false)
         });
-    }, [ep, startframe, endframe]);
+    }, [ep, startframe, endframe, enctxt]);
 
 
     //TODO:
@@ -72,8 +75,8 @@ const GifView = ({match: {params : {ep, startframe, endframe}}}) => {
                         src={base64gif ? `data:image/jpeg;base64,${base64gif}`: placeholder}
                         className={!base64gif ? 'opacity-50' : ''}
                         alt=''
-                        width="640"
-                        height="480"/>
+                        width="480"
+                        height="360"/>
                 </a>
                 { generating && <div className='absolute bottom-0'><StandBy /></div> }
             </div>

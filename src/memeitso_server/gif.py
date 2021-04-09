@@ -24,10 +24,11 @@ from io import BytesIO
 
 from flask import ( current_app, Blueprint, request, send_from_directory, send_file, safe_join, abort )
 from moviepy.editor import *
-from PIL import Image
+import numpy as np
 
 from .utils.eptools import get_season
 from .utils.frames import closest_frame
+from .utils.imgtools import add_text
 
 bp = Blueprint('gif', __name__)
 
@@ -42,17 +43,16 @@ def ep_to_thumbnail_dir(ep):
     img_dir = safe_join(current_app.config["THUMBNAILS_DIR"], season, ep)
     return img_dir
 
-@bp.route('ping', methods=(['GET']))
-def ping():
-    return 'pong'
-
 @bp.route('/ep/<ep>/<int:start_frame>.<int:end_frame>.gif', methods=(['GET']))
 def generate_gif(ep, start_frame, end_frame):
     """
     dynamically generate the gif
-        potentially: store the meme on disk and cron will kill cached ones
-        that haven't been accessed in a while?
     """
+    enctxt = request.args.get('txt', '')
+    logging.debug("enctxt %s", enctxt)
+    txt = base64.urlsafe_b64decode(enctxt).decode('utf-8')
+    logging.debug("txt %s", txt)
+
     #as a precaution: cap end_frame at {maxsecs} seconds max.
     maxsecs = 12 #frontend is enforcing a 10 seconds. gonna be a bit more lax here
     est_fps = 24 #could look this up. but 24 works for this purpse. I just don't wont people manually putting in large numbers
@@ -60,13 +60,6 @@ def generate_gif(ep, start_frame, end_frame):
     if(est_elapsed > maxsecs):
         logging.warning(f'gif: received req that exceeds maxsecs. est_elapsed: {est_elapsed} ep: {ep} start: {start_frame} end: {end_frame}')
         abort()
-
-    #For the future: adding text to gifs:
-    #enctxt = request.args.get('txt', '')
-    #txt = urllib.parse.unquote(base64.standard_b64decode(enctxt).decode('utf-8'))
-    #txt = urllib.parse.unquote(enctxt)
-    #txt = base64.urlsafe_b64decode(enctxt).decode('utf-8')
-    #logging.debug(txt)
 
     #find path to image dir
     img_dir = ep_to_thumbnail_dir(ep)
@@ -76,11 +69,12 @@ def generate_gif(ep, start_frame, end_frame):
     #TODO: check that images are in path
     logging.debug(paths)
 
+    logging.debug('generating gif...')
     gif_bytes = BytesIO()
-
-    with imageio.get_writer(gif_bytes, mode='I', format='gif', fps=5) as writer:
+    with imageio.get_writer(gif_bytes, mode='I', format='gif', subrectangles=False, fps=5) as writer:
         for path in paths:
-            writer.append_data(imageio.imread(path))
+            img = np.array(add_text(path,txt)) if txt else imageio.imread(path)
+            writer.append_data(img)
 
     #return it
     gif_bytes.seek(0)

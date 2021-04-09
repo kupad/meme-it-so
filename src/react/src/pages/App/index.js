@@ -80,7 +80,7 @@ function App() {
                 <Route path="/About" component={About} />
                 <Route path="/search/:query" component={Search} />
                 <Route path="/scene/ep/:ep/:ms" component={Scene} />
-                <Route path="/gif/ep/:ep/sf/:startframe/ef/:endframe" component={GifView} />
+                <Route path="/gif/ep/:ep/sf/:startframe/ef/:endframe/t/:txt?" component={GifView} />
                 <Route path="/meme/ep/:ep/:frame/t/:txt" component={Meme} />
                 <Route path="/episode/ep/:ep" component={Episode} />
                 <Route component={NotFound} />

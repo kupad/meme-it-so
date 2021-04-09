@@ -26,14 +26,11 @@ from flask import ( current_app, Blueprint, request, send_from_directory, send_f
 from PIL import Image, ImageFont, ImageDraw
 
 from .utils.eptools import get_season
+from .utils.imgtools import add_text
 
 bp = Blueprint('meme', __name__)
 
 #nthframe=6
-
-IMPACT = 'Impact.ttf'
-FALLBACK = 'DejaVuSans-Bold.ttf' #just some attempt to have a free font available.
-                                 #consider distributing a free font that is a good IMPACT replacement
 
 def ep_to_thumbnail_dir(ep):
     #TODO: confirm that ep is of SxxExx format!!
@@ -45,12 +42,8 @@ def ep_to_thumbnail_dir(ep):
 def generate_meme(ep, frame):
     """
     dynamically generate the meme
-        potentially: store the meme on disk and cron will kill cached ones
-        that haven't been accessed in a while?
     """
     enctxt = request.args.get('txt', '')
-    #txt = urllib.parse.unquote(base64.standard_b64decode(enctxt).decode('utf-8'))
-    #txt = urllib.parse.unquote(enctxt)
     txt = base64.urlsafe_b64decode(enctxt).decode('utf-8')
     logging.debug(txt)
 
@@ -60,36 +53,11 @@ def generate_meme(ep, frame):
     img_path = safe_join(img_dir, img_name)
     logging.debug(f'meme opening {img_path}')
 
-    pil_img=None
     try:
-        #read img into memory, then draw on image
-        pil_img = Image.open(img_path)
+        pil_img = add_text(img_path, txt)
     except FileNotFoundError:
+        logging.exception('FNF when adding text to path %s', img_path)
         abort(404)
-
-    margin_bottom = 20 #pixels
-    try:
-        font = ImageFont.truetype(IMPACT, 32)
-    except OSError:
-        logging.warning(f'meme.py: looks like {IMPACT} font is not available. Consider installing mstcorefonts. Trying {FALLBACK}')
-        try:
-            font = ImageFont.truetype(FALLBACK, 32)
-        except OSError:
-            logging.error(f'meme.py: {FALLBACK} is not available. Need to install {IMPACT} or {FALLBACK}')
-            #TODO: return a placeholder error image here
-            abort()
-
-    img_w, img_h = pil_img.size
-    draw = ImageDraw.Draw(pil_img)
-    text_w, text_h = draw.textsize(txt, font)
-    textpos = ((img_w - text_w) // 2, img_h - text_h - margin_bottom)
-    draw.text(textpos, txt,
-        align='center',
-        font=font,
-        fill='white',
-        stroke_width=2,
-        stroke_fill='black',
-    )
 
     #save image in memory
     img_bytes = BytesIO()

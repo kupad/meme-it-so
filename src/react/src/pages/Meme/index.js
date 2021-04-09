@@ -23,7 +23,7 @@ import { useHistory } from "react-router-dom";
 
 import Button from '../../lcars/Button.js'
 
-const Meme = ({match: {params : {ep, frame, txt: enctxt}}}) => {
+const Meme = ({match: {params : {ep, frame, txt: enctxt=''}}}) => {
     const history = useHistory();
 
     const memeUrl = `/api/meme/${ep}/${frame.toString().padStart(5,'0')}.jpg?txt=${enctxt}`

@@ -62,14 +62,14 @@ class API {
         }
     }
 
-    static gifUrl(ep, startframe, endframe) {
-        return `/api/gif/ep/${ep}/${padFrame(startframe)}.${padFrame(endframe)}.gif`
+    static gifUrl(ep, startframe, endframe,enctxt) {
+        return `/api/gif/ep/${ep}/${padFrame(startframe)}.${padFrame(endframe)}.gif?txt=${enctxt}`
     }
 
     //get the gif as base64 encoded string
-    static async genGif(ep, start, end) {
+    static async genGif(ep, start, end, enctxt) {
         try {
-            const response = await axios.get(this.gifUrl(ep,start,end), { responseType: 'arraybuffer'});
+            const response = await axios.get(this.gifUrl(ep,start,end,enctxt), { responseType: 'arraybuffer'});
             return Buffer.from(response.data, 'binary').toString('base64');
         } catch(error) {
             console.log(error)
