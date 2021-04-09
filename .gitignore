@@ -2,6 +2,7 @@
 data/
 tmp/
 deploy
+src/react/public/phphook.txt #for replacing PHP_HOOK in reacts index.html
 src/api/static/thumbnails/ #points to the thumbnail data, do not put in repos
 
 #vim
