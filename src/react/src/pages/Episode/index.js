@@ -78,14 +78,16 @@ const Episode = ({match: {params : {ep}}}) => {
             <div className='mt-5'>
                 {
                     scenes && scenes.map(scene => (
-                        <div key={key(scene)} className='flex space-x-5 items-center border-t border-blue-200 py-5'>
-                            <Link className='w-32 text-center' to={`/scene/ep/${ep}/${scene.start_offset}`}>
+                        <div key={key(scene)} className='flex flex-col sm:flex-row space-y-2 space-x-5 items-center border-t border-blue-200 py-5'>
+                            <Link className='w-24 2xl:w-32 text-center' to={`/scene/ep/${ep}/${scene.start_offset}`}>
                                 {toTimeStr(scene.start_offset)} - {toTimeStr(scene.end_offset)}
                             </Link>
-                            <Link className='' to={`/scene/ep/${ep}/${scene.start_offset}`}>
+                            <Link className='w-160px flex-shrink-0' to={`/scene/ep/${ep}/${scene.start_offset}`}>
                                 <img src={scene.imgUrl} alt='' width="160" height="120"/>
                             </Link>
-                            <div className='font-mono flex-grow'><pre>{scene.content}</pre></div>
+                            <div className='font-mono sm:w-640px'>
+                                <p className='2xl:whitespace-pre'>{scene.content}</p>
+                            </div>
                         </div>
                     ))
                 }
