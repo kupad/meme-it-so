@@ -72,8 +72,8 @@ const GifEditor = ({ep, startms, data, activateViewMode}) => {
 
     return (
         <div>
-            <div className='flex space-x-6 items-center mb-3'>
-                <div className="border flex-grow-0">
+            <div className='space-y-3 mb-3 md:flex space-x-6 items-center'>
+                <div className="flex-grow-0">
                     { bounds &&
                         //<img src={`/api/gif/ep/${ep}/${bounds.start}.${bounds.end}.gif`} width="320" alt='' />
                         <img src={imgUrl(bounds.reprFrame,memeText)} width="320" height="240" alt='' />

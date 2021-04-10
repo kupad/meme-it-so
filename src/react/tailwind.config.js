@@ -31,6 +31,14 @@ module.exports = {
             /* 'sttng-lcars': [ 'Okuda', 'sans-serif' ], */
         },
         width: {
+            '10ch': '10ch',
+            '25ch': '25ch',
+            '26ch': '26ch',
+            '27ch': '27ch',
+            '28ch': '28ch',
+            '29ch': '29ch',
+            '30ch': '30ch',
+            '160px': '160px',
             '640px': '640px',
             '95': '95%',
             '96': '96%',

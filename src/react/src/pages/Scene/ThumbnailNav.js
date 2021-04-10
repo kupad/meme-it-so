@@ -167,10 +167,11 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
     /* thumnail controls */
 
     return (
-        <div className='flex flex-wrap justify-center align-middle content-center items-center'>
-            <button className='bg-yellow-500 h-10 rounded-l-full text-xl text-black mr-2 py-2 px-5' onClick={onClickPrevThumbs} >
+        <div className='flex flex-wrap justify-center align-middle content-center items-center mb-3 sm:mb-0'>
+            <button className='bg-yellow-500 h-10 rounded-full lg:rounded-r-none text-xl text-black mr-2 py-2 px-5' onClick={onClickPrevThumbs} >
                 PREV
             </button>
+            <div className='w-full mb-2 lg:mb-0 lg:w-auto'/>
             {
                 thumbs.map(frame => (
                     <img
@@ -182,8 +183,9 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
                     />
                 ))
             }
+            <div className='w-full lg:w-auto'/>
             <button
-                className='bg-yellow-500 h-10 rounded-r-full text-xl text-black ml-2 py-2 px-5'
+                className='bg-yellow-500 h-10 rounded-full lg:rounded-l-none text-xl text-black ml-2 py-2 px-5'
                 onClick={onClickNextThumbs}
             >
                 NEXT

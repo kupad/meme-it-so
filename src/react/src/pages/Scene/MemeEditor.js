@@ -62,7 +62,7 @@ const MemeEditor = ({ep, ms, data: {frame: currFrame, title, prevScene, scene, n
                 <SceneCaption prev={prevContent} curr={content} next={nextContent} />
                 <div>
                     <textarea
-                        className="mt-7 h-32 border-2 w-72 rounded-lg border-blue-600 font-meme text-lg text-white overflow-y-scroll bg-blue-900 bg-opacity-50"
+                        className="mt-7 h-32 border-2 w-28ch rounded-lg border-blue-600 font-meme text-lg text-white overflow-y-scroll bg-blue-900 bg-opacity-50"
                         onChange={onMemeChange}
                         value={memeText}
                         placeholder="Enter Meme Text"

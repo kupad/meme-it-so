@@ -56,7 +56,43 @@ export function getSeason(ep) {
     return ep.substring(0,3);
 }
 
-
 export function staticImgUrl(ep, frame) {
     return `/static/thumbnails/${getSeason(ep)}/${ep}/${padFrame(frame)}.jpg`;
+}
+
+//tailwind breakpoints:
+//https://tailwindcss.com/docs/responsive-design
+//sm	640px	@media (min-width: 640px) { ... }
+//md	768px	@media (min-width: 768px) { ... }
+//lg	1024px	@media (min-width: 1024px) { ... }
+//xl	1280px	@media (min-width: 1280px) { ... }
+//2xl	1536px	@media (min-width: 1536px) { ... }
+export function breakpoint() {
+    const vpwidth = window.innerWidth;
+    if(vpwidth >= 1536) return '2xl';
+    else if(vpwidth >= 1280) return 'xl';
+    else if(vpwidth >= 1024) return 'lg';
+    else if(vpwidth >= 768) return 'md';
+    else if(vpwidth >= 640) return 'sm';
+    else return '';
+}
+
+export function bp2pix(bp) {
+    switch(bp) {
+        case '2xl': return 1536;
+        case 'xl': return 1280;
+        case 'lg': return 1024;
+        case 'md': return 768;
+        case 'sm': return 640;
+        default: return 0;
+    }
+}
+
+//is the given breakpoint (ie 2xl) currently active based on the current viewport width
+export function isbreakpoint(bp) {
+    console.log('bp2pix', bp, bp2pix(bp))
+    console.log('window.innerWidth', window.innerWidth)
+    let rv = window.innerWidth >= bp2pix(bp);
+    console.log('isbreakpoint', rv)
+    return rv;
 }

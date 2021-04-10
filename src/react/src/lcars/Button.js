@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 const Button = ({className, onClick, disabled, children}) => (
     <button
-        className={`bg-yellow-500 rounded-full text-3xl text-black py-2 px-7 ${className}`}
+        className={`bg-yellow-500 rounded-full text-2xl md:text-3xl text-black py-1 md:py-2 px-5 md:px-7 ${className}`}
         disabled={disabled}
         onClick={onClick}
     >

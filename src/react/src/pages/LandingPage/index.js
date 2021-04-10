@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import React from 'react';
-import Button from '../../lcars/Button.js'
+import ButtonMedium from '../../lcars/ButtonMedium.js'
 
 import { useHistory } from "react-router-dom";
 
@@ -42,7 +42,7 @@ const LandingPage = () => {
                 <li className=''>AWAITING QUERY PARAMETERS</li>
             </ul>
             <div className='absolute bottom-2 right-2'>
-                <Button onClick={handleFAQ}>ABOUT</Button>
+                <ButtonMedium onClick={handleFAQ}>ABOUT</ButtonMedium>
             </div>
         </div>
     )

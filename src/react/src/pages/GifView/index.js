@@ -24,8 +24,8 @@ import { useHistory } from "react-router-dom";
 
 import Api from '../../api.js';
 import Button from '../../lcars/Button.js'
+import ButtonMedium from '../../lcars/ButtonMedium.js'
 import StandBy from '../../lcars/StandBy.js'
-//import {useHistoryState} from '../../hooks.js'
 import {staticImgUrl, padFrame} from '../../utils.js'
 
 //const encode = (s) => {
@@ -59,15 +59,15 @@ const GifView = ({match: {params : {ep, startframe, endframe, txt: enctxt = ''}}
     //TODO:
     //  - don't wrap the anchors in the button
     return (
-        <div className="flex w-full justify-center">
-            <div className='flex flex-col items-center mr-2'>
+        <div className="flex flex-wrap w-full justify-center">
+            <div className='hidden sm:flex sm:flex-col sm:items-center mr-2'>
                 { !generating &&
                     <>
                         <Button className='my-5 w-32 rounded-r-none'><a href={gifUrl} rel="noopener noreferrer" download>SAVE</a></Button>
                         <Button className='my-5 w-32 rounded-r-none'><a href={gifUrl} rel="noopener noreferrer" target='_blank'>VIEW</a></Button>
                     </>
                 }
-                <Button onClick={history.goBack} className='my-5 w-32 rounded-r-none'>BACK</Button>
+                <Button onClick={history.goBack} className='hidden sm:inline my-5 w-32 rounded-r-none'>BACK</Button>
             </div>
             <div className='relative'>
                 <a href={gifUrl} target='_blank' rel="noopener noreferrer">
@@ -79,6 +79,16 @@ const GifView = ({match: {params : {ep, startframe, endframe, txt: enctxt = ''}}
                         height="360"/>
                 </a>
                 { generating && <div className='absolute bottom-0'><StandBy /></div> }
+            </div>
+            <div className='w-full sm:hidden' />
+            <div className='sm:hidden flex flex-row items-center mt-2 space-x-2'>
+                { !generating &&
+                    <>
+                        <ButtonMedium className=''><a href={gifUrl} rel="noopener noreferrer" download>SAVE</a></ButtonMedium>
+                        <ButtonMedium className=''><a href={gifUrl} rel="noopener noreferrer" target='_blank'>VIEW</a></ButtonMedium>
+                    </>
+                }
+                { <ButtonMedium onClick={history.goBack} className='sm:hidden'>BACK</ButtonMedium> }
             </div>
         </div>
     )

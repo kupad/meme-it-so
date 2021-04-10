@@ -71,7 +71,8 @@ const Scene = ({match: {params : {ep, ms}}}) => {
 
     //nitems is the number of thumbs to show in the nav
     //keeping nitems odd. choose number based on screen size
-    const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
+    //const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
+    const nitems = 7;
     //const nitems = 39;
 
     const handleThumbClick = (frame) => {
@@ -88,7 +89,7 @@ const Scene = ({match: {params : {ep, ms}}}) => {
                         ? <GifEditor ep={ep} startms={ms} data={data} activateViewMode={activateViewMode} />
                         : <View ep={ep} ms={ms} data={data} activateGifMode={activateGifMode} activateMemeMode={activateMemeMode} />
             }
-            <div className="mb-20" />
+            <div className="mb-7 xl:mb-20"> </div>
             { mode !== Mode.GIF && <ThumbnailNav ep={ep} data={data} nitems={nitems} onThumbClick={handleThumbClick} /> }
         </div>
     )

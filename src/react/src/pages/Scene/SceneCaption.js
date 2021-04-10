@@ -24,9 +24,9 @@ const SceneCaption = ({prev, curr, next}) => {
 
     return (
         <div className="mt-10">
-            <pre className='text-white text-opacity-50'>{prev}</pre>
-            <pre>{curr ? curr : '...'}</pre>
-            <pre className='text-white text-opacity-50'>{next}</pre>
+            <pre className='whitespace-pre-wrap text-white text-opacity-50'>{prev}</pre>
+            <pre className='whitspace-pre-wrap'>{curr ? curr : '...'}</pre>
+            <pre className='whitespace-pre-wrap text-white text-opacity-50'>{next}</pre>
         </div>
     )
 }
