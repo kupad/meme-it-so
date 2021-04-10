@@ -23,12 +23,12 @@ import React from 'react';
 
 const About = () => (
     <div>
-        <h1 className="text-center text-7xl">ABOUT</h1>
-        <div className='w-1/2 space-y-2 mx-auto font-serif'>
+        <h1 className="text-center text-7xl mb-4">ABOUT</h1>
+        <div className='max-w-prose space-y-2 px-5 mx-auto mb-5 font-serif'>
             <p>Use "Meme It So" to find screen captures from <span className='font-bold'>Star Trek: The Next Generation</span> and
             generate memes. Yes, it's clearly inspired by the wonderful <a className='text-blue-500' href="https://frinkiac.com/">Frinkiac</a>!</p>
 
-            <p><span class="font-bold">NOTE:</span>As of right now, I'm working on improving the screencapture and text capture data.
+            <p><span class="font-bold">NOTE:</span> As of right now, I'm working on improving the screencapture and text capture data.
                 Many episodes are out of sync.</p>
 
             <h5 className='font-bold text-2xl'>License Notice:</h5>
