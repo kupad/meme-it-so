@@ -31,12 +31,13 @@ const LandingPage = () => {
 
     return (
         <div className='text-center text-yellow-500'>
-            <h1 className='text-6xl xl:text-7xl'>ACCESS GRANTED</h1>
+            <h1 className='hidden text-4xl xl:text-7xl'>ACCESS GRANTED</h1>
+            <h1 className='text-4xl lg:text-6xl'>STAR TREK THE NEXT GENERATION SCREENCAPTURES LOADED</h1>
             <div className='my-10'>
-                <img className='mx-auto w-1/2 lg:w-1/5' src='img/United_Federation_of_Planets_logo.svg' alt='UFP' />
+                <img className='mx-auto w-1/2 md:1/12 lg:w-4/12' src='img/United_Federation_of_Planets_logo.svg' alt='UFP' />
             </div>
-            <ul className='text-center text-3xl'>
-                <li className=''>STTNG SCREENCAP DATABANK LINK READY</li>
+            <ul className='text-center text-2xl'>
+                <li className=''>STTNG SCREENCAPTURE DATABANK LINK READY</li>
                 <li className=''>MEME GENERATOR ONLINE</li>
                 <li className=''>GIF GENERATOR ONLINE</li>
                 <li className=''>AWAITING QUERY PARAMETERS</li>

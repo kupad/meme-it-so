@@ -52,24 +52,22 @@ function App() {
 
     return (
         <div className='border min-h-screen mx-auto'>
-            <header className='items-center h-24 xl:grid xl:grid-cols-3'>
-                <div className='font-sttng-title text-blue-sttng-credits text-center text-3xl md:text-4xl 2xl:text-6xl'>
-                    <span className='md:ml-5'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>
+            <header className='items-center mb-2 lg:flex'>
+                <div className='font-sttng-title text-blue-sttng-credits text-center text-5xl sm:text-6xl'>
+                    <span className='lg:ml-2'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>
                 </div>
-                <div className='text-center'>
-                    <form className="" onSubmit={handleSearch}>
-                        <label className='hidden' htmlFor='search'>Search: </label>
-                        <input
-                            className='border-2 w-72 rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50 '
-                            placeholder="search by quote"
-                            type='text'
-                            id='search'
-                            value={searchTerm}
-                            onChange={handleSearchChanged}
-                        />
-                    <button className='hidden md:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
-                    </form>
-                </div>
+                <form className="flex lg:flex-grow mx-5 border-red-500" onSubmit={handleSearch}>
+                    <label className='hidden' htmlFor='search'>Search: </label>
+                    <input
+                        className='border-2 flex-grow rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50 '
+                        placeholder="search by quote"
+                        type='text'
+                        id='search'
+                        value={searchTerm}
+                        onChange={handleSearchChanged}
+                    />
+                <button className='hidden sm:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
+                </form>
                 <div className=''></div>
             </header>
             <div className="w-99 mb-10 mx-auto">
