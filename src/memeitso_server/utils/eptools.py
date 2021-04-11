@@ -66,7 +66,7 @@ def collect_episodes(source_dir):
     """
     #collect the paths to every file
     episodes = []
-    for dirpath, dirnames, filenames in os.walk(source_dir):
+    for dirpath, dirnames, filenames in os.walk(source_dir, followlinks=True):
         for filename in filenames:
             if not is_video(filename): continue
 

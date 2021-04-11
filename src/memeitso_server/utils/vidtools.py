@@ -88,18 +88,22 @@ def is_video(filename):
 
 def was_extracted(ep, dest_dir):
     tolerance = 200
-    vinfo = db.query_db("""SELECT * FROM video_info where episode = ?""", (ep,), one=True)
-    nframes = vinfo['nframes']
-    num_files = len([fname for fname in os.listdir(dest_dir) if os.path.isfile(os.path.join(dest_dir, fname)) and fname.endswith('.jpg')])
-    diff = abs(num_files - nframes)
-    extracted = diff <= tolerance
+    #FIXME: what was I thinking relying on the db here? No, I should read the info from the video first
+    try:
+        vinfo = db.query_db("""SELECT * FROM video_info where episode = ?""", (ep,), one=True)
+        nframes = vinfo['nframes']
+        num_files = len([fname for fname in os.listdir(dest_dir) if os.path.isfile(os.path.join(dest_dir, fname)) and fname.endswith('.jpg')])
+        diff = abs(num_files - nframes)
+        extracted = diff <= tolerance
+    except:
+        extracted = False
     return extracted
 
 def find_video(episode):
     """given an episode (SsEe), find the path to the video file"""
     video_dir = current_app.config['VIDEO_DIR']
 
-    for dirpath, dirnames, filenames in os.walk(video_dir):
+    for dirpath, dirnames, filenames in os.walk(video_dir, followlinks=True):
         for filename in filenames:
             if not is_video(filename): continue
 
@@ -180,17 +184,12 @@ def extract_episode(ep, source_path, force_extract=False):
     else:
         print(f'skipping {ep}...was extracted')
 
-def init_app(app):
-    app.cli.add_command(extract_all_thumbs_cmd)
-    app.cli.add_command(extract_ep_thumbs_cmd)
-    app.cli.add_command(write_video_meta_csv_cmd)
-
 @click.command('extract-all-thumbs')
 @with_appcontext
 def extract_all_thumbs_cmd():
     """extract all thumbnails. it will skip episodes already extracted"""
     click.echo('Extracting thumbs')
-    output_dir= current_app.config['VIDEO_DIR']
+    source_dir= current_app.config['VIDEO_DIR']
 
     #get all the episodes from the source_dir
     episodes = collect_episodes(source_dir)
@@ -200,6 +199,22 @@ def extract_all_thumbs_cmd():
         extract_episode(ep, source_path)
 
     click.echo('Thumbnails extracted')
+
+@click.command('extract-season-thumbs')
+@click.argument("season")  #ie S01
+@with_appcontext
+def extract_season_thumbs_cmd(season):
+    """extract thumbnails for a given season. it will not skip episodes already extracted"""
+
+    click.echo('Extracting thumbs')
+    source_dir = current_app.config['VIDEO_DIR']
+
+    #get all the episodes from the source_dir
+    episodes = collect_episodes(source_dir)
+    for ep, source_path in episodes:
+        if get_season(ep) == season:
+            extract_episode(ep, source_path)
+
 
 @click.command('extract-ep-thumbs')
 @click.argument("ep")  #ie S01E15
@@ -222,3 +237,9 @@ def write_video_meta_csv_cmd():
     """create video_meta_csv"""
     click.echo('creating video info csv')
     write_video_meta_csv(read_source_video_info())
+
+def init_app(app):
+    app.cli.add_command(extract_all_thumbs_cmd)
+    app.cli.add_command(extract_season_thumbs_cmd)
+    app.cli.add_command(extract_ep_thumbs_cmd)
+    app.cli.add_command(write_video_meta_csv_cmd)

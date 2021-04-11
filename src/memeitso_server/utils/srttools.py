@@ -25,12 +25,15 @@ Tools for manipulating srt:
 import os
 import csv
 import logging
+import subprocess
+import re
 import srt
 
 import click
 from flask.cli import with_appcontext, current_app
 
 from .eptools import get_season, episode_from_filename, collect_episodes
+from .vidtools import find_video
 
 def is_srt(filename):
     """is this an srt file? (well, does it claim to be?)"""
@@ -39,6 +42,10 @@ def is_srt(filename):
 def td2ms(td):
     """timedelta to ms"""
     return int(td.total_seconds()*1000)
+
+htmltags = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+def clean(content):
+    return re.sub(htmltags, '', content)
 
 def read_srt():
     """
@@ -50,9 +57,8 @@ def read_srt():
     logging.info("reading srt data")
     #first read in all the subtitles
     allsubs = []
-    for dirpath, dirnames, filenames in os.walk(srt_dir):
+    for dirpath, dirnames, filenames in os.walk(srt_dir, followlinks=True):
         for filename in filenames:
-
             #skip non-srt files
             if not is_srt(filename): continue
 
@@ -71,9 +77,21 @@ def read_srt():
                     if 'opensubtitles' in sub.content.lower(): continue
                     if ('VPN' in sub.content) or ('iSubDB' in sub.content): continue
                     if 'VPN' in sub.content: continue
-                    allsubs.append( (ep, int(sub.index), td2ms(sub.start), td2ms(sub.end), sub.content))
+                    if 'Subs corrected' in sub.content: continue
+                    allsubs.append( (ep, int(sub.index), td2ms(sub.start), td2ms(sub.end), clean(sub.content)))
     allsubs.sort(key=lambda s: (s[0],s[1]))
     return allsubs
+
+def extract_srt(source_path, dest_path):
+    """
+    extract srt from a video using ffmpeg
+    #ffmpeg -i input.mkv out.srt
+    """
+    return subprocess.run(
+            ['nice',
+                'ffmpeg',
+                '-i', source_path,
+                dest_path])
 
 def write_srt_csv(allsubs):
     """
@@ -102,12 +120,52 @@ def read_srt_csv():
             allsubs.append(row)
     return allsubs
 
-def init_app(app):
-    app.cli.add_command(write_srt_csv_cmd)
-
 @click.command('create-srt-csv')
 @with_appcontext
 def write_srt_csv_cmd():
     """create srt csv"""
     click.echo('creating srt csv')
     write_srt_csv(read_srt())
+
+@click.command('extract-all-srt')
+@with_appcontext
+def extract_all_srt_cmd():
+    """extract all srt."""
+    click.echo('Extracting srt')
+
+    source_dir= current_app.config['VIDEO_DIR']
+    dest_dir= current_app.config['SRT_DIR']
+
+    #get all the episodes from the source_dir
+    episodes = collect_episodes(source_dir)
+
+    #iterate over the episodes, extracting thumbnails from each of them
+    for ep, source_path in episodes:
+        dest_path = os.path.join(dest_dir, f'{ep}.srt')
+        print(f'ep: {ep} source_path: {source_path} dest_path: {dest_path}')
+        extract_srt(source_path, dest_path)
+
+    click.echo('Thumbnails extracted')
+
+@click.command('extract-ep-srt')
+@click.argument("ep")  #ie S01E15
+@with_appcontext
+def extract_ep_srt_cmd(ep):
+    """extract ep srt."""
+    click.echo('Extracting srt')
+
+    #find path to video for this episode
+    source_path = find_video(ep)
+
+    dest_dir= current_app.config['SRT_DIR']
+    dest_path = os.path.join(dest_dir, f'{ep}.srt')
+    print(f'ep: {ep} source_path: {source_path} dest_path: {dest_path}')
+    extract_srt(source_path, dest_path)
+
+    click.echo('Thumbnails extracted')
+
+
+def init_app(app):
+    app.cli.add_command(write_srt_csv_cmd)
+    app.cli.add_command(extract_ep_srt_cmd)
+    app.cli.add_command(extract_all_srt_cmd)
