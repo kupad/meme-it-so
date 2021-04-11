@@ -54,8 +54,8 @@ def create_app(test_config=None):
         THUMBNAILS_DIR     = os.path.join(app.static_folder, 'thumbnails'),
 
         #TODO: small, mid, large thumbs
-        GIF_WIDTH          = 480,
-        GIF_HEIGHT         = 356,
+        GIF_WIDTH          = 640,
+        GIF_HEIGHT         = 480,
 
         DATABASE           = os.path.join(app.instance_path, 'memeitso.db'),
         CAPTION_INDEX_DIR  = os.path.join(app.instance_path, 'caption_index'),
