@@ -51,7 +51,7 @@ function App() {
     };
 
     return (
-        <div className='border min-h-screen mx-auto'>
+        <div className='min-h-screen mx-auto'>
             <header className='items-center mb-2 lg:flex'>
                 <div className='font-sttng-title text-blue-sttng-credits text-center text-5xl sm:text-6xl'>
                     <span className='lg:ml-2'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>

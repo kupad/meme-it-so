@@ -42,7 +42,7 @@ const LandingPage = () => {
                 <li className=''>GIF GENERATOR ONLINE</li>
                 <li className=''>AWAITING QUERY PARAMETERS</li>
             </ul>
-            <div className='absolute bottom-2 right-2'>
+            <div className='my-5 mr-5 text-right md:absolute md:bottom-2 md:right-2'>
                 <ButtonMedium onClick={handleFAQ}>ABOUT</ButtonMedium>
             </div>
         </div>
