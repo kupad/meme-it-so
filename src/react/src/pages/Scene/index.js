@@ -54,7 +54,7 @@ const Scene = ({match: {params : {ep, ms}}}) => {
         });
     }, [ep, ms]);
 
-    const {frame: currFrame, scene, img_url: currImg, title, fps, maxframe } = data;
+    const {frame: currFrame, fps } = data;
 
     if(!(currFrame >= 0)) {
         return <div></div>;
@@ -64,16 +64,8 @@ const Scene = ({match: {params : {ep, ms}}}) => {
     const activateViewMode = () => setMode(Mode.VIEW);
     const activateGifMode = () => setMode(Mode.GIF);
 
-
-    //viewport width.
-    const vpwidth = window.innerWidth;
-    //console.log('vpwidth', vpwidth);
-
-    //nitems is the number of thumbs to show in the nav
-    //keeping nitems odd. choose number based on screen size
-    //const nitems = vpwidth < 640 ? 3 : vpwidth <= 768 ? 5 : 7;
-    const nitems = 7;
-    //const nitems = 39;
+    //keeping nitems odd.
+    const nitems = 7;  //meme editor
 
     const handleThumbClick = (frame) => {
         history.push(`/scene/ep/${ep}/${frame2ms(frame,fps)}`);

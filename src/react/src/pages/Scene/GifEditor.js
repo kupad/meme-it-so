@@ -23,9 +23,7 @@ import React, {useState} from 'react';
 import { useHistory } from "react-router-dom";
 
 import ThumbnailNav from './ThumbnailNav.js'
-import Button from '../../lcars/Button.js'
 import ButtonMedium from '../../lcars/ButtonMedium.js'
-import ButtonSmall from '../../lcars/ButtonSmall.js'
 import {useHistoryState} from '../../hooks.js'
 import { frame2ms, padFrame, staticImgUrl} from '../../utils.js'
 import {urlsafe_btoa} from '../../utils.js'
