@@ -28,8 +28,10 @@ const About = () => (
             <p>Use "Meme It So" to find screen captures from <span className='font-bold'>Star Trek: The Next Generation</span> and
             generate memes. Yes, it's clearly inspired by the wonderful <a className='text-blue-500' href="https://frinkiac.com/">Frinkiac</a>!</p>
 
-            <p><span class="font-bold">NOTE:</span> As of right now, I'm working on improving the screencapture and text capture data.
-                Many episodes are out of sync.</p>
+            <p><span class="font-bold">NOTE:</span> As of right now, I'm working on improving the screencapture and text data. I'm keeping track of episode sync issues
+            here:<br/> <a className='text-blue-500' href='https://github.com/kupad/meme-it-so/issues/43'>https://github.com/kupad/meme-it-so/issues/43</a>.</p>
+
+            <div className='h-5'></div>
 
             <h5 className='font-bold text-2xl'>License Notice:</h5>
 
