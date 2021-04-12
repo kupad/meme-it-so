@@ -40,7 +40,7 @@ const Meme = ({match: {params : {ep, frame, txt: enctxt=''}}}) => {
                 <Button onClick={history.goBack} className='my-5 w-32 rounded-r-none'>BACK</Button>
             </div>
             <div>
-                <a href={memeUrl} target='_blank' rel="noopener noreferrer"><img src={memeUrl} alt={frame} width="480" height="360"/></a>
+                <a href={memeUrl} target='_blank' rel="noopener noreferrer"><img src={memeUrl} alt={frame} width="640" height="480"/></a>
             </div>
             <div className='w-full sm:hidden' />
             <div className='flex flex-row sm:items-center mt-2 space-x-2 sm:hidden'>

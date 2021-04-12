@@ -75,8 +75,8 @@ const GifView = ({match: {params : {ep, startframe, endframe, txt: enctxt = ''}}
                         src={base64gif ? `data:image/jpeg;base64,${base64gif}`: placeholder}
                         className={!base64gif ? 'opacity-50' : ''}
                         alt=''
-                        width="480"
-                        height="360"/>
+                        width="640"
+                        height="480"/>
                 </a>
                 { generating && <div className='absolute bottom-0'><StandBy /></div> }
             </div>
