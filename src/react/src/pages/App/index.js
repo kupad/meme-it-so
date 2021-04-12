@@ -50,16 +50,20 @@ function App() {
         event.preventDefault();
     };
 
+    const logo = (classes = '') => (
+        <div className={`font-sttng-title text-blue-sttng-credits text-center text-5xl sm:text-6xl ${classes}`}>
+            <span className='lg:ml-2'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>
+        </div>
+    )
+
     return (
         <div className='min-h-screen mx-auto'>
             <header className='items-center mb-2 lg:flex'>
-                <div className='font-sttng-title text-blue-sttng-credits text-center text-5xl sm:text-6xl'>
-                    <span className='lg:ml-2'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>
-                </div>
-                <form className="flex lg:flex-grow mx-5 border-red-500" onSubmit={handleSearch}>
+                {logo()}
+                <form className="flex lg:flex-grow mx-5 justify-center" onSubmit={handleSearch}>
                     <label className='hidden' htmlFor='search'>Search: </label>
                     <input
-                        className='border-2 flex-grow rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50 '
+                        className='border-2 max-w-prose flex-grow rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50'
                         placeholder="search by quote"
                         type='text'
                         id='search'
@@ -68,7 +72,10 @@ function App() {
                     />
                 <button className='hidden sm:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
                 </form>
-                <div className=''></div>
+                {
+                  //for centering when the width gets very large
+                  logo('invisible hidden 2xl:block')
+                }
             </header>
             <div className="w-99 mb-10 mx-auto">
                 <LCARSBar msg="STAR TREK TNG MEME GENERATOR"/>
