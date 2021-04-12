@@ -71,6 +71,7 @@ def read_srt():
 
             path = os.path.join(dirpath, filename)
 
+            logging.debug('opening %s', path)
             with open(path, 'r') as srtfile:
                 subs = srt.parse(srtfile)
                 for sub in subs:
