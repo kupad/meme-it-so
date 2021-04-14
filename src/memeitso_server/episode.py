@@ -26,7 +26,7 @@ import logging
 from flask import ( Blueprint, g, request, session, url_for )
 
 from . import db
-from .utils.frames import repr_img_url
+from .utils.frames import repr_frame, repr_img_url
 
 bp = Blueprint('episode', __name__)
 
@@ -73,13 +73,15 @@ def get_all_scenes(ep):
     if scenes is None:
         scenes = []
 
-    #decorate with fps
+    #decorate with fps and repre_frame
     for s in scenes:
         s['fps'] = fps
+        s['frame'] = repr_frame(s)
 
     #decorate with repr_img_url
-    for s in scenes:
-        s['imgUrl'] = repr_img_url(s)
+    #FIXME: remove?
+    #for s in scenes:
+    #    s['imgUrl'] = repr_img_url(s)
 
     rv = {
         'ep' : ep,

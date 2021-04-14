@@ -22,7 +22,11 @@ import React, { useState } from 'react';
 
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 
+import {frame2ms} from '../../utils.js'
+import api from '../../api.js'
+
 import LCARSBar from '../../lcars/LCARSBar.js'
+import ButtonMedium from '../../lcars/ButtonMedium.js'
 
 import LandingPage from '../LandingPage/'
 import Scene from '../Scene/'
@@ -32,6 +36,7 @@ import Search from '../Search/'
 import About from '../About/'
 import Episode from '../Episode/'
 import NotFound from '../NotFound/'
+
 
 function App() {
     const history = useHistory();
@@ -56,6 +61,14 @@ function App() {
         </div>
     )
 
+    const onRandom = () => {
+        api.random().then(resp => {
+            console.log(resp);
+            const {scene: {ep, start}} = resp;
+            history.push(`/scene/ep/${ep}/${start}`)
+        });
+    }
+
     return (
         <div className='min-h-screen mx-auto'>
             <header className='items-center mb-2 lg:flex'>
@@ -72,6 +85,10 @@ function App() {
                     />
                 <button className='hidden sm:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
                 </form>
+                { /* TODO: unhide the random soon! */}
+                <div>
+                  <ButtonMedium onClick={onRandom} className='hidden bg-blue-400'>RANDOM</ButtonMedium>
+                </div>
                 {
                   //for centering when the width gets very large
                   logo('invisible hidden 2xl:block')

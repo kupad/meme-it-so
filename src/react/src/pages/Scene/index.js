@@ -43,11 +43,13 @@ const Scene = ({match: {params : {ep, ms}}}) => {
     const [ mode, setMode] = useHistoryState('mode', Mode.VIEW);
     const [ data, setData ] = useState({});
 
-    //console.log('ep', ep, 'ms', ms, 'data', data)
+    console.log('ep', ep, 'ms', ms, 'data', data)
 
     //fetch data for this ep/ms
     useEffect(() => {
         setSearching(true);
+        if(data !== {})
+            setData({});
         Api.searchByTime(ep, ms).then(result => {
             setData(result);
             setSearching(false)

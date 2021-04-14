@@ -23,6 +23,7 @@ Tools for manipulating video:
 """
 
 import os
+import glob
 import argparse
 import subprocess
 import csv
@@ -85,6 +86,11 @@ def moviepy_extract_thumbs(source_path,  dest_dir, dest_fps, dest_width):
 def is_video(filename):
     """checks if file is a video file"""
     return filename.endswith('mkv') or filename.endswith('avi') or filename.endswith('mp4')
+
+def is_jpg(filename):
+    """checks if file is a jpg file"""
+    return filename.endswith('jpg')
+
 
 def was_extracted(ep, dest_dir):
     tolerance = 200
@@ -184,6 +190,30 @@ def extract_episode(ep, source_path, force_extract=False):
     else:
         print(f'skipping {ep}...was extracted')
 
+def make_small_thumbs(ep):
+    logging.info('making small thumbs for: %s', ep)
+    large_thumbs_dir = current_app.config['THUMBNAILS_DIR']
+    small_thumbs_dir = current_app.config['SMALL_THUMBNAILS_DIR']
+    width = current_app.config['SMALL_WIDTH']
+    height = current_app.config['SMALL_HEIGHT']
+    nthframe = current_app.config['NTH_FRAME']
+
+    season = get_season(ep)
+    orig_dir = os.path.join(large_thumbs_dir, season, ep)
+    dest_dir = os.path.join(small_thumbs_dir, season, ep)
+    os.makedirs(dest_dir, exist_ok=True)
+
+    for infile in glob.glob(orig_dir + "/*.jpg"):
+        basename = os.path.basename(infile)
+        fname, ext = os.path.splitext(basename)
+        frame = int(fname)
+        if frame % nthframe != 0: continue
+        dest_filepath = os.path.join(dest_dir, basename)
+        #logging.debug(dest_filepath)
+        with Image.open(infile) as im:
+            im.thumbnail((width,height))
+            im.save(dest_filepath)
+
 @click.command('extract-all-thumbs')
 @with_appcontext
 def extract_all_thumbs_cmd():
@@ -199,6 +229,24 @@ def extract_all_thumbs_cmd():
         extract_episode(ep, source_path)
 
     click.echo('Thumbnails extracted')
+
+@click.command('make-small-thumbs')
+@with_appcontext
+def make_small_thumbs_cmd():
+    """for resizing extracting thumbnails"""
+    click.echo('resizing thumbs')
+
+    #can come from db now?
+    source_dir = current_app.config['VIDEO_DIR']
+
+    #get all the episodes from the source_dir
+    episodes = collect_episodes(source_dir)
+
+    #iterate over the episodes, extracting thumbnails from each of them
+    for ep, source_path in episodes:
+        make_small_thumbs(ep)
+
+    click.echo('Thumbnails resized')
 
 @click.command('extract-season-thumbs')
 @click.argument("season")  #ie S01
@@ -243,3 +291,4 @@ def init_app(app):
     app.cli.add_command(extract_season_thumbs_cmd)
     app.cli.add_command(extract_ep_thumbs_cmd)
     app.cli.add_command(write_video_meta_csv_cmd)
+    app.cli.add_command(make_small_thumbs_cmd)

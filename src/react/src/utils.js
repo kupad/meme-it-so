@@ -59,6 +59,9 @@ export function getSeason(ep) {
 export function staticImgUrl(ep, frame) {
     return `/static/thumbnails/${getSeason(ep)}/${ep}/${padFrame(frame)}.jpg`;
 }
+export function staticSmallImgUrl(ep, frame) {
+    return `/static/thumbnails/small/${getSeason(ep)}/${ep}/${padFrame(frame)}.jpg`;
+}
 
 //tailwind breakpoints:
 //https://tailwindcss.com/docs/responsive-design

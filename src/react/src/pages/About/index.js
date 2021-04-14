@@ -54,6 +54,10 @@ const About = () => (
 
             <p>Source is available here: <a className='text-blue-500' href="https://github.com/kupad/meme-it-so">https://github.com/kupad/meme-it-so</a>.</p>
 
+            <div className='h-5'></div>
+
+            <p>THIS instance of Meme It So is noncommercial for entertainment purposes only.</p>
+
         </div>
     </div>
 )

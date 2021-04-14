@@ -26,7 +26,7 @@ import Button from '../../lcars/Button.js'
 import StandBy from '../../lcars/StandBy.js'
 import Api from '../../api.js';
 import Credits from '../../components/Credits/'
-import { toTimeStr } from '../../utils.js'
+import { staticSmallImgUrl, toTimeStr } from '../../utils.js'
 
 const initialResults = {
         ep: '',
@@ -83,7 +83,7 @@ const Episode = ({match: {params : {ep}}}) => {
                                 {toTimeStr(scene.start_offset)} - {toTimeStr(scene.end_offset)}
                             </Link>
                             <Link className='w-160px flex-shrink-0' to={`/scene/ep/${ep}/${scene.start_offset}`}>
-                                <img src={scene.imgUrl} alt='' width="160" height="120"/>
+                                <img src={staticSmallImgUrl(ep,scene.frame)} alt='' width="160" height="120"/>
                             </Link>
                             <div className='font-mono sm:w-640px'>
                                 <p className='2xl:whitespace-pre'>{scene.content}</p>

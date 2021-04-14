@@ -31,7 +31,7 @@ ThumbnailNav:
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 
-import { staticImgUrl, frame2ms, nframes } from '../../utils.js'
+import { staticSmallImgUrl, frame2ms, nframes } from '../../utils.js'
 
 const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nitems, ep, data: {frame: currFrame, fps, maxframe}}) => {
     const history = useHistory();
@@ -44,18 +44,6 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
     }
 
     const mid = bounds ? calcMid(bounds) : -1;
-
-        /*
-    useEffect(() => {
-        //if(thumbs.length > 0 && !bounds ) {
-            onBoundChange({
-                 start: thumbs[0],
-                 end: thumbs[thumbs.length -1],
-                 reprFrame: thumbs[0],
-            })
-        //}
-    }, []);
-    */
 
     //Generate Thumbnails
     //If we have a currFrame, but the thumbs is null, we generate the thumbs now.
@@ -177,7 +165,7 @@ const ThumbnailNav = ({isMultiselect=false, bounds, onBoundChange=(s,e)=>{}, nit
                     <img
                         key={frame}
                         className={`p-2 ${ isSelected(frame) ? 'border-2 border-yellow-500' : ''} ${ frame===mid ? 'border-4' : ''}`}
-                        src={staticImgUrl(ep,frame)} width="160" height="120"
+                        src={staticSmallImgUrl(ep,frame)} width="160" height="120"
                         alt=''
                         onClick={()=>onThumbClick(frame)}
                     />

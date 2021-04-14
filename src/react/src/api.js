@@ -40,6 +40,17 @@ class API {
         }
     };
 
+    static async random() {
+        try {
+            const response = await axios.get(`${API_ENDPOINT}/search/random`);
+            //console.log(response);
+            return response.data;
+        } catch(error) {
+            console.log(error)
+        }
+    };
+
+
     static async searchByTime(ep, ms) {
         try {
             const response = await axios.get(`${API_ENDPOINT}/search/ep/${ep}/${ms}`);

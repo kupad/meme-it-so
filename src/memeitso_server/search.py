@@ -85,6 +85,29 @@ def search():
     rv['pageCount'] = pagecount
     return rv
 
+@bp.route('/random', methods=(['GET']))
+def random():
+    """
+    return a random caption
+    """
+    rv = {}
+    scene = db.query_db('''
+        SELECT *
+            FROM captions
+            ORDER BY RANDOM()''', one=True)
+
+    ep = scene['episode']
+    vinfo = db.query_db('''
+        SELECT *
+            FROM video_info
+            WHERE episode = ?''', (ep,), one=True)
+
+    scene['ep'] = ep #HACK! FIXME!
+    scene['start'] = scene['start_offset'] #HACK! FIXME!
+    scene['fps'] = vinfo['fps']
+    rv['scene'] = scene
+    return rv
+
 @bp.route('/ep/<ep>/<int:ms>', methods=(['GET']))
 def search_by_time(ep, ms):
     """

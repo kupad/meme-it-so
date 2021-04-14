@@ -51,11 +51,15 @@ def create_app(test_config=None):
         #and might likely to want to move where the thumbnails are stored
         #keep in mind: this is not the URL to the thumbnails, but how the server
         #finds the thumbnails
-        THUMBNAILS_DIR     = os.path.join(app.static_folder, 'thumbnails'),
+        THUMBNAILS_DIR       = os.path.join(app.static_folder, 'thumbnails'),
+        SMALL_THUMBNAILS_DIR = os.path.join(app.static_folder, 'thumbnails', 'small'),
 
         #TODO: small, mid, large thumbs
         GIF_WIDTH          = 640,
         GIF_HEIGHT         = 480,
+
+        SMALL_WIDTH        = 160,
+        SMALL_HEIGHT       = 120,
 
         DATABASE           = os.path.join(app.instance_path, 'memeitso.db'),
         CAPTION_INDEX_DIR  = os.path.join(app.instance_path, 'caption_index'),
@@ -63,6 +67,7 @@ def create_app(test_config=None):
         VIDEO_META_PATH    = os.path.join(app.instance_path, 'video_meta.csv'),
         SRT_CSV_PATH       = os.path.join(app.instance_path, 'subtitles.csv'),
         DEFAULT_VIDEO_FPS  = 23.976023976023978,
+        NTH_FRAME          = 6,
     )
 
     if test_config is None:
