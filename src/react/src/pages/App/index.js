@@ -56,7 +56,7 @@ function App() {
     };
 
     const logo = (classes = '') => (
-        <div className={`font-sttng-title text-blue-sttng-credits text-center text-5xl sm:text-6xl ${classes}`}>
+        <div className={`float-left font-sttng-title text-blue-sttng-credits text-center text-4xl ${classes}`}>
             <span className='lg:ml-2'><Link to='/'>MEME IT SO<sub className='text-sm text-blue-100'>Alpha</sub></Link></span>
         </div>
     )
@@ -71,28 +71,30 @@ function App() {
 
     return (
         <div className='min-h-screen mx-auto'>
-            <header className='items-center mb-2 lg:flex'>
-                {logo()}
-                <form className="flex lg:flex-grow mx-5 justify-center" onSubmit={handleSearch}>
-                    <label className='hidden' htmlFor='search'>Search: </label>
-                    <input
-                        className='border-2 max-w-prose flex-grow rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50'
-                        placeholder="search by quote"
-                        type='text'
-                        id='search'
-                        value={searchTerm}
-                        onChange={handleSearchChanged}
-                    />
-                <button className='hidden sm:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
-                </form>
-                { /* TODO: unhide the random soon! */}
-                <div>
-                  <ButtonMedium onClick={onRandom} className='hidden bg-blue-400'>RANDOM</ButtonMedium>
+            <header className='items-center mb-1'>
+                <div className='w-11/12 mx-auto my-2 lg:my-3'>
+                    {logo()}
+                    <div className='float-right my-1'>
+                        <ButtonMedium onClick={onRandom} className='bg-blue-400'>RANDOM</ButtonMedium>
+                    </div>
+                    <form className="clear-both flex justify-center lg:clear-none lg:px-10" onSubmit={handleSearch}>
+                        <label className='hidden' htmlFor='search'>Search: </label>
+                        <input
+                            className='border-2 flex-grow rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50 lg:max-w-prose'
+                            placeholder="search by quote (try: merry man, bird meat, make it so)"
+                            type='text'
+                            id='search'
+                            value={searchTerm}
+                            onChange={handleSearchChanged}
+                        />
+                    <button className='hidden xl:inline bg-yellow-400 rounded-full text-black text-2xl pl-20 pt-1 pb-1 pr-4 ml-5' type='submit'>QUERY</button>
+                    </form>
+                    { /* TODO: unhide the random soon! */}
+                    {
+                      //for centering when the width gets very large
+                      //logo('invisible hidden 2xl:block')
+                    }
                 </div>
-                {
-                  //for centering when the width gets very large
-                  logo('invisible hidden 2xl:block')
-                }
             </header>
             <div className="w-99 mb-10 mx-auto">
                 <LCARSBar msg="STAR TREK TNG MEME GENERATOR"/>

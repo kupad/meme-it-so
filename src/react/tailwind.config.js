@@ -32,6 +32,7 @@ module.exports = {
         },
         width: {
             '28ch': '28ch',
+            'prose':'65ch',
             '160px': '160px',
             '640px': '640px',
             '95': '95%',
