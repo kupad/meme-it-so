@@ -22,8 +22,8 @@ import React, { useState } from 'react';
 
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 
-import {frame2ms} from '../../utils.js'
 import api from '../../api.js'
+import {bp2pix} from '../../utils.js'
 
 import LCARSBar from '../../lcars/LCARSBar.js'
 import ButtonMedium from '../../lcars/ButtonMedium.js'
@@ -69,6 +69,13 @@ function App() {
         });
     }
 
+    const getPlaceholderText = () => {
+        const vpwidth = window.innerWidth;
+        return vpwidth >= bp2pix('sm')
+            ? "search by quote (try: merry man, bird meat, make it so)"
+            : "search by quote (try: merry man)";
+    }
+
     return (
         <div className='min-h-screen mx-auto'>
             <header className='items-center mb-1'>
@@ -81,7 +88,7 @@ function App() {
                         <label className='hidden' htmlFor='search'>Search: </label>
                         <input
                             className='border-2 flex-grow rounded-lg border-blue-600 text-3xl text-white bg-blue-900 bg-opacity-50 lg:max-w-prose'
-                            placeholder="search by quote (try: merry man, bird meat, make it so)"
+                            placeholder={getPlaceholderText()}
                             type='text'
                             id='search'
                             value={searchTerm}
