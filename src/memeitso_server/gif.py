@@ -50,7 +50,7 @@ def generate_gif(ep, start_frame, end_frame):
     """
     enctxt = request.args.get('txt', '')
     logging.debug("enctxt %s", enctxt)
-    txt = base64.urlsafe_b64decode(enctxt).decode('utf-8')
+    txt = urllib.parse.unquote(base64.urlsafe_b64decode(enctxt).decode('utf-8'))
     logging.debug("txt %s", txt)
 
     #as a precaution: cap end_frame at {maxsecs} seconds max.

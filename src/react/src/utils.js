@@ -43,7 +43,7 @@ export function toTimeStr(ms) {
 b64 encode string s using the URL and filesystem-safe alphabet, which substitutes - instead of + and _ instead of / in the standard Base64 alphabet,
 */
 export function urlsafe_btoa(s) {
-    return btoa(s).replace('+', '-').replace('/','_');
+    return btoa(encodeURIComponent(s)).replace('+', '-').replace('/','_');
 }
 
 /* pad out a frame integer to 5. 1 -> 00001 */

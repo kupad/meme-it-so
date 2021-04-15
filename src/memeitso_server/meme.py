@@ -44,7 +44,7 @@ def generate_meme(ep, frame):
     dynamically generate the meme
     """
     enctxt = request.args.get('txt', '')
-    txt = base64.urlsafe_b64decode(enctxt).decode('utf-8')
+    txt = urllib.parse.unquote(base64.urlsafe_b64decode(enctxt).decode('utf-8'))
     logging.debug(txt)
 
     #find path to image
