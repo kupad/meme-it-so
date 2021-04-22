@@ -91,10 +91,19 @@ def random():
     return a random caption
     """
     rv = {}
+
+    #this is straightforward and works well with holes, but is slow
+    #scene = db.query_db('''
+    #    SELECT *
+    #        FROM captions
+    #        ORDER BY RANDOM()''', one=True)
+
+    #this is much faster
     scene = db.query_db('''
         SELECT *
             FROM captions
-            ORDER BY RANDOM()''', one=True)
+            WHERE id =
+                (abs(random()) % (select max(rowid)+1 from captions))''', one=True)
 
     ep = scene['episode']
     vinfo = db.query_db('''
