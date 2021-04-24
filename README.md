@@ -9,6 +9,8 @@ Server is agnostic to the media content.
 Client-side is currently themed for Star Trek TNG. In the future I
 may try to make it more generic for easy installion for any show.
 
+Website:  https://memeit.so
+
 # Installation
 
 ```
