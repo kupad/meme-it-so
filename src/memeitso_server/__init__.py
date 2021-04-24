@@ -77,9 +77,17 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    #TODO: logging level should be configurable
-    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level= logging.DEBUG)
-
+    loglvl = {
+        'logging.DEBUG': logging.DEBUG,
+        'logging.INFO': logging.INFO,
+        'logging.WARNING': logging.WARNING,
+        'logging.ERROR': logging.ERROR,
+        'logging.CRITICAL': logging.CRITICAL
+    }
+    print('application.cfg LOG_LVL:', app.config.get("LOG_LVL", 'not defined'))
+    logging.basicConfig(
+        format='%(asctime)s %(levelname)s: %(message)s',
+        level= loglvl.get(app.config.get("LOG_LVL", 'logging.INFO'), logging.INFO))
     logging.info("app.confg %s:", pformat(app.config))
 
     # ensure the instance folder exists

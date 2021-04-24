@@ -79,6 +79,7 @@ def generate_gif(ep, start_frame, end_frame):
         for path in paths:
             img = np.array(add_text(path,txt)) if txt else imageio.imread(path)
             writer.append_data(img)
+    logging.debug('generated gif')
 
     #return it
     gif_bytes.seek(0)
