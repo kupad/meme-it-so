@@ -1,8 +1,12 @@
-# Meme It So
+
+![memeitso-social](https://user-images.githubusercontent.com/3877113/148989097-a60502d4-c7c8-42a5-89be-e4383afe5f45.png)
+<h2 align="center"><i>Meme It So: A Star Trek TNG Meme Generator</i></h2>
+
+## Intro
 
 Meme It So is a media (TV show and Movie) screen capture and text caption 
 database and image macro generator. It was made for making Star Trek TNG Memes.
-It is (clearly) heavily inspired by Frinkiac. 
+It is (clearly) heavily inspired by [Frinkiac](https://frinkiac.com/). 
 
 Server is agnostic to the media content.
 
@@ -11,7 +15,7 @@ may try to make it more generic for easy installion for any show.
 
 Website:  https://memeit.so
 
-# Installation
+## Installation
 
 ```
 #install ttf-mscorefonts (for Impact.ttf)
